@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Association Basketball Cornebarrieu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #059669 100%); }
+    .hero-gradient { background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+    .fade-in { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-in { animation: slideIn 0.8s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+    .bounce-in { animation: bounceIn 1s ease-out; }
+    @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+    html { scroll-behavior: smooth; }
+    .ldsdr{display:inline-block;width:80px;height:80px}.ldsdr:after{content:" ";display:block;width:64px;height:64px;margin:8px;border-radius:50%;border:6px solid #1E457B;border-color:#1E457B transparent;animation:ldsdr 1.2s linear infinite}@keyframes ldsdr{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Barre de navigation -->
+  <nav class="gradient-bg text-white p-4 sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-4 slide-in">
+        <div class="relative">
+          <img src="Logo.jpg" alt="Logo ABBC" class="h-12 w-auto rounded-full border-2 border-white shadow-lg">
+          <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+        </div>
+        <div>
+          <span class="text-2xl font-bold tracking-wide">ABBC</span>
+          <p class="text-xs text-blue-200">Association Basket-Ball Cornebarrieu</p>
+        </div>
+      </div>
+      <ul class="hidden md:flex gap-8 text-sm font-medium">
+        <li><a href="#" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-home"></i> Le club</a></li>
+        <li><a href="#agenda" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-calendar-alt"></i> Nos événements</a></li>
+        <li><a href="#inscriptions" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-user-plus"></i> Inscriptions</a></li>
+        
+        <!-- Menu déroulant Nos équipes -->
+        <li class="relative group">
+          <a href="#equipes" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2">
+            <i class="fas fa-users"></i> Nos équipes
+            <i class="fas fa-chevron-down text-xs ml-1 group-hover:rotate-180 transition-transform duration-300"></i>
+          </a>
+          
+          <!-- Menu déroulant -->
+          <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+            <div class="py-2">
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">Équipes Seniors</div>
+              <a href="sf1.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">SF1 - Senior Féminine 1</a>
+              <a href="sf2.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">SF2 - Senior Féminine 2</a>
+              <a href="sf3.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">SF3 - Senior Féminine 3</a>
+              <a href="sg1.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">SG1 - Senior Garçon 1</a>
+              <a href="sg2.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">SG2 - Senior Garçon 2</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U18</div>
+              <a href="u18G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U18G - U18 Garçons</a>
+              <a href="u18F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U18F - U18 Filles</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U15</div>
+              <a href="u15G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U15G - U15 Garçons</a>
+              <a href="u15F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U15F - U15 Filles</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U13</div>
+              <a href="u13G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U13G - U13 Garçons</a>
+              <a href="u13F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U13F - U13 Filles</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U11</div>
+              <a href="u11G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U11G - U11 Garçons</a>
+              <a href="u11F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U11F - U11 Filles</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U9</div>
+              <a href="u9G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U9G - U9 Garçons</a>
+              <a href="u9F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U9F - U9 Filles</a>
+              
+              <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 mt-2">Équipes U7</div>
+              <a href="u7G.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U7G - U7 Garçons</a>
+              <a href="u7F.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">U7F - U7 Filles</a>
+            </div>
+          </div>
+        </li>
+        
+        <li><a href="#partenaires" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-handshake"></i> Nos partenaires</a></li>
+        <li><a href="#boutique" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-shopping-bag"></i> Boutique</a></li>
+        <li><a href="#contact" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+      <button class="md:hidden text-white">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Bannière héro -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <img src="Baniere.jpg" alt="Bannière" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 hero-gradient"></div>
+    <div class="relative z-10 text-center text-white px-6 max-w-4xl mx-auto fade-in">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        <span class="block">Association</span>
+        <span class="block">Basket-Ball</span>
+        <span class="block">Cornebarrieu</span>
+      </h1>
+      <p class="text-lg text-blue-200 mb-8">Bienvenue sur le site de l'ABB Cornebarrieu!</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#equipes" class="bg-white text-blue-900 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
+          <i class="fas fa-users"></i>
+          Découvrir nos équipes
+        </a>
+        <a href="#inscriptions" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+          <i class="fas fa-user-plus"></i>
+            Nous rejoindre
+        </a>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i class="fas fa-chevron-down text-white text-2xl"></i>
+    </div>
+  </section>
+
+  <!-- Section d'accueil -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Bienvenue sur notre site !</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
+      </div>
+      
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="fade-in">
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Fort de plus de <span class="font-bold text-blue-600">180 licenciés</span> et de <span class="font-bold text-green-600">17 équipes</span> des U7 aux Seniors lors de la saison 2024/2025, 
+            l'Association Basket-Ball de Cornebarrieu poursuit son développement à l'occasion de cette saison avec son nouveau site internet, 
+            conçu et développé par <span class="font-semibold text-purple-600">Romain Caner</span>.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Sera present toutes les informations aux sujet de notre club, ses equipes, ses evenements ainsi que ses resultats.
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed mb-8">
+            N'hésitez pas à nous suivre sur nos réseaux sociaux : Instagram, Tiktok 
+            pour ne rien rater de l'actualité du club.
+          </p>
+        </div>
+        
+        <div class="fade-in">
+          <div class="bg-gradient-to-br from-blue-100 to-green-100 p-8 rounded-2xl">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Nos chiffres clés</h3>
+            <div class="grid grid-cols-2 gap-6">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-users text-white text-2xl"></i>
+                </div>
+                <p class="text-3xl font-bold text-blue-600">180+</p>
+                <p class="text-gray-600">Licenciés</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-basketball-ball text-white text-2xl"></i>
+                </div>
+                <p class="text-3xl font-bold text-green-600">17</p>
+                <p class="text-gray-600">Équipes</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-trophy text-white text-2xl"></i>
+                </div>
+                <p class="text-3xl font-bold text-purple-600">40+</p>
+                <p class="text-gray-600">Années d'histoire</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-medal text-white text-2xl"></i>
+                </div>
+                <p class="text-3xl font-bold text-orange-600">5</p>
+                <p class="text-gray-600">Équipes seniors</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nos événements -->
+  <section id="agenda" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Nos événements</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+        <p class="text-gray-600 mt-6 text-lg">Découvrez les événements du club tout au long de l'année</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    
+
+        <!-- Repas de Noël -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+              <i class="fas fa-utensils text-white text-xl"></i>
+            </div>
+            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Traditionnel</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Repas de Noël du Club</h3>
+          <div class="space-y-2 text-gray-600">
+            <p class="flex items-center gap-2"><i class="fas fa-calendar text-red-600"></i> Semaine du 12 décembre 2025</p>
+            <p class="flex items-center gap-2"><i class="fas fa-clock text-red-600"></i> 19h30</p>
+            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-red-600"></i> Salle des fêtes de Cornebarrieu</p>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-gray-500">Moment convivial pour tous les licenciés et leurs familles</p>
+          </div>
+        </div>
+
+        <!-- Loto -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center">
+              <i class="fas fa-dice text-white text-xl"></i>
+            </div>
+            <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Loto</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Loto du Club</h3>
+          <div class="space-y-2 text-gray-600">
+            <p class="flex items-center gap-2"><i class="fas fa-calendar text-yellow-600"></i> Février 2026</p>
+            <p class="flex items-center gap-2"><i class="fas fa-clock text-yellow-600"></i> 20h00</p>
+            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-yellow-600"></i> Salle des fêtes de Cornebarrieu</p>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-gray-500">Lots à gagner et ambiance garantie !</p>
+          </div>
+        </div>
+
+        <!-- Tournoi de fin de saison -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
+              <i class="fas fa-medal text-white text-xl"></i>
+            </div>
+            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Tournoi</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Tournoi de fin de saison</h3>
+          <div class="space-y-2 text-gray-600">
+            <p class="flex items-center gap-2"><i class="fas fa-calendar text-green-600"></i> Juin 2026</p>
+            <p class="flex items-center gap-2"><i class="fas fa-clock text-green-600"></i> Toute la journée</p>
+            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-green-600"></i> Gymnase municipal de Cornebarrieu</p>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-gray-500">Clôture festive de la saison</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="text-center mt-12">
+        <a href="#agenda" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-full font-semibold hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 mx-auto w-fit">
+          <i class="fas fa-calendar-alt"></i>
+          Voir tous les événements
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Événements de la semaine -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Matchs à Suivre</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+        <p class="text-gray-600 mt-6 text-lg">Découvrez les prochains matchs de nos équipes</p>
+      </div>
+      
+      <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl fade-in">
+        <div class="scorenco-widget" data-widget-type="week-events" data-widget-id="139743" style="background: #F2F5F9; height: 500px; display: flex; align-items: center; justify-content: center; flex-direction: column;text-transform: uppercase; font-family: sans-serif; font-weight: bolder; gap: 9px; color:#1E457B;">
+          <div class="ldsdr"></div>
+          Score'n'co - ABB Cornebarrieu
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Sections principales -->
+  <section class="py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Le Club -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-building text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Le Club</h3>
+          <p class="text-gray-600 text-center mb-6">Retrouvez toutes les informations sur l'Association Basket-Ball de Cornebarrieu, ses dirigeants, sa salle...</p>
+          <a href="#club" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 text-center block">
+            En savoir plus
+          </a>
+        </div>
+
+        <!-- Inscriptions -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-user-plus text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Inscriptions</h3>
+          <p class="text-gray-600 text-center mb-6">Rejoignez le club pour la saison 2025-2026 !</p>
+          <a href="#inscriptions" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 text-center block">
+            S'inscrire
+          </a>
+        </div>
+
+        <!-- Nos équipes -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-users text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Nos équipes</h3>
+          <p class="text-gray-600 text-center mb-6">Découvrez nos équipes, des U7 aux Seniors !</p>
+          <a href="#equipes" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-center block">
+            Découvrir
+          </a>
+        </div>
+
+        <!-- Partenaires -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-handshake text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Partenaires</h3>
+          <p class="text-gray-600 text-center mb-6">Ils nous font confiance, devenez partenaire de l'ABBC, rejoignez nous !</p>
+          <a href="#partenaires" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-lg font-semibold hover:from-orange-700 hover:to-red-700 transition-all duration-300 text-center block">
+            Découvrir
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="Logo.jpg" alt="Logo ABBC" class="h-10 w-auto rounded-full">
+            <span class="text-xl font-bold">ABBC</span>
+          </div>
+          <p class="text-gray-400">Un club passionné, une équipe engagée, des champions en devenir. Depuis 1985, l'ABBC forme les jeunes talents du basketball à Cornebarrieu.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Liens rapides</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors duration-300">Le club</a></li>
+            <li><a href="#agenda" class="hover:text-white transition-colors duration-300">Nos événements</a></li>
+            <li><a href="#inscriptions" class="hover:text-white transition-colors duration-300">Inscriptions</a></li>
+            <li><a href="#equipes" class="hover:text-white transition-colors duration-300">Nos équipes</a></li>
+            <li><a href="#partenaires" class="hover:text-white transition-colors duration-300">Partenaires</a></li>
+            <li><a href="#contact" class="hover:text-white transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Suivez-nous</h4>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+          <p class="text-gray-400 mb-4">Restez informés de nos actualités</p>
+          <div class="flex">
+            <input type="email" placeholder="Votre email" class="flex-1 px-3 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button class="px-4 py-2 bg-blue-600 rounded-r-lg hover:bg-blue-700 transition-colors duration-300">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 Association Basket-Ball de Cornebarrieu. Tous droits réservés. | Site réalisé par Romain Caner</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Animation au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      observer.observe(el);
+    });
+
+  </script>
+
+  <script async defer src="https://widgets.scorenco.com/host/widgets.js"></script>
+
+</body>
+</html>
