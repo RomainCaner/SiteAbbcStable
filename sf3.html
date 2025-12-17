@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SF3 - ABB Cornebarrieu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Barre de navigation -->
+  <nav class="gradient-bg text-white p-4 sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-4 slide-in">
+        <div class="relative">
+          <img src="Logo.jpg" alt="Logo ABBC" class="h-12 w-auto rounded-full border-2 border-white shadow-lg">
+          <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+        </div>
+        <div>
+          <span class="text-2xl font-bold tracking-wide">ABBC</span>
+          <p class="text-xs text-blue-200">Association Basket-Ball Cornebarrieu</p>
+        </div>
+      </div>
+      <ul class="hidden md:flex gap-8 text-sm font-medium">
+        <li><a href="index2.html" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="#equipe" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-users"></i> L'équipe</a></li>
+        <li><a href="#classement" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-chart-line"></i> Classement</a></li>
+      </ul>
+      <button class="md:hidden text-white">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- En-tête de l'équipe -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+          <span class="block text-blue-600">SF3</span>
+          <span class="block text-green-600">ABB Cornebarrieu</span>
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">Équipe Senior Féminine 3</p>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Informations de l'équipe -->
+  <section id="equipe" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Informations Équipe -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-info-circle text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Informations Équipe</h3>
+          <div class="space-y-4 text-gray-600">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-tag text-blue-600"></i>
+              <span><strong>Catégorie:</strong> Senior Féminine 3</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-calendar text-blue-600"></i>
+              <span><strong>Saison:</strong> 2024-2025</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-user-tie text-blue-600"></i>
+              <span><strong>Entraîneur:</strong> À définir</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-trophy text-blue-600"></i>
+              <span><strong>Niveau:</strong> Départemental</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prochain Match -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-calendar-alt text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Prochaines Rencontres</h3>
+          <div class="scorenco-widget" data-widget-type="previous-next" data-widget-id="">
+            <div class="ldsdr"></div>
+            Score'n'co - ABB Cornebarrieu
+          </div>
+        </div>
+
+        <!-- Joueurs -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-chart-bar text-white text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Effectif</h3>
+          <div class="scorenco-widget" data-widget-type="players" data-widget-id="">
+            <div class="ldsdr"></div>
+            Score'n'co - ABB Cornebarrieu
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Classement -->
+  <section id="classement" class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Classement de l'Équipe</h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+        <p class="text-gray-600 mt-6 text-lg">Retrouvez le classement en temps réel de l'équipe SF3</p>
+      </div>
+      
+      <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl fade-in">
+        <div class="scorenco-widget" data-widget-type="ranking" data-widget-id="">
+          <div class="ldsdr"></div>
+          Score'n'co - ABB Cornebarrieu
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="Logo.jpg" alt="Logo ABBC" class="h-10 w-auto rounded-full">
+            <span class="text-xl font-bold">ABBC</span>
+          </div>
+          <p class="text-gray-400">Un club passionné, une équipe engagée, des champions en devenir. Depuis 1985, l'ABBC forme les jeunes talents du basketball à Cornebarrieu.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Liens rapides</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="index2.html" class="hover:text-white transition-colors duration-300">Accueil</a></li>
+            <li><a href="#equipe" class="hover:text-white transition-colors duration-300">L'équipe</a></li>
+            <li><a href="#classement" class="hover:text-white transition-colors duration-300">Classement</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Suivez-nous</h4>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+          <p class="text-gray-400 mb-4">Restez informés de nos actualités</p>
+          <div class="flex">
+            <input type="email" placeholder="Votre email" class="flex-1 px-3 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button class="px-4 py-2 bg-blue-600 rounded-r-lg hover:bg-blue-700 transition-colors duration-300">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 Association Basket-Ball de Cornebarrieu. Tous droits réservés. | Site réalisé par Romain Caner</p>
+      </div>
+    </div>
+  </footer>
+
+  <script async defer src="https://widgets.scorenco.com/host/widgets.js"></script>
+  
+  <script>
+    // Animation au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
+

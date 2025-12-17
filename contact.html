@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact - ABB Cornebarrieu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Barre de navigation -->
+  <nav class="gradient-bg text-white p-4 sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-4 slide-in">
+        <div class="relative">
+          <img src="Logo.jpg" alt="Logo ABBC" class="h-12 w-auto rounded-full border-2 border-white shadow-lg">
+          <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+        </div>
+        <div>
+          <span class="text-2xl font-bold tracking-wide">ABBC</span>
+          <p class="text-xs text-blue-200">Association Basket-Ball Cornebarrieu</p>
+        </div>
+      </div>
+      <ul class="hidden md:flex gap-8 text-sm font-medium">
+        <li><a href="index2.html" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="#contact" class="hover:text-blue-200 transition-colors duration-300 flex items-center gap-2"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+      <button class="md:hidden text-white">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- En-tête Contact -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+          <span class="block text-blue-600">Contactez-nous</span>
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">Nous sommes à votre écoute</p>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Contact -->
+  <section id="contact" class="py-20 px-6 bg-gray-50">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white p-12 rounded-2xl shadow-lg border border-gray-100">
+        <div class="text-center mb-12">
+          <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-envelope text-white text-3xl"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">Email du Club</h2>
+          <p class="text-gray-600 mb-8">Pour toute question ou demande d'information, n'hésitez pas à nous contacter par email.</p>
+          
+          <a href="mailto:bureau.abbc@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <i class="fas fa-paper-plane text-xl"></i>
+            <span class="text-xl">bureau.abbc@gmail.com</span>
+          </a>
+        </div>
+
+        <div class="border-t border-gray-200 pt-8 mt-8">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Informations Complémentaires</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="flex items-start gap-4 p-6 bg-blue-50 rounded-lg">
+              <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-map-marker-alt text-white text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-2">Adresse</h4>
+                <p class="text-gray-600">Association Basket-Ball Cornebarrieu<br>Cornebarrieu, France</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-6 bg-green-50 rounded-lg">
+              <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clock text-white text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-800 mb-2">Disponibilité</h4>
+                <p class="text-gray-600">Nous vous répondons dans les meilleurs délais, généralement sous 48h.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
+          <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+            <i class="fas fa-info-circle text-blue-600"></i>
+            Besoin d'aide ?
+          </h4>
+          <p class="text-gray-600">
+            Pour les inscriptions, renseignements sur les équipes, informations sur les entraînements ou toute autre question, 
+            notre équipe est disponible pour vous accompagner. N'hésitez pas à nous écrire !
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="Logo.jpg" alt="Logo ABBC" class="h-10 w-auto rounded-full">
+            <span class="text-xl font-bold">ABBC</span>
+          </div>
+          <p class="text-gray-400">Un club passionné, une équipe engagée, des champions en devenir. Depuis 1985, l'ABBC forme les jeunes talents du basketball à Cornebarrieu.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Liens rapides</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="index2.html" class="hover:text-white transition-colors duration-300">Accueil</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors duration-300">Contact</a></li>
+            <li><a href="boutique.html" class="hover:text-white transition-colors duration-300">Boutique</a></li>
+            <li><a href="partenaires.html" class="hover:text-white transition-colors duration-300">Partenaires</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Suivez-nous</h4>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Contact</h4>
+          <p class="text-gray-400 mb-4">Restez en contact avec nous</p>
+          <a href="mailto:bureau.abbc@gmail.com" class="text-blue-400 hover:text-blue-300 transition-colors duration-300">
+            bureau.abbc@gmail.com
+          </a>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 Association Basket-Ball de Cornebarrieu. Tous droits réservés. | Site réalisé par Romain Caner</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Animation au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
+
