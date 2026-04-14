@@ -1,20 +1,18 @@
 /**
  * main.js - ABBC Cornebarrieu
- * Scripts communs à toutes les pages du site
  */
 
-// --- Animation au scroll (IntersectionObserver) ---
-
+// --- Animations au scroll (IntersectionObserver) ---
 const scrollObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.transform = 'none';
       }
     });
   },
-  { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 
 document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach((el) => {
@@ -23,28 +21,39 @@ document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach((el) => {
   scrollObserver.observe(el);
 });
 
-// --- Toggle du menu mobile (bouton hamburger) ---
+// --- Menu mobile (hamburger) ---
+const navToggle = document.getElementById('nav-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+const navIcon = document.getElementById('nav-icon');
 
-const menuToggle = document.querySelector('nav button.md\\:hidden');
-const mobileMenu = document.querySelector('nav ul');
-
-if (menuToggle && mobileMenu) {
-  menuToggle.addEventListener('click', () => {
+if (navToggle && mobileMenu && navIcon) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
     mobileMenu.classList.toggle('hidden');
-    mobileMenu.classList.toggle('flex');
-    mobileMenu.classList.toggle('flex-col');
-    mobileMenu.classList.toggle('absolute');
-    mobileMenu.classList.toggle('top-full');
-    mobileMenu.classList.toggle('left-0');
-    mobileMenu.classList.toggle('right-0');
-    mobileMenu.classList.toggle('bg-blue-900');
-    mobileMenu.classList.toggle('p-4');
-    mobileMenu.classList.toggle('shadow-lg');
-
-    const icon = menuToggle.querySelector('i');
-    if (icon) {
-      icon.classList.toggle('fa-bars');
-      icon.classList.toggle('fa-times');
-    }
+    navIcon.classList.toggle('fa-bars', isOpen);
+    navIcon.classList.toggle('fa-times', !isOpen);
   });
 }
+
+// --- Accordion "Nos équipes" dans le menu mobile ---
+const teamsToggle = document.getElementById('mobile-teams-toggle');
+const teamsMenu = document.getElementById('mobile-teams-menu');
+const teamsIcon = document.getElementById('mobile-teams-icon');
+
+if (teamsToggle && teamsMenu && teamsIcon) {
+  teamsToggle.addEventListener('click', () => {
+    teamsMenu.classList.toggle('hidden');
+    teamsIcon.classList.toggle('rotate-180');
+  });
+}
+
+// --- Fermer le menu mobile en cliquant un lien ---
+document.querySelectorAll('#mobile-menu a').forEach((link) => {
+  link.addEventListener('click', () => {
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (navIcon) {
+      navIcon.classList.add('fa-bars');
+      navIcon.classList.remove('fa-times');
+    }
+  });
+});
