@@ -1,0 +1,92 @@
+<nav class="gradient-bg text-white sticky top-0 z-50 shadow-lg" id="main-nav" aria-label="Navigation principale">
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+
+      <a href="{{base}}index.html" class="flex items-center gap-3 flex-shrink-0 focus-ring rounded-lg" aria-label="Accueil ABBC">
+        <div class="relative">
+          <img src="{{base}}assets/images/Logo.jpg" alt="" width="40" height="40" class="h-10 w-10 rounded-full border-2 border-white shadow-lg object-cover">
+          <div class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+        </div>
+        <div class="leading-tight">
+          <span class="text-xl font-bold tracking-wide block">ABBC</span>
+          <span class="text-xs text-blue-200 hidden sm:block">Association Basket-Ball Cornebarrieu</span>
+        </div>
+      </a>
+
+      <ul class="hidden md:flex gap-6 text-sm font-medium items-center">
+        <li><a href="{{base}}index.html" data-nav="accueil" class="nav-link hover:text-blue-200 transition-colors flex items-center gap-1.5 focus-ring rounded px-1"><i class="fas fa-home" aria-hidden="true"></i> Accueil</a></li>
+        <li class="relative group" data-nav="equipes">
+          <button class="nav-link hover:text-blue-200 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-0 text-white text-sm font-medium p-0 focus-ring rounded" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-users" aria-hidden="true"></i> Nos équipes
+            <i class="fas fa-chevron-down text-xs ml-0.5 group-hover:rotate-180 transition-transform duration-300" aria-hidden="true"></i>
+          </button>
+          <div class="mega-menu absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[28rem] bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 text-gray-700 overflow-hidden" role="menu">
+            <div class="grid grid-cols-2 gap-0">
+              <div class="p-4 bg-gradient-to-br from-blue-50 to-white">
+                <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fas fa-star" aria-hidden="true"></i> Seniors</p>
+                <a href="{{base}}equipes/sf1.html" class="block px-2 py-1.5 text-sm rounded hover:bg-blue-100 hover:text-blue-700 transition-colors" role="menuitem">SF1 · Senior Féminine 1</a>
+                <a href="{{base}}equipes/sf2.html" class="block px-2 py-1.5 text-sm rounded hover:bg-blue-100 hover:text-blue-700 transition-colors" role="menuitem">SF2 · Senior Féminine 2</a>
+                <a href="{{base}}equipes/sf3.html" class="block px-2 py-1.5 text-sm rounded hover:bg-blue-100 hover:text-blue-700 transition-colors" role="menuitem">SF3 · Senior Féminine 3</a>
+                <a href="{{base}}equipes/sg1.html" class="block px-2 py-1.5 text-sm rounded hover:bg-blue-100 hover:text-blue-700 transition-colors" role="menuitem">SG1 · Senior Garçon 1</a>
+                <a href="{{base}}equipes/sg2.html" class="block px-2 py-1.5 text-sm rounded hover:bg-blue-100 hover:text-blue-700 transition-colors" role="menuitem">SG2 · Senior Garçon 2</a>
+              </div>
+              <div class="p-4 bg-gradient-to-br from-green-50 to-white">
+                <p class="text-xs font-bold text-green-600 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fas fa-seedling" aria-hidden="true"></i> Jeunes</p>
+                <a href="{{base}}equipes/U18F.html" class="block px-2 py-1.5 text-sm rounded hover:bg-green-100 hover:text-green-700 transition-colors" role="menuitem">U18F · U18 Filles</a>
+                <a href="{{base}}equipes/u18G.html" class="block px-2 py-1.5 text-sm rounded hover:bg-green-100 hover:text-green-700 transition-colors" role="menuitem">U18G · U18 Garçons</a>
+                <a href="{{base}}equipes/U15F.html" class="block px-2 py-1.5 text-sm rounded hover:bg-green-100 hover:text-green-700 transition-colors" role="menuitem">U15F · U15 Filles</a>
+                <a href="{{base}}equipes/U15G.html" class="block px-2 py-1.5 text-sm rounded hover:bg-green-100 hover:text-green-700 transition-colors" role="menuitem">U15G · U15 Garçons</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="{{base}}partenaires.html" data-nav="partenaires" class="nav-link hover:text-blue-200 transition-colors flex items-center gap-1.5 focus-ring rounded px-1"><i class="fas fa-handshake" aria-hidden="true"></i> Partenaires</a></li>
+        <li><a href="{{base}}boutique.html" data-nav="boutique" class="nav-link hover:text-blue-200 transition-colors flex items-center gap-1.5 focus-ring rounded px-1"><i class="fas fa-shopping-bag" aria-hidden="true"></i> Boutique</a></li>
+        <li><a href="{{base}}contact.html" data-nav="contact" class="nav-link hover:text-blue-200 transition-colors flex items-center gap-1.5 focus-ring rounded px-1"><i class="fas fa-envelope" aria-hidden="true"></i> Contact</a></li>
+        <li>
+          <button id="theme-toggle" class="theme-btn w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center focus-ring" aria-label="Basculer le thème clair/sombre" title="Changer de thème">
+            <i class="fas fa-moon text-sm" id="theme-icon" aria-hidden="true"></i>
+          </button>
+        </li>
+      </ul>
+
+      <div class="flex items-center gap-2 md:hidden">
+        <button id="theme-toggle-mobile" class="theme-btn w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center focus-ring" aria-label="Basculer le thème clair/sombre">
+          <i class="fas fa-moon text-sm" id="theme-icon-mobile" aria-hidden="true"></i>
+        </button>
+        <button id="nav-toggle" class="text-white p-2 rounded-lg hover:bg-white/10 transition-colors focus-ring" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+          <i class="fas fa-bars text-xl" id="nav-icon" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-white/20">
+      <ul class="mt-2 space-y-0.5">
+        <li><a href="{{base}}index.html" data-nav="accueil" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors text-sm font-medium"><i class="fas fa-home w-4 text-center" aria-hidden="true"></i> Accueil</a></li>
+        <li>
+          <button id="mobile-teams-toggle" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors text-sm font-medium text-white bg-transparent border-0 focus-ring" aria-expanded="false" aria-controls="mobile-teams-menu">
+            <span class="flex items-center gap-3"><i class="fas fa-users w-4 text-center" aria-hidden="true"></i> Nos équipes</span>
+            <i class="fas fa-chevron-down text-xs transition-transform duration-300" id="mobile-teams-icon" aria-hidden="true"></i>
+          </button>
+          <div id="mobile-teams-menu" class="hidden pl-7 mt-1 space-y-0.5">
+            <p class="px-3 pt-1 pb-0.5 text-xs font-bold text-blue-200 uppercase tracking-wider">Seniors</p>
+            <a href="{{base}}equipes/sf1.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">SF1 · Senior Féminine 1</a>
+            <a href="{{base}}equipes/sf2.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">SF2 · Senior Féminine 2</a>
+            <a href="{{base}}equipes/sf3.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">SF3 · Senior Féminine 3</a>
+            <a href="{{base}}equipes/sg1.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">SG1 · Senior Garçon 1</a>
+            <a href="{{base}}equipes/sg2.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">SG2 · Senior Garçon 2</a>
+            <p class="px-3 pt-2 pb-0.5 text-xs font-bold text-blue-200 uppercase tracking-wider">Jeunes</p>
+            <a href="{{base}}equipes/U18F.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">U18F · U18 Filles</a>
+            <a href="{{base}}equipes/u18G.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">U18G · U18 Garçons</a>
+            <a href="{{base}}equipes/U15F.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">U15F · U15 Filles</a>
+            <a href="{{base}}equipes/U15G.html" class="block px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm">U15G · U15 Garçons</a>
+          </div>
+        </li>
+        <li><a href="{{base}}partenaires.html" data-nav="partenaires" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors text-sm font-medium"><i class="fas fa-handshake w-4 text-center" aria-hidden="true"></i> Partenaires</a></li>
+        <li><a href="{{base}}boutique.html" data-nav="boutique" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors text-sm font-medium"><i class="fas fa-shopping-bag w-4 text-center" aria-hidden="true"></i> Boutique</a></li>
+        <li><a href="{{base}}contact.html" data-nav="contact" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/10 transition-colors text-sm font-medium"><i class="fas fa-envelope w-4 text-center" aria-hidden="true"></i> Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
