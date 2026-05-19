@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="../">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SF2 · Senior Féminine 2 · ABB Cornebarrieu</title>
+  <meta name="description" content="Équipe Senior Féminine 2 (SF2) de l'ABBC évoluant en Régional. Résultats, effectif et classement en temps réel.">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SF2 · Senior Féminine 2 · ABBC">
+  <meta property="og:description" content="Équipe SF2 de l'ABBC — Régional.">
+  <meta property="og:image" content="../assets/images/Baniere.jpg">
+  <meta property="og:locale" content="fr_FR">
+
+  <link rel="icon" type="image/jpeg" href="../assets/images/Logo.jpg">
+
+  <script>
+    (function () {
+      try {
+        const t = localStorage.getItem('abbc-theme') || 'light';
+        document.documentElement.dataset.theme = t;
+      } catch (_) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800" data-page="equipes">
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <div id="navbar-placeholder"></div>
+
+  <main id="main-content">
+
+    <section class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+          <nav aria-label="Fil d'Ariane" class="text-sm text-gray-500 mb-6">
+            <a href="../index.html" class="hover:text-blue-600">Accueil</a>
+            <span class="mx-2" aria-hidden="true">›</span>
+            <span>Équipes</span>
+            <span class="mx-2" aria-hidden="true">›</span>
+            <span class="text-blue-600 font-semibold">SF2</span>
+          </nav>
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+            <span class="block text-blue-600">SF2</span>
+            <span class="block text-green-600">ABB Cornebarrieu</span>
+          </h1>
+          <p class="text-xl text-gray-600 mb-8">Équipe Senior Féminine 2</p>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="equipe" class="py-20 px-6 bg-gray-50">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-info-circle text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Informations Équipe</h3>
+            <div class="space-y-4 text-gray-600">
+              <div class="flex items-center gap-3"><i class="fas fa-tag text-blue-600" aria-hidden="true"></i><span><strong>Catégorie :</strong> Senior Féminine 2</span></div>
+              <div class="flex items-center gap-3"><i class="fas fa-calendar text-blue-600" aria-hidden="true"></i><span><strong>Saison :</strong> 2024-2025</span></div>
+              <div class="flex items-center gap-3"><i class="fas fa-user-tie text-blue-600" aria-hidden="true"></i><span><strong>Entraîneur :</strong> À définir</span></div>
+              <div class="flex items-center gap-3"><i class="fas fa-trophy text-blue-600" aria-hidden="true"></i><span><strong>Niveau :</strong> Régional</span></div>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-calendar-alt text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Prochaines Rencontres</h3>
+            <div class="scorenco-widget" data-widget-type="previous-next" data-widget-id="">
+              <div class="ldsdr" aria-hidden="true"></div>
+              Score'n'co - ABB Cornebarrieu
+            </div>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-chart-bar text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Effectif</h3>
+            <div class="scorenco-widget" data-widget-type="players" data-widget-id="">
+              <div class="ldsdr" aria-hidden="true"></div>
+              Score'n'co - ABB Cornebarrieu
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="classement" class="py-20 px-6 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Classement de l'Équipe</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+          <p class="text-gray-600 mt-6 text-lg">Retrouvez le classement en temps réel de l'équipe SF2</p>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl fade-in">
+          <div class="scorenco-widget" data-widget-type="ranking" data-widget-id="">
+            <div class="ldsdr" aria-hidden="true"></div>
+            Score'n'co - ABB Cornebarrieu
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="../assets/js/main.js" defer></script>
+  <script async defer src="https://widgets.scorenco.com/host/widgets.js"></script>
+</body>
+</html>
