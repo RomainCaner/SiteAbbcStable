@@ -11,29 +11,29 @@ SiteAbbcStable/
 │
 ├── index.html              # Page d'accueil (agenda, matchs, présentation)
 ├── boutique.html           # Boutique en ligne (lien HelloAsso)
-├── contact.html            # Coordonnées et formulaire de contact
-├── partenaires.html        # Présentation des partenaires du club
+├── contact.html            # Coordonnées
+├── partenaires.html        # Partenaires du club
+│
+├── partials/               # Composants HTML partagés
+│   ├── navbar.html         # Barre de navigation (mega-menu, dark toggle)
+│   └── footer.html         # Pied de page (newsletter, back-to-top)
 │
 ├── assets/
 │   ├── css/
-│   │   └── styles.css      # Styles globaux (gradients, animations, widgets)
+│   │   ├── styles.css            # Styles globaux + variables dark mode
+│   │   └── tailwind.input.css    # Entrée Tailwind (build optionnel)
 │   ├── js/
-│   │   └── main.js         # Menu mobile + animations au scroll (IntersectionObserver)
+│   │   └── main.js         # Loader partials + UI globale + thème
 │   └── images/
-│       ├── Logo.jpg        # Logo du club (rond, utilisé nav + footer)
-│       ├── Baniere.jpg     # Bannière héro de la page d'accueil
-│       └── sg1.jpg         # Photo de l'équipe SG1
+│       ├── Logo.jpg        # Logo du club
+│       ├── Baniere.jpg     # Bannière héro
+│       └── sg1.jpg         # Photo équipe SG1
 │
-└── equipes/
-    ├── sf1.html            # Senior Féminine 1 (Nationale 3)
-    ├── sf2.html            # Senior Féminine 2
-    ├── sf3.html            # Senior Féminine 3
-    ├── sg1.html            # Senior Garçon 1
-    ├── sg2.html            # Senior Garçon 2
-    ├── U18F.html           # U18 Filles
-    ├── u18G.html           # U18 Garçons
-    ├── U15F.html           # U15 Filles
-    └── U15G.html           # U15 Garçons
+├── equipes/                # 9 pages d'équipe (SF1-3, SG1-2, U18F/G, U15F/G)
+│
+├── package.json            # Tailwind build optionnel + dev server
+├── tailwind.config.js      # Config Tailwind (purge des classes)
+└── .gitignore
 ```
 
 ---
@@ -44,43 +44,81 @@ SiteAbbcStable/
 |---|---|
 | HTML5 | Structure de toutes les pages |
 | [Tailwind CSS](https://tailwindcss.com) (CDN) | Mise en page et utilitaires CSS |
-| CSS personnalisé (`styles.css`) | Animations, gradients, loader Scorenco |
-| JavaScript (`main.js`) | Menu burger mobile, animations au scroll |
+| CSS personnalisé (`styles.css`) | Variables CSS dark/light, animations, scroll bar, focus states |
+| JavaScript (`main.js`) | Loader des partials, thème, mega-menu mobile, compteurs animés, scroll progress, back-to-top |
 | [Font Awesome 6](https://fontawesome.com) (CDN) | Icônes |
 | [Google Fonts — Inter](https://fonts.google.com/specimen/Inter) | Typographie |
 | [Scorenco Widgets](https://widgets.scorenco.com) | Résultats, classements et effectifs en temps réel |
 
 ---
 
-## Flux de navigation
+## Fonctionnalités UI
 
+- **Mega-menu équipes** (2 colonnes Seniors/Jeunes) au survol desktop, accordion mobile
+- **Dark mode** persistant (`localStorage`) avec toggle dans la navbar
+- **Barre de progression** au scroll en haut de page
+- **Compteurs animés** sur les statistiques de la page d'accueil
+- **Bouton "retour en haut"** flottant
+- **Skip-link** + `focus-ring` pour navigation clavier (accessibilité)
+- **Fil d'Ariane** sur les pages d'équipe
+- **Indicateur de page active** dans la navbar (underline animé)
+- **Newsletter** avec feedback inline (validation email côté client)
+- **Open Graph + meta description** sur chaque page (SEO + partage social)
+- Respect de `prefers-reduced-motion`
+
+---
+
+## Lancer le site en local
+
+> ⚠️ Le chargement des partials utilise `fetch()`, qui ne fonctionne **pas** avec le protocole `file://`. Il faut un serveur HTTP local.
+
+### Option 1 — Python (zéro installation sur la plupart des machines)
+```bash
+python -m http.server 8080
+# puis ouvrir http://localhost:8080
 ```
-index.html (Accueil)
-│
-├── equipes/ ──────────────────────────────────────┐
-│   ├── sf1.html  sf2.html  sf3.html               │
-│   ├── sg1.html  sg2.html                         │
-│   ├── U18F.html  u18G.html                       │
-│   └── U15F.html  U15G.html                       │
-│         │                                        │
-│         └── Retour → ../index.html ──────────────┘
-│
-├── boutique.html    (lien externe : HelloAsso)
-├── contact.html     (mailto : bureau.abbc@gmail.com)
-└── partenaires.html
+
+### Option 2 — VS Code Live Server
+Clic droit sur `index.html` → *Open with Live Server*.
+
+### Option 3 — npm (si Node.js installé)
+```bash
+npm install
+npm run dev
+# puis ouvrir http://localhost:8080
 ```
+
+---
+
+## Build Tailwind optionnel (production)
+
+Le site utilise Tailwind CDN par défaut (~3 MB). Pour réduire à ~15 KB :
+
+```bash
+npm install
+npm run build:css
+```
+
+Cela génère `assets/css/tailwind.min.css`. Remplacer ensuite dans chaque page :
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+par :
+```html
+<link rel="stylesheet" href="assets/css/tailwind.min.css">
+```
+
+Pour le développement, `npm run watch:css` recompile à chaque sauvegarde.
 
 ---
 
 ## Pages d'équipe — structure type
 
-Chaque page dans `equipes/` suit le même modèle :
-
 ```
 ┌─────────────────────────────────────────────┐
-│  Barre de navigation (Logo + liens)         │
+│  Navbar (partial) + barre de progression    │
 ├─────────────────────────────────────────────┤
-│  En-tête équipe (nom, catégorie)            │
+│  Fil d'Ariane → En-tête équipe              │
 ├─────────────────────────────────────────────┤
 │  Informations  │  Prochaines    │  Effectif │
 │  (coach, niv.) │  rencontres    │  (joueurs)│
@@ -88,19 +126,25 @@ Chaque page dans `equipes/` suit le même modèle :
 ├─────────────────────────────────────────────┤
 │  Classement [Widget Scorenco]               │
 ├─────────────────────────────────────────────┤
-│  Footer (liens rapides, réseaux, newsletter)│
+│  Footer (partial) + back-to-top             │
 └─────────────────────────────────────────────┘
 ```
 
 ---
 
-## Lancer le site en local
+## Architecture des partials
 
-Aucune dépendance à installer. Il suffit d'ouvrir `index.html` dans un navigateur ou d'utiliser une extension type **Live Server** (VS Code / Cursor) pour le rechargement automatique.
+Chaque page HTML contient :
+- `<html data-base="">` (racine) ou `<html data-base="../">` (`equipes/`)
+- `<body data-page="accueil|equipes|partenaires|boutique|contact">`
+- `<div id="navbar-placeholder"></div>` → remplacé par `partials/navbar.html`
+- `<div id="footer-placeholder"></div>` → remplacé par `partials/footer.html`
+
+`main.js` lit `data-base`, fetch les partials, et remplace `{{base}}` par la bonne profondeur de chemin.
 
 ---
 
 ## Auteur
 
-Site conçu et développé par **Romain Caner** — saison 2026.  
+Site conçu et développé par **Romain Caner** — saison 2026.
 Contact club : [bureau.abbc@gmail.com](mailto:bureau.abbc@gmail.com)
