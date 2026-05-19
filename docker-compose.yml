@@ -1,0 +1,23 @@
+services:
+  web:
+    build: .
+    image: abbc-site:latest
+    container_name: abbc-site
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+    # Healthcheck : verifie que nginx repond bien
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+    # === Mode developpement (decommente pour activer le live reload) ===
+    # Monte les fichiers locaux en lecture seule dans le conteneur.
+    # Chaque modification HTML/CSS/JS est visible apres un simple refresh.
+    # volumes:
+    #   - ./:/usr/share/nginx/html:ro
+    #   - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro

@@ -1,0 +1,34 @@
+# Dependances et build
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Editeurs et OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Outils Claude (worktrees, settings locales)
+.claude/
+
+# Fichiers d'environnement (jamais dans l'image)
+.env
+.env.local
+.env.*
+
+# Documentation et fichiers de dev (optionnel : retire si tu veux les inclure)
+README.md
+
+# Logs
+*.log
+
+# Docker meta (evite la recursion)
+Dockerfile
+docker-compose.yml
+.dockerignore

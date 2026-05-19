@@ -1,0 +1,97 @@
+<!-- Barre de progression au scroll -->
+<div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navigation principale">
+    <div class="flex justify-between items-center h-16">
+
+      <!-- Logo -->
+      <a href="{{base}}index.html" class="flex items-center gap-3 focus-ring rounded">
+        <img src="{{base}}assets/images/Logo.jpg" alt="Logo ABBC" width="40" height="40" class="rounded-full">
+        <span class="font-bold text-lg text-gray-800 hidden sm:inline">ABBC Cornebarrieu</span>
+      </a>
+
+      <!-- Navigation Desktop -->
+      <div class="hidden md:flex items-center gap-1">
+        <a href="{{base}}index.html" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-nav="accueil">Accueil</a>
+
+        <!-- Mega menu Équipes -->
+        <div class="relative group">
+          <button class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors flex items-center gap-1" data-nav="equipes" aria-haspopup="true" aria-expanded="false">
+            Équipes <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+          </button>
+          <div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 hidden group-hover:block" role="menu">
+            <div class="bg-white shadow-xl rounded-lg p-6 w-[480px] grid grid-cols-2 gap-6">
+              <div>
+                <h3 class="font-bold text-blue-900 mb-3 text-sm uppercase tracking-wide">Seniors</h3>
+                <ul class="space-y-2">
+                  <li><a href="{{base}}equipes/sf1.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">SF1 — Nationale 3</a></li>
+                  <li><a href="{{base}}equipes/sf2.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">SF2 — Régional</a></li>
+                  <li><a href="{{base}}equipes/sf3.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">SF3 — Départemental</a></li>
+                  <li><a href="{{base}}equipes/sg1.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">SG1 — Régional 2</a></li>
+                  <li><a href="{{base}}equipes/sg2.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">SG2 — Départemental</a></li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="font-bold text-green-700 mb-3 text-sm uppercase tracking-wide">Jeunes</h3>
+                <ul class="space-y-2">
+                  <li><a href="{{base}}equipes/U18F.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">U18 Filles</a></li>
+                  <li><a href="{{base}}equipes/u18G.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">U18 Garçons</a></li>
+                  <li><a href="{{base}}equipes/U15F.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">U15 Filles</a></li>
+                  <li><a href="{{base}}equipes/U15G.html" class="block text-gray-700 hover:text-blue-600 text-sm" role="menuitem">U15 Garçons</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="{{base}}partenaires.html" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-nav="partenaires">Partenaires</a>
+        <a href="{{base}}boutique.html" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-nav="boutique">Boutique</a>
+        <a href="{{base}}contact.html" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-nav="contact">Contact</a>
+
+        <!-- Toggle thème -->
+        <button id="theme-toggle" class="ml-2 p-2 rounded-full hover:bg-gray-100 transition-colors focus-ring" aria-label="Basculer le mode sombre">
+          <i id="theme-icon" class="fas fa-moon text-gray-700" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Boutons Mobile -->
+      <div class="md:hidden flex items-center gap-2">
+        <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-gray-100 focus-ring" aria-label="Basculer le mode sombre">
+          <i id="theme-icon-mobile" class="fas fa-moon text-gray-700" aria-hidden="true"></i>
+        </button>
+        <button id="nav-toggle" class="p-2 rounded focus-ring" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+          <i id="nav-icon" class="fas fa-bars text-gray-700 text-xl" aria-hidden="true"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-100">
+      <a href="{{base}}index.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50" data-nav="accueil">Accueil</a>
+
+      <button id="mobile-teams-toggle" class="w-full flex justify-between items-center px-4 py-3 text-gray-700 hover:bg-gray-50" aria-expanded="false" aria-controls="mobile-teams-menu">
+        <span>Équipes</span>
+        <i id="mobile-teams-icon" class="fas fa-chevron-down text-xs transition-transform" aria-hidden="true"></i>
+      </button>
+      <div id="mobile-teams-menu" class="hidden bg-gray-50 pl-4">
+        <p class="px-4 pt-3 pb-1 text-xs font-bold text-blue-900 uppercase">Seniors</p>
+        <a href="{{base}}equipes/sf1.html" class="block px-4 py-2 text-sm text-gray-700">SF1 — Nationale 3</a>
+        <a href="{{base}}equipes/sf2.html" class="block px-4 py-2 text-sm text-gray-700">SF2 — Régional</a>
+        <a href="{{base}}equipes/sf3.html" class="block px-4 py-2 text-sm text-gray-700">SF3 — Départemental</a>
+        <a href="{{base}}equipes/sg1.html" class="block px-4 py-2 text-sm text-gray-700">SG1 — Régional 2</a>
+        <a href="{{base}}equipes/sg2.html" class="block px-4 py-2 text-sm text-gray-700">SG2 — Départemental</a>
+        <p class="px-4 pt-3 pb-1 text-xs font-bold text-green-700 uppercase">Jeunes</p>
+        <a href="{{base}}equipes/U18F.html" class="block px-4 py-2 text-sm text-gray-700">U18 Filles</a>
+        <a href="{{base}}equipes/u18G.html" class="block px-4 py-2 text-sm text-gray-700">U18 Garçons</a>
+        <a href="{{base}}equipes/U15F.html" class="block px-4 py-2 text-sm text-gray-700">U15 Filles</a>
+        <a href="{{base}}equipes/U15G.html" class="block px-4 py-2 text-sm text-gray-700">U15 Garçons</a>
+      </div>
+
+      <a href="{{base}}partenaires.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50" data-nav="partenaires">Partenaires</a>
+      <a href="{{base}}boutique.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50" data-nav="boutique">Boutique</a>
+      <a href="{{base}}contact.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50" data-nav="contact">Contact</a>
+    </div>
+  </nav>
+</header>

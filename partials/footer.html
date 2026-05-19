@@ -1,0 +1,83 @@
+<footer class="bg-gray-900 text-gray-300 pt-16 pb-8 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+
+      <!-- À propos -->
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="{{base}}assets/images/Logo.jpg" alt="" width="40" height="40" class="rounded-full">
+          <span class="font-bold text-white">ABBC Cornebarrieu</span>
+        </div>
+        <p class="text-sm leading-relaxed text-gray-400">
+          Association Basket-Ball de Cornebarrieu — 180+ licenciés, 17 équipes des U7 aux Seniors.
+        </p>
+      </div>
+
+      <!-- Liens rapides -->
+      <div>
+        <h3 class="text-white font-bold mb-4">Navigation</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="{{base}}index.html" class="hover:text-blue-400 transition-colors">Accueil</a></li>
+          <li><a href="{{base}}partenaires.html" class="hover:text-blue-400 transition-colors">Partenaires</a></li>
+          <li><a href="{{base}}boutique.html" class="hover:text-blue-400 transition-colors">Boutique</a></li>
+          <li><a href="{{base}}contact.html" class="hover:text-blue-400 transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-white font-bold mb-4">Contact</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li class="flex items-start gap-2">
+            <i class="fas fa-map-marker-alt mt-1 text-blue-400" aria-hidden="true"></i>
+            <span>Cornebarrieu, Haute-Garonne (31)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <i class="fas fa-envelope mt-1 text-blue-400" aria-hidden="true"></i>
+            <a href="mailto:bureau.abbc@gmail.com" class="hover:text-blue-400">bureau.abbc@gmail.com</a>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 mt-4">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-600 transition-colors focus-ring" aria-label="Facebook">
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-600 transition-colors focus-ring" aria-label="Instagram">
+            <i class="fab fa-instagram" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-600 transition-colors focus-ring" aria-label="YouTube">
+            <i class="fab fa-youtube" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h3 class="text-white font-bold mb-4">Newsletter</h3>
+        <p class="text-sm text-gray-400 mb-3">Restez informé de l'actualité du club.</p>
+        <form id="newsletter-form" novalidate>
+          <label for="newsletter-email" class="sr-only">Adresse email</label>
+          <div class="flex gap-2">
+            <input type="email" id="newsletter-email" required placeholder="votre@email.fr"
+                   class="flex-1 px-3 py-2 rounded bg-gray-800 border border-gray-700 text-white text-sm focus:outline-none focus:border-blue-500">
+            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition-colors focus-ring">
+              OK
+            </button>
+          </div>
+          <p id="newsletter-feedback" class="hidden mt-2 text-xs" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bas de page -->
+    <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <p>&copy; <span id="current-year">2026</span> ABBC Cornebarrieu — Tous droits réservés.</p>
+      <p>Conçu par <span class="text-gray-300">Romain Caner</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Bouton retour en haut -->
+<button id="back-to-top" class="back-to-top focus-ring" aria-label="Retour en haut de la page">
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
