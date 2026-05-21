@@ -1,0 +1,235 @@
+/* ============================================================
+   ABBC Cornebarrieu - Styles globaux
+   Variables CSS pour theme clair/sombre + composants UI
+   ============================================================ */
+
+/* ---------- Variables de theme ---------- */
+:root {
+  --bg-page:    #f9fafb;
+  --bg-surface: #ffffff;
+  --bg-muted:   #f3f4f6;
+  --text-main:  #1f2937;
+  --text-muted: #4b5563;
+  --text-soft:  #6b7280;
+  --border:     #e5e7eb;
+  --shadow:     rgba(0, 0, 0, 0.08);
+  --accent:     #1e3a8a;
+}
+
+[data-theme="dark"] {
+  --bg-page:    #0f172a;
+  --bg-surface: #1e293b;
+  --bg-muted:   #334155;
+  --text-main:  #f1f5f9;
+  --text-muted: #cbd5e1;
+  --text-soft:  #94a3b8;
+  --border:     #334155;
+  --shadow:     rgba(0, 0, 0, 0.4);
+  --accent:     #3b82f6;
+}
+
+/* Transition globale pour adoucir le switch */
+html {
+  transition: background-color .3s ease, color .3s ease;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  transition: background-color .3s ease, color .3s ease;
+}
+
+/* ---------- Overrides Tailwind pour le dark mode ---------- */
+[data-theme="dark"] body { background-color: var(--bg-page) !important; color: var(--text-main) !important; }
+
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-gray-50,
+[data-theme="dark"] .bg-gray-100 { background-color: var(--bg-surface) !important; }
+
+[data-theme="dark"] .bg-gradient-to-r.from-blue-50,
+[data-theme="dark"] .bg-gradient-to-br.from-blue-50,
+[data-theme="dark"] .from-blue-50,
+[data-theme="dark"] .to-green-50,
+[data-theme="dark"] .from-green-50 { --tw-gradient-from: #1e293b !important; --tw-gradient-to: #1e293b !important; }
+
+[data-theme="dark"] .text-gray-800,
+[data-theme="dark"] .text-gray-700 { color: var(--text-main) !important; }
+
+[data-theme="dark"] .text-gray-600,
+[data-theme="dark"] .text-gray-500 { color: var(--text-muted) !important; }
+
+[data-theme="dark"] .border-gray-100,
+[data-theme="dark"] .border-gray-200 { border-color: var(--border) !important; }
+
+[data-theme="dark"] .shadow-md,
+[data-theme="dark"] .shadow-lg,
+[data-theme="dark"] .shadow-xl,
+[data-theme="dark"] .shadow-2xl { box-shadow: 0 10px 30px var(--shadow) !important; }
+
+[data-theme="dark"] header.bg-white { background-color: var(--bg-surface) !important; border-bottom: 1px solid var(--border); }
+
+[data-theme="dark"] .nav-link { color: var(--text-muted) !important; }
+[data-theme="dark"] .nav-link:hover { color: #60a5fa !important; }
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--bg-muted) !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+
+/* ---------- Hero gradient ---------- */
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.85) 0%, rgba(5, 150, 105, 0.75) 100%);
+}
+
+/* ---------- Cartes avec hover ---------- */
+.card-hover {
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px var(--shadow);
+}
+
+/* ---------- Animations d'entree ---------- */
+.fade-in,
+.slide-in,
+.bounce-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+/* ---------- Barre de progression au scroll ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, #1e3a8a, #059669);
+  z-index: 9999;
+  transition: width .1s ease-out;
+}
+
+/* ---------- Skip link (accessibilite) ---------- */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #1e3a8a;
+  color: #fff;
+  padding: .5rem 1rem;
+  z-index: 10000;
+  border-radius: 0 0 .5rem 0;
+  text-decoration: none;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 0; }
+
+/* ---------- Focus ring pour accessibilite clavier ---------- */
+.focus-ring:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+/* ---------- Bouton retour en haut ---------- */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: #1e3a8a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all .3s ease;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.back-to-top:hover { background: #1e40af; transform: scale(1.1); }
+
+/* ---------- Indicateur de page active dans la navbar ---------- */
+.nav-link {
+  position: relative;
+}
+.nav-link[data-active="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 2px;
+  background: linear-gradient(90deg, #1e3a8a, #059669);
+  border-radius: 2px;
+}
+
+/* ---------- Newsletter feedback ---------- */
+#newsletter-feedback.success { color: #10b981; }
+#newsletter-feedback.error   { color: #f87171; }
+
+/* ---------- Widgets Scorenco ---------- */
+.scorenco-widget {
+  min-height: 200px;
+  position: relative;
+  font-size: 0;
+  color: transparent;
+}
+
+/* Loader Scorenco (cache le texte "Score'n'co" en attendant le widget) */
+.ldsdr {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ldsdr:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 5px solid #1e3a8a;
+  border-color: #1e3a8a transparent #059669 transparent;
+  animation: ldsdr 1.2s linear infinite;
+}
+@keyframes ldsdr {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ---------- Scrollbar personnalisee ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-muted); }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* ---------- Respect du prefers-reduced-motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
