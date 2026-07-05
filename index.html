@@ -72,8 +72,9 @@
 
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div class="fade-in">
+            <!-- TODO : le club annonce 17 equipes mais seules 9 pages equipe existent (equipes/). Ajouter les pages U7-U13 manquantes ou ajuster equipesCount dans assets/data/config.json. -->
             <p class="text-lg text-gray-700 leading-relaxed mb-6">
-              Fort de plus de <span class="font-bold text-blue-600">180 licenciés</span> et de <span class="font-bold text-green-600">17 équipes</span> des U7 aux Seniors lors de la saison 2024/2025,
+              Fort de plus de <span class="font-bold text-blue-600" data-config="licencies">180</span> licenciés et de <span class="font-bold text-green-600" data-config="equipesCount">17</span> équipes des U7 aux Seniors lors de la saison <span data-config="season">2026-2027</span>,
               l'Association Basket-Ball de Cornebarrieu poursuit son développement à l'occasion de cette saison avec son nouveau site internet,
               conçu et développé par <span class="font-semibold text-purple-600">Romain Caner</span>.
             </p>
@@ -125,6 +126,45 @@
       </div>
     </section>
 
+    <!-- Le Club -->
+    <section id="club" class="py-20 px-6 bg-gradient-to-br from-blue-50 to-green-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Le Club</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+          <p class="text-gray-600 mt-6 text-lg">L'Association Basket-Ball de Cornebarrieu, une histoire de passion</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 fade-in">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
+              <i class="fas fa-flag text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Notre histoire</h3>
+            <!-- TODO : remplacer par la vraie histoire du club (annee de creation, etapes cles). -->
+            <p class="text-gray-600 leading-relaxed">Fondé il y a plus de 40 ans, l'ABBC fait vivre le basket à Cornebarrieu et rassemble aujourd'hui plus de <span data-config="licencies">180</span> licenciés autour des mêmes valeurs.</p>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 fade-in">
+            <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+              <i class="fas fa-heart text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Nos valeurs</h3>
+            <p class="text-gray-600 leading-relaxed">Convivialité, respect, esprit d'équipe et plaisir du jeu : le club accueille toutes et tous, du loisir à la compétition, des plus jeunes aux seniors.</p>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 fade-in">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+              <i class="fas fa-people-group text-white text-2xl" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-3">Nous rejoindre</h3>
+            <p class="text-gray-600 leading-relaxed mb-4">Joueur, bénévole ou partenaire : il y a une place pour vous à l'ABBC. Contactez-nous pour la saison <span data-config="season">2026-2027</span> !</p>
+            <a href="contact.html" class="inline-flex items-center gap-2 text-blue-600 font-semibold focus-ring">Nous contacter <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Événements -->
     <section id="agenda" class="py-20 px-6 bg-gray-50">
       <div class="max-w-7xl mx-auto">
@@ -134,58 +174,13 @@
           <p class="text-gray-600 mt-6 text-lg">Découvrez les événements du club tout au long de l'année</p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-                <i class="fas fa-utensils text-white text-xl" aria-hidden="true"></i>
-              </div>
-              <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Traditionnel</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Repas de Noël du Club</h3>
-            <div class="space-y-2 text-gray-600">
-              <p class="flex items-center gap-2"><i class="fas fa-calendar text-red-600" aria-hidden="true"></i> Semaine du 12 décembre 2025</p>
-              <p class="flex items-center gap-2"><i class="fas fa-clock text-red-600" aria-hidden="true"></i> 19h30</p>
-              <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-red-600" aria-hidden="true"></i> Salle des fêtes de Cornebarrieu</p>
-            </div>
-            <p class="text-sm text-gray-500 mt-4">Moment convivial pour tous les licenciés et leurs familles</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center">
-                <i class="fas fa-dice text-white text-xl" aria-hidden="true"></i>
-              </div>
-              <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Loto</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Loto du Club</h3>
-            <div class="space-y-2 text-gray-600">
-              <p class="flex items-center gap-2"><i class="fas fa-calendar text-yellow-600" aria-hidden="true"></i> Février 2026</p>
-              <p class="flex items-center gap-2"><i class="fas fa-clock text-yellow-600" aria-hidden="true"></i> 20h00</p>
-              <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-yellow-600" aria-hidden="true"></i> Salle des fêtes de Cornebarrieu</p>
-            </div>
-            <p class="text-sm text-gray-500 mt-4">Lots à gagner et ambiance garantie !</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-                <i class="fas fa-medal text-white text-xl" aria-hidden="true"></i>
-              </div>
-              <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Tournoi</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">Tournoi de fin de saison</h3>
-            <div class="space-y-2 text-gray-600">
-              <p class="flex items-center gap-2"><i class="fas fa-calendar text-green-600" aria-hidden="true"></i> Juin 2026</p>
-              <p class="flex items-center gap-2"><i class="fas fa-clock text-green-600" aria-hidden="true"></i> Toute la journée</p>
-              <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-green-600" aria-hidden="true"></i> Gymnase municipal de Cornebarrieu</p>
-            </div>
-            <p class="text-sm text-gray-500 mt-4">Clôture festive de la saison</p>
-          </div>
+        <!-- Grille remplie dynamiquement depuis assets/data/events.json (3 prochains evenements a venir) -->
+        <div id="events-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <p class="col-span-full text-center text-gray-500 py-12">Chargement des événements…</p>
         </div>
 
         <div class="text-center mt-12">
-          <a href="#agenda" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-full font-semibold hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center justify-center gap-2 focus-ring">
+          <a href="agenda.html" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-full font-semibold hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center justify-center gap-2 focus-ring">
             <i class="fas fa-calendar-alt" aria-hidden="true"></i>
             Voir tous les événements
           </a>
@@ -211,8 +206,31 @@
       </div>
     </section>
 
+    <!-- Dernières actualités -->
+    <section class="py-20 px-6 bg-gray-50">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Dernières actualités</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto"></div>
+          <p class="text-gray-600 mt-6 text-lg">Toute la vie du club, match après match</p>
+        </div>
+
+        <!-- Grille remplie dynamiquement depuis assets/data/news.json (3 articles les plus recents) -->
+        <div id="news-teaser" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <p class="col-span-full text-center text-gray-500 py-12">Chargement des actualités…</p>
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="actualites.html" class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-full font-semibold hover:from-blue-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center justify-center gap-2 focus-ring">
+            <i class="fas fa-newspaper" aria-hidden="true"></i>
+            Toutes les actualités
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Sections principales -->
-    <section id="equipes" class="py-20 px-6 bg-gray-50">
+    <section id="equipes" class="py-20 px-6 bg-white">
       <div class="max-w-7xl mx-auto">
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 

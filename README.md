@@ -9,7 +9,10 @@ Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu (ABBC), const
 ```
 SiteAbbcStable/
 │
-├── index.html              # Page d'accueil (agenda, matchs, présentation)
+├── index.html              # Page d'accueil (Le Club, agenda, matchs, actus, présentation)
+├── agenda.html             # Agenda complet (rendu depuis events.json)
+├── actualites.html         # Liste des actualités (rendu depuis news.json)
+├── article.html            # Article unique (article.html?slug=...)
 ├── boutique.html           # Boutique en ligne (lien HelloAsso)
 ├── contact.html            # Coordonnées
 ├── partenaires.html        # Partenaires du club
@@ -23,7 +26,11 @@ SiteAbbcStable/
 │   │   ├── styles.css            # Styles globaux + variables dark mode
 │   │   └── tailwind.input.css    # Entrée Tailwind (build optionnel)
 │   ├── js/
-│   │   └── main.js         # Loader partials + UI globale + thème
+│   │   └── main.js         # Loader partials + UI globale + thème + rendu data
+│   ├── data/               # Contenu éditable (voir « Gérer le contenu »)
+│   │   ├── config.json     # Saison, chiffres clés, liens réseaux
+│   │   ├── events.json     # Événements du club (agenda)
+│   │   └── news.json       # Articles / actualités
 │   └── images/
 │       ├── Logo.jpg        # Logo du club
 │       ├── Baniere.jpg     # Bannière héro
@@ -54,6 +61,9 @@ SiteAbbcStable/
 
 ## Fonctionnalités UI
 
+- **Agenda dynamique** : événements rendus depuis `events.json`, événements passés masqués sur l'accueil
+- **Actualités / blog** : articles rendus depuis `news.json`, page liste + page article (`article.html?slug=`)
+- **Contenu piloté par la config** : saison, chiffres clés et liens réseaux depuis `config.json`
 - **Mega-menu équipes** (2 colonnes Seniors/Jeunes) au survol desktop, accordion mobile
 - **Dark mode** persistant (`localStorage`) avec toggle dans la navbar
 - **Barre de progression** au scroll en haut de page
@@ -65,6 +75,39 @@ SiteAbbcStable/
 - **Newsletter** avec feedback inline (validation email côté client)
 - **Open Graph + meta description** sur chaque page (SEO + partage social)
 - Respect de `prefers-reduced-motion`
+
+---
+
+## Gérer le contenu (sans toucher au HTML)
+
+Le contenu qui change souvent est piloté par 3 fichiers JSON dans `assets/data/`.
+Modifiez-les, rafraîchissez la page : le site se met à jour tout seul.
+Chaque valeur à compléter par le club est marquée **`TODO`** dans les fichiers.
+
+### `config.json` — réglages globaux
+Saison, nombre de licenciés/équipes et liens réseaux sociaux. Ces valeurs se
+propagent partout (elles remplacent les `<span data-config="...">` du site et les
+liens `data-social` du footer). Un lien social laissé à `TODO` conserve le lien
+par défaut du footer.
+
+### `events.json` — événements / agenda
+Un tableau d'événements. Champs : `title`, `category`, `color` (couleur Tailwind :
+`red`, `yellow`, `green`, `blue`, `purple`, `orange`), `icon` (nom Font Awesome
+sans `fa-`), `date` (format `AAAA-MM-JJ`), `time`, `location`, `description`.
+Les événements **passés** sont masqués sur l'accueil (3 prochains affichés) mais
+restent visibles sur `agenda.html`.
+
+### `news.json` — actualités / blog
+Un tableau d'articles, **le plus récent en premier**. Champs : `slug` (identifiant
+unique dans l'URL, sans espace ni accent), `title`, `date` (`AAAA-MM-JJ`),
+`author`, `image` (chemin depuis la racine, ex. `assets/images/xxx.jpg`),
+`excerpt` (résumé), `body` (contenu **HTML** de l'article). Chaque carte pointe
+vers `article.html?slug=…`.
+
+> Astuce couleurs : le CDN Tailwind génère les classes à la volée, donc les
+> couleurs `color` d'`events.json` fonctionnent sans configuration. Si un jour le
+> site passe au Tailwind compilé (cf. plus bas), pensez à *safelister* les classes
+> `bg-{couleur}-500/600` et `text-{couleur}-600`.
 
 ---
 

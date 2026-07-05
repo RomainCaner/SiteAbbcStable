@@ -58,6 +58,57 @@
     initFooter();
     initBackToTop();
     initScrollProgress();
+    loadConfig();
+  }
+
+  // ===== Data helpers =====
+  async function fetchJSON(file) {
+    const res = await fetch(`${base}assets/data/${file}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
+  function formatDateFR(iso) {
+    const d = new Date(`${iso}T00:00:00`);
+    if (isNaN(d.getTime())) return iso || '';
+    return d.toLocaleDateString('fr-FR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    });
+  }
+
+  function todayISO() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  // ===== Site config (config.json) =====
+  let siteConfig = null;
+  async function loadConfig() {
+    try {
+      siteConfig = await fetchJSON('config.json');
+    } catch (err) {
+      console.warn('[ABBC] config.json indisponible:', err);
+      return;
+    }
+    // Textes pilotes par la config (saison, chiffres cles)
+    ['season', 'licencies', 'equipesCount'].forEach((key) => {
+      const val = siteConfig[key];
+      if (val == null) return;
+      document.querySelectorAll(`[data-config="${key}"]`).forEach((el) => {
+        el.textContent = val;
+      });
+    });
+    // Liens reseaux sociaux (on ne remplace que si une vraie URL est fournie)
+    const social = siteConfig.social || {};
+    document.querySelectorAll('[data-social]').forEach((a) => {
+      const url = social[a.dataset.social];
+      if (url && !String(url).startsWith('TODO')) a.href = url;
+    });
   }
 
   // ===== Navbar interactions =====
@@ -159,22 +210,200 @@
   }
 
   // ===== Scroll-triggered animations =====
+  let revealObserver = null;
+
+  function prepAndObserve(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    if (revealObserver) revealObserver.observe(el);
+  }
+
+  // Revele les elements animes injectes dynamiquement (evenements, actus).
+  function observeWithin(container) {
+    if (!container) return;
+    container.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach(prepAndObserve);
+  }
+
   function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
+    revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.style.opacity = '1';
           entry.target.style.transform = 'none';
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach((el) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      observer.observe(el);
-    });
+    document.querySelectorAll('.slide-in, .fade-in, .bounce-in').forEach(prepAndObserve);
+  }
+
+  // ===== Evenements (events.json) =====
+  function eventCardHTML(ev) {
+    const color = ev.color || 'blue';
+    return `
+      <div class="bg-white p-6 rounded-2xl shadow-lg card-hover border border-gray-100 slide-in">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-12 h-12 bg-${color}-600 rounded-full flex items-center justify-center">
+            <i class="fas fa-${escapeHTML(ev.icon || 'calendar')} text-white text-xl" aria-hidden="true"></i>
+          </div>
+          <span class="bg-${color}-500 text-white px-3 py-1 rounded-full text-sm font-semibold">${escapeHTML(ev.category)}</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">${escapeHTML(ev.title)}</h3>
+        <div class="space-y-2 text-gray-600">
+          <p class="flex items-center gap-2"><i class="fas fa-calendar text-${color}-600" aria-hidden="true"></i> ${escapeHTML(formatDateFR(ev.date))}</p>
+          <p class="flex items-center gap-2"><i class="fas fa-clock text-${color}-600" aria-hidden="true"></i> ${escapeHTML(ev.time)}</p>
+          <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-${color}-600" aria-hidden="true"></i> ${escapeHTML(ev.location)}</p>
+        </div>
+        <p class="text-sm text-gray-500 mt-4">${escapeHTML(ev.description)}</p>
+      </div>`;
+  }
+
+  function emptyStateHTML(message) {
+    return `<div class="col-span-full text-center text-gray-500 py-12">
+      <i class="fas fa-calendar-times text-4xl mb-4 opacity-50" aria-hidden="true"></i>
+      <p>${escapeHTML(message)}</p>
+    </div>`;
+  }
+
+  async function renderEvents() {
+    const grid = document.getElementById('events-grid');
+    const list = document.getElementById('agenda-list');
+    if (!grid && !list) return;
+
+    let events;
+    try {
+      events = await fetchJSON('events.json');
+    } catch (err) {
+      console.warn('[ABBC] events.json indisponible:', err);
+      const msg = emptyStateHTML('Impossible de charger les événements.');
+      if (grid) grid.innerHTML = msg;
+      if (list) list.innerHTML = msg;
+      return;
+    }
+
+    events = events.filter((e) => e && e.date && e.title);
+    events.sort((a, b) => a.date.localeCompare(b.date));
+    const today = todayISO();
+
+    // Accueil : 3 prochains evenements a venir
+    if (grid) {
+      const upcoming = events.filter((e) => e.date >= today).slice(0, 3);
+      grid.innerHTML = upcoming.length
+        ? upcoming.map(eventCardHTML).join('')
+        : emptyStateHTML('Aucun événement à venir pour le moment. Revenez bientôt !');
+      observeWithin(grid);
+    }
+
+    // Page agenda : a venir (croissant) puis passes (decroissant)
+    if (list) {
+      const upcoming = events.filter((e) => e.date >= today);
+      const past = events.filter((e) => e.date < today).reverse();
+      const section = (title, items, dim) => !items.length ? '' : `
+        <div class="mb-16">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 flex items-center gap-3">
+            <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-green-600 rounded-full"></span>${title}
+          </h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8${dim ? ' opacity-70' : ''}">
+            ${items.map(eventCardHTML).join('')}
+          </div>
+        </div>`;
+      list.innerHTML =
+        (section('À venir', upcoming, false) || `<p class="text-gray-500 mb-16">Aucun événement à venir pour le moment.</p>`) +
+        section('Événements passés', past, true);
+      observeWithin(list);
+    }
+  }
+
+  // ===== Actualites (news.json) =====
+  function newsCardHTML(post) {
+    const img = post.image
+      ? `<img src="${base}${escapeHTML(post.image)}" alt="" loading="lazy" class="w-full h-48 object-cover">`
+      : '';
+    return `
+      <a href="${base}article.html?slug=${encodeURIComponent(post.slug)}" class="block bg-white rounded-2xl shadow-lg card-hover border border-gray-100 overflow-hidden slide-in focus-ring">
+        ${img}
+        <div class="p-6">
+          <p class="text-sm text-gray-500 mb-2"><i class="fas fa-calendar text-blue-600 mr-1" aria-hidden="true"></i>${escapeHTML(formatDateFR(post.date))}</p>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">${escapeHTML(post.title)}</h3>
+          <p class="text-gray-600">${escapeHTML(post.excerpt)}</p>
+          <span class="inline-flex items-center gap-1 mt-4 text-blue-600 font-semibold">Lire la suite <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i></span>
+        </div>
+      </a>`;
+  }
+
+  async function renderNews() {
+    const teaser = document.getElementById('news-teaser');
+    const listing = document.getElementById('news-list');
+    if (!teaser && !listing) return;
+
+    let posts;
+    try {
+      posts = await fetchJSON('news.json');
+    } catch (err) {
+      console.warn('[ABBC] news.json indisponible:', err);
+      return;
+    }
+
+    posts = posts.filter((p) => p && p.slug && p.title);
+    posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+    if (teaser) {
+      teaser.innerHTML = posts.slice(0, 3).map(newsCardHTML).join('');
+      observeWithin(teaser);
+    }
+    if (listing) {
+      listing.innerHTML = posts.length
+        ? posts.map(newsCardHTML).join('')
+        : `<p class="col-span-full text-center text-gray-500 py-12">Aucune actualité pour le moment.</p>`;
+      observeWithin(listing);
+    }
+  }
+
+  // ===== Article unique (article.html?slug=...) =====
+  async function renderArticle() {
+    const container = document.getElementById('article-content');
+    if (!container) return;
+
+    const slug = new URLSearchParams(window.location.search).get('slug');
+    const backLink = `<div class="mt-12"><a href="${base}actualites.html" class="inline-flex items-center gap-2 text-blue-600 font-semibold focus-ring"><i class="fas fa-arrow-left" aria-hidden="true"></i> Retour aux actualités</a></div>`;
+
+    let posts;
+    try {
+      posts = await fetchJSON('news.json');
+    } catch (err) {
+      container.innerHTML = `<p class="text-center text-gray-500 py-12">Impossible de charger l'article.</p>${backLink}`;
+      return;
+    }
+
+    const post = posts.find((p) => p.slug === slug);
+    if (!post) {
+      document.title = 'Article introuvable · ABB Cornebarrieu';
+      container.innerHTML = `
+        <div class="text-center py-16">
+          <i class="fas fa-newspaper text-5xl text-gray-300 mb-6" aria-hidden="true"></i>
+          <h1 class="text-3xl font-bold text-gray-800 mb-4">Article introuvable</h1>
+          <p class="text-gray-600">L'article demandé n'existe pas ou a été déplacé.</p>
+        </div>${backLink}`;
+      return;
+    }
+
+    document.title = `${post.title} · ABB Cornebarrieu`;
+    container.innerHTML = `
+      <article class="max-w-3xl mx-auto">
+        <nav aria-label="Fil d'Ariane" class="text-sm text-gray-500 mb-6">
+          <a href="${base}index.html" class="hover:text-blue-600">Accueil</a>
+          <span class="mx-2" aria-hidden="true">›</span>
+          <a href="${base}actualites.html" class="hover:text-blue-600">Actualités</a>
+          <span class="mx-2" aria-hidden="true">›</span>
+          <span class="text-blue-600 font-semibold">${escapeHTML(post.title)}</span>
+        </nav>
+        <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">${escapeHTML(post.title)}</h1>
+        <p class="text-gray-500 mb-8"><i class="fas fa-calendar text-blue-600 mr-2" aria-hidden="true"></i>${escapeHTML(formatDateFR(post.date))}${post.author ? ` · ${escapeHTML(post.author)}` : ''}</p>
+        ${post.image ? `<img src="${base}${escapeHTML(post.image)}" alt="" class="w-full rounded-2xl shadow-xl mb-8">` : ''}
+        <div class="prose-abbc text-lg text-gray-700 leading-relaxed">${post.body || ''}</div>
+        ${backLink}
+      </article>`;
   }
 
   // ===== Animated counters =====
@@ -207,5 +436,8 @@
     loadAllPartials();
     initScrollAnimations();
     initCounters();
+    renderEvents();
+    renderNews();
+    renderArticle();
   });
 })();

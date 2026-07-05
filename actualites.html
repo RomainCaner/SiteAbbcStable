@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Actualités · ABB Cornebarrieu</title>
+  <meta name="description" content="Actualités de l'Association Basket-Ball de Cornebarrieu (ABBC) : news du club, résumés de matchs et annonces.">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Actualités · ABB Cornebarrieu">
+  <meta property="og:description" content="Toute l'actualité du club ABBC : news, résumés de matchs et annonces.">
+  <meta property="og:image" content="assets/images/Baniere.jpg">
+  <meta property="og:locale" content="fr_FR">
+
+  <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
+
+  <script>
+    (function () {
+      try {
+        const t = localStorage.getItem('abbc-theme') || 'light';
+        document.documentElement.dataset.theme = t;
+      } catch (_) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800" data-page="actualites">
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <div id="navbar-placeholder"></div>
+
+  <main id="main-content">
+
+    <section class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-4 fade-in">
+          <nav aria-label="Fil d'Ariane" class="text-sm text-gray-500 mb-6">
+            <a href="index.html" class="hover:text-blue-600">Accueil</a>
+            <span class="mx-2" aria-hidden="true">›</span>
+            <span class="text-blue-600 font-semibold">Actualités</span>
+          </nav>
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+            <span class="block text-blue-600">Actualités</span>
+          </h1>
+          <p class="text-xl text-gray-600 mb-8">Toute la vie du club, match après match</p>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 px-6 bg-gray-50">
+      <div class="max-w-7xl mx-auto">
+        <!-- Rempli dynamiquement depuis assets/data/news.json -->
+        <div id="news-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <p class="col-span-full text-center text-gray-500 py-12">Chargement des actualités…</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

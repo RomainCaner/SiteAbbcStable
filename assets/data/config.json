@@ -1,0 +1,13 @@
+{
+  "_comment": "Configuration centrale du site ABBC. Modifiez ici la saison, les chiffres cles et les liens reseaux : ils se propagent sur tout le site. Remplacez chaque valeur marquee TODO par la vraie donnee du club.",
+  "season": "2026-2027",
+  "licencies": "180",
+  "equipesCount": "17",
+  "email": "bureau.abbc@gmail.com",
+  "social": {
+    "facebook": "TODO-url-facebook-abbc",
+    "instagram": "TODO-url-instagram-abbc",
+    "tiktok": "TODO-url-tiktok-abbc",
+    "youtube": "TODO-url-youtube-abbc"
+  }
+}

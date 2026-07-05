@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Actualité · ABB Cornebarrieu</title>
+  <meta name="description" content="Article d'actualité de l'Association Basket-Ball de Cornebarrieu (ABBC).">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Actualité · ABB Cornebarrieu">
+  <meta property="og:image" content="assets/images/Baniere.jpg">
+  <meta property="og:locale" content="fr_FR">
+
+  <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
+
+  <script>
+    (function () {
+      try {
+        const t = localStorage.getItem('abbc-theme') || 'light';
+        document.documentElement.dataset.theme = t;
+      } catch (_) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800" data-page="actualites">
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <div id="navbar-placeholder"></div>
+
+  <main id="main-content">
+    <section class="py-16 px-6 bg-white min-h-[60vh]">
+      <div class="max-w-6xl mx-auto">
+        <!-- Rempli dynamiquement depuis assets/data/news.json selon ?slug= dans l'URL -->
+        <div id="article-content">
+          <p class="text-center text-gray-500 py-12">Chargement de l'article…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

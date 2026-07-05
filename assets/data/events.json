@@ -1,0 +1,33 @@
+[
+  {
+    "_comment": "Chaque evenement : date au format ISO AAAA-MM-JJ. 'color' = couleur Tailwind (red, yellow, green, blue, purple, orange). 'icon' = nom d'icone Font Awesome (sans le prefixe fa-). Les evenements passes sont masques sur l'accueil mais restent visibles sur agenda.html. Remplacez les valeurs TODO par les vraies infos.",
+    "title": "Repas de Noël du Club",
+    "category": "Traditionnel",
+    "color": "red",
+    "icon": "utensils",
+    "date": "2026-12-11",
+    "time": "19h30",
+    "location": "Salle des fêtes de Cornebarrieu",
+    "description": "Moment convivial pour tous les licenciés et leurs familles."
+  },
+  {
+    "title": "Loto du Club",
+    "category": "Loto",
+    "color": "yellow",
+    "icon": "dice",
+    "date": "2027-02-06",
+    "time": "20h00",
+    "location": "Salle des fêtes de Cornebarrieu",
+    "description": "Lots à gagner et ambiance garantie ! (date TODO à confirmer)"
+  },
+  {
+    "title": "Tournoi de fin de saison",
+    "category": "Tournoi",
+    "color": "green",
+    "icon": "medal",
+    "date": "2027-06-19",
+    "time": "Toute la journée",
+    "location": "Gymnase municipal de Cornebarrieu",
+    "description": "Clôture festive de la saison. (date TODO à confirmer)"
+  }
+]

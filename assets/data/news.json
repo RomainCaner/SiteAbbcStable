@@ -1,0 +1,12 @@
+[
+  {
+    "_comment": "Chaque article : 'slug' = identifiant unique dans l'URL (article.html?slug=...), sans espaces ni accents. 'date' au format ISO AAAA-MM-JJ. 'image' = chemin relatif depuis la racine (ex: assets/images/xxx.jpg). 'body' = contenu HTML de l'article. Ajoutez vos articles en tete de liste (le plus recent en premier).",
+    "slug": "bienvenue-nouvelle-saison",
+    "title": "Bienvenue pour la saison 2026-2027 !",
+    "date": "2026-09-01",
+    "author": "Le Bureau de l'ABBC",
+    "image": "assets/images/Baniere.jpg",
+    "excerpt": "TODO — Rédigez ici le chapô de votre premier article : quelques phrases qui donnent envie de lire la suite.",
+    "body": "<p>TODO — Ceci est un article d'exemple pour montrer la mise en page. Remplacez ce texte par votre première actualité.</p><p>Vous pouvez utiliser plusieurs paragraphes, mettre du texte en <strong>gras</strong> ou en <em>italique</em>, et ajouter des listes :</p><ul><li>Reprise des entraînements</li><li>Dates des premiers matchs</li><li>Informations sur les inscriptions</li></ul><p>Pour publier un nouvel article, ajoutez simplement un objet en tête du fichier <code>assets/data/news.json</code>.</p>"
+  }
+]

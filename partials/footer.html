@@ -18,6 +18,8 @@
         <h3 class="text-white font-bold mb-4">Navigation</h3>
         <ul class="space-y-2 text-sm">
           <li><a href="{{base}}index.html" class="hover:text-blue-400 transition-colors">Accueil</a></li>
+          <li><a href="{{base}}agenda.html" class="hover:text-blue-400 transition-colors">Agenda</a></li>
+          <li><a href="{{base}}actualites.html" class="hover:text-blue-400 transition-colors">Actualités</a></li>
           <li><a href="{{base}}partenaires.html" class="hover:text-blue-400 transition-colors">Partenaires</a></li>
           <li><a href="{{base}}boutique.html" class="hover:text-blue-400 transition-colors">Boutique</a></li>
           <li><a href="{{base}}contact.html" class="hover:text-blue-400 transition-colors">Contact</a></li>
@@ -38,14 +40,18 @@
           </li>
         </ul>
 
+        <!-- Les href sont pilotes par assets/data/config.json (data-social). Tant qu'une URL vaut TODO, le lien par defaut ci-dessous est conserve. -->
         <div class="flex gap-3 mt-4">
-          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-600 transition-colors focus-ring" aria-label="Facebook">
+          <a href="https://www.facebook.com/" data-social="facebook" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-600 transition-colors focus-ring" aria-label="Facebook">
             <i class="fab fa-facebook-f" aria-hidden="true"></i>
           </a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-600 transition-colors focus-ring" aria-label="Instagram">
+          <a href="https://www.instagram.com/" data-social="instagram" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-600 transition-colors focus-ring" aria-label="Instagram">
             <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
-          <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-600 transition-colors focus-ring" aria-label="YouTube">
+          <a href="https://www.tiktok.com/" data-social="tiktok" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-600 transition-colors focus-ring" aria-label="TikTok">
+            <i class="fab fa-tiktok" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.youtube.com/" data-social="youtube" target="_blank" rel="noopener" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-600 transition-colors focus-ring" aria-label="YouTube">
             <i class="fab fa-youtube" aria-hidden="true"></i>
           </a>
         </div>
