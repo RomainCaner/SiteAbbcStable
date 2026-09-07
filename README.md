@@ -233,7 +233,8 @@ Vérifiés sur les pages officielles, et conservés dans `config.json` (section
 | Code club | **OCC0031019** |
 | Ligue / comité | Occitanie (`occ`) / Haute-Garonne (`0031`) |
 | Page du club | [competitions.ffbb.com/…/clubs/occ0031019](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019) |
-| SG1 | RM2 Occitanie — équipe `200000005142728`, poules PYR-A, PYR-B, MED-A, MED-B |
+| SG1 | RM2 Occitanie, poule **PYR-B** — équipe `200000005142728` |
+| Adversaires PYR-B | ES Toulouse Casselardit, Toulouse Lardenne, Avenir Muretain |
 
 ### Deux plateformes FFBB : laquelle viser
 
@@ -265,9 +266,24 @@ regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
 4. Lancer le workflow à la main (onglet *Actions* → *Classements FFBB* →
    *Run workflow*), ou attendre la prochaine exécution planifiée.
 
-> Vérifiez que la page ouverte est bien **la poule où joue l'équipe** : RM2
-> Occitanie en compte quatre, et un identifiant voisin donnerait le classement
-> d'un autre groupe sans que rien ne signale l'erreur.
+#### Un identifiant peut être testé sans risque
+
+Un identifiant pointant vers la mauvaise poule produirait un tableau
+parfaitement valide, mais qui n'est pas celui du club — une erreur qu'aucun
+contrôle visuel ne rattrape.
+
+Le script **refuse donc tout classement où le club n'apparaît pas** :
+
+```
+sg1 : le club n'apparaît pas dans ce classement
+      (3 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET…).
+      L'identifiant pointe probablement vers une autre poule.
+```
+
+Au pire, un identifiant erroné est rejeté avec la liste des équipes trouvées,
+ce qui permet de voir immédiatement sur quelle poule on est tombé. Jamais de
+classement publié de travers. La reconnaissance du club se règle dans
+`CLUB_PATTERNS` en tête de `scripts/fetch_standings.py`.
 
 Tant qu'un `championshipId` est vide, l'équipe **continue d'afficher son widget
 Score'n'co**. La bascule se fait donc équipe par équipe, sans rien casser.

@@ -12,6 +12,12 @@ Source : resultats.ffbb.com/championnat/<id>.html — pages publiques, rendues
 côté serveur, sans authentification. L'identifiant de chaque équipe se règle
 dans assets/data/teams.json (champ `ffbb.championshipId`).
 
+Garde-fou important : un identifiant qui pointe vers la mauvaise poule produit
+un tableau parfaitement valide mais qui n'est pas celui du club — une erreur
+que rien ne signale à l'affichage. Le script refuse donc tout classement où le
+club n'apparaît pas (voir CLUB_PATTERNS). Un identifiant peut ainsi être testé
+sans risque : au pire il est rejeté, jamais publié de travers.
+
 Usage :
     python scripts/fetch_standings.py                 # récupère tout
     python scripts/fetch_standings.py --team sf1      # une seule équipe
@@ -217,6 +223,12 @@ def parse_standings(html: str) -> dict:
             entries.append(entry)
 
         if entries:
+            if not any(entry["isClub"] for entry in entries):
+                raise ParsingError(
+                    "le club n'apparaît pas dans ce classement "
+                    f"({len(entries)} équipes : {', '.join(e['team'] for e in entries[:4])}…). "
+                    "L'identifiant pointe probablement vers une autre poule."
+                )
             return {"competition": competition, "rows": entries}
 
     raise ParsingError(
