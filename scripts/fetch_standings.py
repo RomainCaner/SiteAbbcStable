@@ -558,8 +558,6 @@ def api_fixture(match) -> dict | None:
         return None
 
     date = match.date_rencontre
-    ville = attr(match, "salle", "cartographie", "ville")
-
     marques = to_score(match.resultatEquipe1)
     encaisses = to_score(match.resultatEquipe2)
 
@@ -570,14 +568,52 @@ def api_fixture(match) -> dict | None:
         "away": away,
         "isHome": club_at_home,
         "opponent": away if club_at_home else home,
-        "venue": clean(attr(match, "salle", "libelle") or ""),
-        "city": clean(ville or ""),
+        # `salle` n'est qu'un identifiant sur cet endpoint (« 7321 ») : le nom
+        # se résout à part, et seulement pour les rencontres qu'on publie.
+        "salleId": str(attr(match, "salle") or "") or None,
+        "venue": "",
+        "address": "",
         # `joue` est un entier côté API ; un score présent le confirme.
         "played": bool(match.joue) or (marques is not None and encaisses is not None),
         "postponed": bool(match.remise),
         "scoreHome": marques,
         "scoreAway": encaisses,
     }
+
+
+_SALLES: dict[str, dict] = {}
+
+
+def resolve_salle(salle_id: str | None) -> dict:
+    """Nom et adresse d'une salle, depuis son identifiant.
+
+    Le calendrier ne donne qu'un identifiant. On ne résout que les rencontres
+    publiées — la prochaine et la dernière — plutôt que les vingt-deux du
+    calendrier, et le résultat est mémorisé : plusieurs équipes du club jouent
+    dans le même gymnase.
+    """
+    if not salle_id:
+        return {"venue": "", "address": ""}
+    if salle_id in _SALLES:
+        return _SALLES[salle_id]
+
+    salle = None
+    # Les identifiants circulent tantôt nus (« 7321 »), tantôt préfixés
+    # (« S-7321 ») selon l'endroit où on les lit.
+    for candidat in (salle_id, f"S-{salle_id}") if not salle_id.startswith("S-") else (salle_id,):
+        try:
+            salle = api_client().get_salle(candidat)
+        except Exception:
+            salle = None
+        if salle:
+            break
+
+    trouve = {
+        "venue": clean(getattr(salle, "libelle", "") or ""),
+        "address": clean(getattr(salle, "adresse", "") or ""),
+    }
+    _SALLES[salle_id] = trouve
+    return trouve
 
 
 def fetch_fixtures(poule_id: str) -> dict:
@@ -599,9 +635,16 @@ def fetch_fixtures(poule_id: str) -> dict:
     a_venir = [f for f in rencontres if not f["played"] and f["date"] >= maintenant]
     jouees = [f for f in rencontres if f["played"]]
 
+    prochaine = a_venir[0] if a_venir else None
+    derniere = jouees[-1] if jouees else None
+
+    for rencontre in (prochaine, derniere):
+        if rencontre:
+            rencontre.update(resolve_salle(rencontre.pop("salleId", None)))
+
     return {
-        "next": a_venir[0] if a_venir else None,
-        "last": jouees[-1] if jouees else None,
+        "next": prochaine,
+        "last": derniere,
         "count": len(rencontres),
     }
 

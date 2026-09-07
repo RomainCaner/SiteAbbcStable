@@ -64,7 +64,11 @@ function dateBadge(iso) {
  */
 export function nextFixtureHTML(fixture) {
   const heure = formatTime(fixture.date);
-  const lieu = [fixture.venue, fixture.city].filter(Boolean).join(' · ');
+  // L'adresse complète en infobulle : elle est trop longue pour la ligne,
+  // mais c'est elle qui sert quand on cherche le gymnase.
+  const lieu = fixture.venue
+    ? `<span class="fixture__venue"${fixture.address ? ` title="${escapeHTML(fixture.address)}"` : ''}>${escapeHTML(fixture.venue)}</span>`
+    : '';
 
   return `
     <article class="fixture fixture--next">
@@ -93,7 +97,7 @@ export function nextFixtureHTML(fixture) {
           <i class="fas fa-location-dot" aria-hidden="true"></i>
           ${fixture.isHome ? 'À domicile' : 'À l’extérieur'}
         </span>
-        ${lieu ? `<span class="fixture__venue">${escapeHTML(lieu)}</span>` : ''}
+        ${lieu}
       </p>
     </article>`;
 }
