@@ -50,8 +50,22 @@ USER_AGENT = (
     "ABBC-Cornebarrieu-SiteBot/1.0 "
     "(+https://github.com/RomainCaner/SiteAbbcStable; bureau.abbc@gmail.com)"
 )
-REQUEST_TIMEOUT = 20
+
+# En-têtes complets : certains serveurs répondent 404 à une requête sans
+# Accept, en la prenant pour un client mal formé.
+REQUEST_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "fr-FR,fr;q=0.9",
+}
+REQUEST_TIMEOUT = 30
 DELAY_BETWEEN_REQUESTS = 1.5  # on reste courtois avec la FFBB
+
+# Les serveurs FFBB renvoient regulierement 502/503/504 aux heures chargees.
+# On retente quelques fois, en espacant, plutot que d'abandonner la journee.
+RETRY_STATUSES = (429, 500, 502, 503, 504)
+MAX_ATTEMPTS = 4
+RETRY_BACKOFF = 5  # secondes, double a chaque tentative
 
 # Nom du club tel qu'il apparaît dans les tableaux FFBB, pour surligner sa ligne.
 CLUB_PATTERNS = (re.compile(r"cornebarrieu", re.I),)
@@ -367,13 +381,38 @@ def parse_standings(html: str) -> dict:
 # ---------------------------------------------------------------- récupération
 
 def fetch_url(url: str) -> str:
-    """Requête HTTP courtoise, avec décodage adapté aux pages FFBB."""
+    """Requête HTTP courtoise, avec réessais sur erreur serveur.
+
+    Les serveurs FFBB renvoient assez souvent des 502/503/504 passagers. Une
+    seule tentative ferait échouer la mise à jour du jour pour rien ; on
+    réessaie en espaçant, sans jamais insister au point de peser sur eux.
+    """
     try:
         import requests
     except ImportError:  # pragma: no cover
         sys.exit("requests manquant : pip install -r scripts/requirements.txt")
 
-    response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=REQUEST_TIMEOUT)
+    last_error = None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            response = requests.get(url, headers=REQUEST_HEADERS, timeout=REQUEST_TIMEOUT)
+        except requests.RequestException as error:  # coupure, DNS, délai dépassé
+            last_error = error
+        else:
+            if response.status_code not in RETRY_STATUSES:
+                break
+            last_error = requests.HTTPError(
+                f"{response.status_code} {response.reason}", response=response
+            )
+
+        if attempt < MAX_ATTEMPTS:
+            pause = RETRY_BACKOFF * (2 ** (attempt - 1))
+            print(f"    tentative {attempt}/{MAX_ATTEMPTS} en échec ({last_error}) — "
+                  f"nouvel essai dans {pause} s", file=sys.stderr)
+            time.sleep(pause)
+    else:
+        raise last_error
+
     response.raise_for_status()
     # Les pages FFBB sont en latin-1 mais ne l'annoncent pas toujours.
     if not response.encoding or response.encoding.lower() == "iso-8859-1":
@@ -511,6 +550,38 @@ def discover(start_url: str) -> list[tuple[str, str, int]]:
     return matches
 
 
+def url_variants(url: str) -> list[str]:
+    """Formes équivalentes d'une URL de classement FFBB.
+
+    Selon la ligue, le classement est servi sur `/competitions/<code>/classement`
+    ou directement sur `/competitions/<code>`, avec les mêmes paramètres de
+    phase et de poule. On essaie les deux plutôt que d'imposer une forme.
+    """
+    variants = [url]
+    if "/classement?" in url:
+        variants.append(url.replace("/classement?", "?"))
+    elif "/classement" in url:
+        variants.append(url.replace("/classement", ""))
+    else:
+        base, _, query = url.partition("?")
+        variants.append(f"{base.rstrip('/')}/classement" + (f"?{query}" if query else ""))
+    return variants
+
+
+def fetch_standings_page(url: str) -> tuple[str, str]:
+    """Récupère la page de classement en essayant les formes d'URL connues.
+
+    @returns (html, url réellement utilisée)
+    """
+    errors = []
+    for candidate in url_variants(url):
+        try:
+            return fetch_url(candidate), candidate
+        except Exception as error:
+            errors.append(f"{candidate.split('?')[0]} → {error}")
+    raise RuntimeError(" | ".join(errors))
+
+
 def load_teams() -> list[dict]:
     teams = json.loads(TEAMS_FILE.read_text(encoding="utf-8"))
     return [t for t in teams if t.get("slug")]
@@ -560,7 +631,7 @@ def main() -> int:
                 time.sleep(DELAY_BETWEEN_REQUESTS)
             first = False
             try:
-                html = fetch_url(source_url)
+                html, source_url = fetch_standings_page(source_url)
             except Exception as error:  # réseau, 404, 5xx…
                 failures.append(f"{slug} : récupération impossible ({error})")
                 continue
