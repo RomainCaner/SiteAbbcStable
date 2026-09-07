@@ -28,8 +28,8 @@ const SETTINGS = {
   floatSpeed: 0.8,
   dragSensitivity: 0.006,
   damping: 0.94,        // inertie après un glisser (0 = arrêt net, 1 = infini)
-  leather: '#c8622a',
-  leatherLight: '#e8873f',
+  leather: '#c2551a',
+  leatherLight: '#e8752b',
   seam: '#1b1614',
 };
 
@@ -195,13 +195,13 @@ class BasketballScene {
     key.position.set(3, 4, 5);
     this.scene.add(key);
 
-    const rimBlue = new THREE.PointLight(0x3b82f6, 18, 12);
-    rimBlue.position.set(-3.5, 1.5, -2.5);
-    this.scene.add(rimBlue);
-
-    const rimGreen = new THREE.PointLight(0x10b981, 12, 12);
-    rimGreen.position.set(3, -2, -2.5);
+    const rimGreen = new THREE.PointLight(0x3f9c39, 20, 12);
+    rimGreen.position.set(-3.5, 1.5, -2.5);
     this.scene.add(rimGreen);
+
+    const rimOrange = new THREE.PointLight(0xe85f11, 14, 12);
+    rimOrange.position.set(3, -2, -2.5);
+    this.scene.add(rimOrange);
   }
 
   attachEvents() {

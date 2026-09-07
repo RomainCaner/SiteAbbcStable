@@ -1,5 +1,4 @@
 node_modules/
-assets/css/tailwind.min.css
 .DS_Store
 *.log
 .env

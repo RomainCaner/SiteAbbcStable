@@ -4,60 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Agenda · ABB Cornebarrieu</title>
-  <meta name="description" content="Agenda de l'Association Basket-Ball de Cornebarrieu (ABBC) : tous les événements du club, à venir et passés.">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="description" content="Agenda de l'ABB Cornebarrieu : tous les événements du club, à venir et passés.">
+  <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Agenda · ABB Cornebarrieu">
-  <meta property="og:description" content="Tous les événements du club ABBC : repas, lotos, tournois et rendez-vous de la saison.">
+  <meta property="og:description" content="Tous les rendez-vous du club ABBC : repas, lotos, tournois et temps forts de la saison.">
   <meta property="og:image" content="assets/images/Baniere.jpg">
   <meta property="og:locale" content="fr_FR">
 
   <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
 
+  <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
   <script>
     (function () {
       try {
-        const t = localStorage.getItem('abbc-theme') || 'light';
-        document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
       } catch (_) {}
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-gray-50 text-gray-800" data-page="agenda">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body data-page="agenda">
+
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div data-partial="navbar"></div>
 
-  <main id="main-content">
-
-    <section class="py-20 px-6 bg-white">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-4 fade-in">
-          <nav aria-label="Fil d'Ariane" class="text-sm text-gray-500 mb-6">
-            <a href="index.html" class="hover:text-blue-600">Accueil</a>
-            <span class="mx-2" aria-hidden="true">›</span>
-            <span class="text-blue-600 font-semibold">Agenda</span>
-          </nav>
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
-            <span class="block text-blue-600">Agenda du club</span>
-          </h1>
-          <p class="text-xl text-gray-600 mb-8">Tous les rendez-vous de la saison</p>
-          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
-        </div>
+  <main id="main">
+    <header class="page-head">
+      <div class="container">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb">
+          <a href="index.html">Accueil</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Agenda</span>
+        </nav>
+        <h1 class="page-head__title">Agenda du club</h1>
+        <p class="page-head__lede">Repas, lotos, tournois et temps forts : tous les rendez-vous de la saison.</p>
       </div>
-    </section>
+    </header>
 
-    <section class="py-16 px-6 bg-gray-50">
-      <div class="max-w-7xl mx-auto">
-        <!-- Rempli dynamiquement depuis assets/data/events.json -->
+    <section class="section">
+      <div class="container">
+        <!-- Rempli par content/events.js depuis assets/data/events.json -->
         <div id="agenda-list">
-          <p class="text-center text-gray-500 py-12">Chargement de l'agenda…</p>
+          <p>Chargement de l'agenda…</p>
         </div>
       </div>
     </section>

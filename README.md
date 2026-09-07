@@ -1,19 +1,18 @@
 # Site ABBC — Association Basket-Ball Cornebarrieu
 
-Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu (ABBC).
-HTML statique, Tailwind CSS, modules ES natifs, widgets Score'n'co pour les
-résultats et classements en temps réel, et une scène 3D Three.js sur la page
-d'accueil.
+Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu.
+HTML statique, CSS maison, modules ES natifs, widgets Score'n'co pour les
+résultats en temps réel et une scène 3D Three.js sur la page d'accueil.
 
-Aucune étape de build n'est nécessaire pour développer : un serveur HTTP local
-suffit.
+**Aucune étape de build.** Pas de bundler, pas de framework, pas de Tailwind :
+un serveur HTTP local suffit pour développer.
 
 ---
 
-## Démarrage rapide
+## Démarrage
 
-> `fetch()` ne fonctionne pas en `file://`. Ouvrir les fichiers directement
-> dans le navigateur laisse la page vide : il faut un serveur HTTP.
+> `fetch()` et les modules ES ne fonctionnent pas en `file://`. Ouvrir les
+> fichiers par double-clic laisse la page vide : il faut un serveur HTTP.
 
 ```bash
 python -m http.server 8080     # ou : npm install && npm run dev
@@ -25,12 +24,33 @@ Autres options : *Live Server* sous VS Code, ou `docker compose up`
 
 ---
 
+## Identité visuelle
+
+Les couleurs viennent du blason du club, pas d'une palette générique :
+
+| Rôle | Valeur | Origine |
+|---|---|---|
+| Vert ABBC | `#226321` | fond du blason |
+| Orange | `#E85F11` | ballon du blason |
+| Blanc | `#FFFFFF` | typographie du blason |
+
+Le vert porte les grandes bandes et les en-têtes de page, l'orange sert
+d'accent unique : boutons d'action, surtitres, liens, bandeau du prochain
+rendez-vous. Les deux polices — **Barlow Condensed** en majuscules pour les
+titres, **Inter** pour le texte courant — reprennent les codes des sites de
+clubs sportifs.
+
+Tout est piloté par les jetons de `assets/css/tokens.css` : changer la marque
+se fait dans ce seul fichier.
+
+---
+
 ## Architecture
 
 ```
 SiteAbbcStable/
 │
-├── index.html            Accueil (hero 3D, agenda, matchs, actus)
+├── index.html            Accueil (hero 3D, prochain rendez-vous, actus, agenda)
 ├── equipes.html          Annuaire des équipes
 ├── agenda.html           Agenda complet
 ├── actualites.html       Liste des actualités
@@ -44,18 +64,28 @@ SiteAbbcStable/
 │
 ├── assets/
 │   ├── data/             ← LE CONTENU DU SITE (voir « Gérer le contenu »)
-│   ├── css/styles.css    Variables de thème + composants
+│   ├── css/              tokens · base · components
 │   ├── js/               Modules ES (voir ci-dessous)
 │   └── images/
 │
-├── Dockerfile · nginx.conf · docker-compose.yml
-└── tailwind.config.js    Build Tailwind optionnel
+└── Dockerfile · nginx.conf · docker-compose.yml
 ```
 
-### Organisation du JavaScript
+### CSS — trois couches, dans cet ordre
 
-Chaque module a une seule responsabilité et n'appelle pas les autres :
-c'est `main.js` qui orchestre l'ordre d'exécution.
+| Fichier | Rôle |
+|---|---|
+| `tokens.css` | Variables : couleurs, typo, espacements, formes, durées. Le thème sombre se contente de redéfinir ces variables. |
+| `base.css` | Reset, typographie, conteneurs, grilles, accessibilité, animations d'apparition. |
+| `components.css` | Tous les composants du site : en-tête, hero, cartes, sections, widgets, pied de page. Sommaire numéroté en tête de fichier. |
+
+Les composants n'utilisent que les **rôles sémantiques** (`--bg`, `--text`,
+`--brand`, `--accent`…), jamais les couleurs brutes. C'est ce qui permet au
+mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
+`.section--dark` / `.section--brand` d'adapter automatiquement tout leur
+contenu.
+
+### JavaScript — 13 modules ES
 
 ```
 assets/js/
@@ -68,23 +98,23 @@ assets/js/
 │   └── partials.js       Injection de navbar.html et footer.html
 │
 ├── ui/                   Comportements d'interface
-│   ├── navigation.js     Menu mobile, mega-menu équipes, page active, footer
+│   ├── navigation.js     En-tête collant, menu mobile, mega-menu, pied de page
 │   ├── chrome.js         Barre de progression, bouton retour en haut
 │   ├── reveal.js         Apparitions au scroll, compteurs animés
 │   └── hero3d.js         Scène 3D du bandeau d'accueil
 │
 └── content/              Rendu des données du club
     ├── config.js         Applique config.json ([data-config], [data-social])
-    ├── events.js         Agenda (accueil + page agenda)
-    ├── news.js           Actualités (teaser, liste, article)
+    ├── events.js         Bandeau « prochain rendez-vous » + agenda
+    ├── news.js           Actualités (grille éditoriale, liste, article)
     ├── teams.js          Fiches d'équipe + annuaire
     └── scorenco.js       Widgets Score'n'co
 ```
 
 **Le rendu est piloté par le HTML.** Chaque module cherche ses conteneurs
-(`#events-grid`, `#team-page`, `#teams-grid`…) et ne fait rien s'il ne les
-trouve pas. Ajouter une page revient donc à écrire son HTML : aucun câblage
-dans `main.js`.
+(`#events-grid`, `#team-page`, `#news-grid`…) et ne fait rien s'il ne les
+trouve pas. Ajouter une page revient à écrire son HTML : aucun câblage dans
+`main.js`.
 
 ### Conventions des pages
 
@@ -97,27 +127,27 @@ dans `main.js`.
   <script type="module" src="../assets/js/main.js"></script>
 ```
 
-`data-base` permet aux modules de construire des chemins corrects depuis
-n'importe quelle profondeur — c'est ce qui rend `equipes/` possible sans
-dupliquer la navbar.
+- `data-base` : profondeur de la page, pour que les chemins restent corrects
+  depuis `equipes/`.
+- `data-page` : souligne l'entrée de menu correspondante.
+- `data-hero` (accueil uniquement) : rend l'en-tête transparent au-dessus du
+  bandeau, puis plein au défilement.
 
 ---
 
 ## Gérer le contenu (sans toucher au code)
 
 Tout ce qui change souvent vit dans `assets/data/`. Modifiez le JSON,
-rafraîchissez la page. Les valeurs à compléter par le club sont marquées
-**`TODO`**.
+rafraîchissez la page. Les valeurs à compléter sont marquées **`TODO`**.
 
 ### `config.json` — réglages globaux
 Saison, chiffres clés, coordonnées, liens réseaux et widgets du club. Ces
 valeurs alimentent tous les `<span data-config="…">` et les liens
-`data-social` du site. Un lien social laissé à `TODO` conserve le lien par
-défaut du HTML.
+`data-social`. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
 
 ### `teams.json` — les équipes **(source unique)**
-Un tableau d'équipes. Ce fichier alimente à lui seul :
-- le mega-menu « Équipes » de la navbar (desktop et mobile),
+Ce fichier alimente à lui seul :
+- le mega-menu « Équipes » de l'en-tête (desktop et mobile),
 - la page `equipes.html`,
 - l'intégralité des 9 pages `equipes/*.html`.
 
@@ -128,109 +158,81 @@ Un tableau d'équipes. Ce fichier alimente à lui seul :
 | `group` | `seniors` ou `jeunes` (regroupement dans le menu) |
 | `shortName` / `displayName` | « SF1 » / « Senior Féminine 1 » |
 | `level`, `coach`, `description` | affichés sur la fiche |
-| `accent` | `blue`, `green`, `purple` ou `orange` |
+| `accent` | `green`, `forest`, `orange` ou `ochre` |
 | `widgets` | identifiants Score'n'co : `nextGames`, `players`, `ranking` |
 
 **Ajouter une équipe** : ajouter l'entrée dans `teams.json`, puis copier une
 page existante de `equipes/` en changeant son `data-team`, son `<title>` et sa
 `<meta name="description">`. Rien d'autre.
 
-**Trouver un identifiant de widget Score'n'co** : sur `scorenco.com`, ouvrir
-l'équipe ou la compétition → *Partager* → *Widget* ; l'identifiant est la
-valeur `data-widget-id` du code fourni. Tant qu'un identifiant est vide, la
-page affiche un encart « bientôt disponible » à la place du widget — jamais un
-chargement infini.
+**Trouver un identifiant Score'n'co** : sur `scorenco.com`, ouvrir l'équipe ou
+la compétition → *Partager* → *Widget* ; l'identifiant est la valeur
+`data-widget-id` du code fourni. Tant qu'un identifiant est vide, la page
+affiche un encart « bientôt disponible » — jamais un chargement infini.
 
 ### `events.json` — agenda
-Champs : `title`, `category`, `color` (`red`, `yellow`, `green`, `blue`,
-`purple`, `orange`), `icon` (nom Font Awesome sans `fa-`), `date`
+Champs : `title`, `category`, `color` (`red`, `orange`, `yellow`, `green`,
+`forest`, `blue`, `purple`), `icon` (nom Font Awesome sans `fa-`), `date`
 (`AAAA-MM-JJ`), `time`, `location`, `description`.
-Les événements passés sont masqués sur l'accueil (3 prochains affichés) mais
-restent visibles sur `agenda.html`.
+
+Le **premier événement à venir** alimente automatiquement le bandeau orange
+sous le bandeau d'accueil. Les événements passés sont masqués sur l'accueil
+mais restent visibles sur `agenda.html`.
 
 ### `news.json` — actualités
 Le plus récent en premier. Champs : `slug` (sans espace ni accent), `title`,
 `date`, `author`, `image`, `excerpt`, `body` (HTML de l'article).
-Chaque carte pointe vers `article.html?slug=…`.
+Le premier article occupe la grande carte de la grille d'accueil.
 
 ---
 
 ## La scène 3D (`assets/js/ui/hero3d.js`)
 
 Le ballon du bandeau d'accueil est **entièrement procédural** : géométrie
-Three.js et texture dessinée sur un `<canvas>`. Aucun fichier de modèle à
-héberger, tout se règle dans le code.
+Three.js et texture dessinée sur un `<canvas>` (équateur, méridiens, coutures
+incurvées, grain du cuir). Aucun fichier de modèle à héberger.
 
+- Réglages regroupés dans l'objet `SETTINGS` en haut du fichier : couleurs du
+  cuir et des coutures, vitesse de rotation, flottement, sensibilité et
+  inertie du glisser, distance de caméra.
+- Éclairage aux couleurs du club : liseré vert d'un côté, orange de l'autre.
 - Three.js est chargé **dynamiquement depuis un CDN**, uniquement si la page
   contient `[data-hero3d]` et que WebGL est disponible. Les autres pages ne
   téléchargent rien.
-- Réglages regroupés dans l'objet `SETTINGS` en haut du fichier : couleurs du
-  cuir et des coutures, vitesse de rotation, amplitude du flottement,
-  sensibilité et inertie du glisser, distance de caméra.
 - Le rendu se met en pause hors écran et quand l'onglet passe en arrière-plan.
 - `prefers-reduced-motion` : une seule image, aucune animation.
-- Sans WebGL, sans réseau ou avec un bloqueur de scripts, le logo statique du
-  HTML reste affiché (`.hero-3d__fallback`) : la page ne casse jamais.
+- Sans WebGL, sans réseau ou avec un bloqueur, le logo statique du HTML reste
+  affiché : la page ne casse jamais.
 
 Le conteneur porte un état lisible dans l'inspecteur :
 `data-hero3d-state="ready" | "unsupported" | "failed"`.
 
-Pour changer de version de Three.js, modifier la constante `THREE_URL` en haut
-du fichier (version épinglée volontairement). Pour héberger la bibliothèque
-soi-même : `npm i three`, copier `node_modules/three/build/three.module.min.js`
-et `three.core.min.js` dans `assets/vendor/`, puis pointer `THREE_URL` dessus.
+Pour changer de version, modifier `THREE_URL` en haut du fichier (version
+épinglée volontairement). Pour héberger la bibliothèque soi-même :
+`npm i three`, copier `three.module.min.js` et `three.core.min.js` dans
+`assets/vendor/`, puis pointer `THREE_URL` dessus.
 
 ---
 
 ## Thème clair / sombre
 
 Le thème est stocké dans `localStorage` (clé `abbc-theme`) et appliqué par un
-petit script inline dans le `<head>` de chaque page, **avant** le rendu, pour
-éviter un flash de contenu clair. `core/theme.js` gère ensuite la bascule.
+script inline dans le `<head>`, **avant** le rendu, pour éviter tout flash de
+contenu clair. `core/theme.js` gère la bascule.
 
-Les couleurs sont des variables CSS (`--bg-page`, `--text-main`…) redéfinies
-sous `[data-theme="dark"]` dans `styles.css`. Comme le site utilise le CDN
-Tailwind (classes utilitaires figées dans le HTML), une section d'overrides
-`[data-theme="dark"] .bg-white { … !important }` traduit ces classes vers les
-variables. C'est le compromis assumé du CDN ; en passant au Tailwind compilé,
-on pourrait basculer sur `darkMode: ['selector', '[data-theme="dark"]']` et
-supprimer cette section.
+Comme tous les composants passent par les rôles sémantiques, le thème sombre
+tient en une vingtaine de lignes à la fin de `tokens.css`.
 
 ---
 
 ## Accessibilité
 
 - Skip-link vers le contenu principal sur chaque page
-- `focus-ring` visible au clavier, `aria-expanded` sur les menus dépliants
-- Fils d'Ariane sur les pages internes
-- `prefers-reduced-motion` respecté (animations, compteurs, scène 3D)
+- Un seul `<h1>` par page, y compris sur les fiches d'équipe générées
+- Focus visible au clavier, `aria-expanded` sur les menus dépliants
+- Fils d'Ariane sur toutes les pages internes
+- `prefers-reduced-motion` respecté (apparitions, compteurs, scène 3D)
 - Icônes décoratives en `aria-hidden`, scène 3D annoncée via `role="img"`
-
----
-
-## Build Tailwind (production, optionnel)
-
-Le site charge le CDN Tailwind par défaut (~3 MB, pratique en développement).
-Pour la production :
-
-```bash
-npm install
-npm run build:css     # → assets/css/tailwind.min.css (~15 KB)
-```
-
-Puis remplacer dans chaque page :
-
-```html
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- par -->
-<link rel="stylesheet" href="assets/css/tailwind.min.css">
-```
-
-`npm run watch:css` recompile à chaque sauvegarde.
-
-> `tailwind.config.js` contient une **safelist** pour les classes construites
-> en JavaScript (couleurs des événements, accents des équipes) : Tailwind ne
-> peut pas les repérer en analysant le code, elles seraient purgées sans elle.
 
 ---
 
@@ -243,8 +245,19 @@ docker compose up -d --build     # nginx sur http://localhost:8080
 `nginx.conf` gère gzip, le cache long sur les assets, l'absence de cache sur
 le HTML et les en-têtes de sécurité.
 
-Le site étant 100 % statique, il fonctionne aussi tel quel sur GitHub Pages,
-Netlify ou Vercel — sans configuration.
+Le site étant 100 % statique et sans build, il fonctionne aussi tel quel sur
+GitHub Pages, Netlify ou Vercel — sans configuration.
+
+### Dépendances externes
+
+| Ressource | Usage | Repli si injoignable |
+|---|---|---|
+| Google Fonts | Barlow Condensed + Inter | polices système |
+| Font Awesome (cdnjs) | icônes | icônes absentes, mise en page intacte |
+| Three.js (jsDelivr) | scène 3D | logo statique |
+| Score'n'co | résultats et classements | encart « momentanément indisponible » |
+
+Aucune n'est bloquante : le site reste lisible et navigable si toutes tombent.
 
 ---
 

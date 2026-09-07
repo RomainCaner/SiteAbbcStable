@@ -9,9 +9,13 @@
     "displayName": "Senior Féminine 1",
     "level": "Nationale 3",
     "coach": "Stéphane Soulé",
-    "accent": "blue",
+    "accent": "green",
     "description": "Le fer de lance du club : l'équipe fanion féminine évolue au niveau national.",
-    "widgets": { "nextGames": "139710", "players": "163833", "ranking": "39763" }
+    "widgets": {
+      "nextGames": "139710",
+      "players": "163833",
+      "ranking": "39763"
+    }
   },
   {
     "slug": "sf2",
@@ -22,9 +26,13 @@
     "displayName": "Senior Féminine 2",
     "level": "Régional",
     "coach": "À définir",
-    "accent": "blue",
+    "accent": "green",
     "description": "L'équipe réserve féminine, passerelle entre les jeunes et la Nationale.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "sf3",
@@ -35,9 +43,13 @@
     "displayName": "Senior Féminine 3",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "blue",
+    "accent": "green",
     "description": "Basket plaisir et compétition départementale dans une ambiance conviviale.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "sg1",
@@ -48,9 +60,13 @@
     "displayName": "Senior Masculine 1",
     "level": "Régional 2",
     "coach": "Staff technique ABBC",
-    "accent": "green",
+    "accent": "forest",
     "description": "L'équipe fanion masculine, engagée au niveau régional.",
-    "widgets": { "nextGames": "164626", "players": "164625", "ranking": "39756" }
+    "widgets": {
+      "nextGames": "164626",
+      "players": "164625",
+      "ranking": "39756"
+    }
   },
   {
     "slug": "sg2",
@@ -61,9 +77,13 @@
     "displayName": "Senior Masculine 2",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "green",
+    "accent": "forest",
     "description": "L'équipe réserve masculine, ouverte aux joueurs de tous horizons.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "u18f",
@@ -74,9 +94,13 @@
     "displayName": "U18 Féminine",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "purple",
+    "accent": "orange",
     "description": "Dernière marche avant les seniors : formation et compétition.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "u18g",
@@ -87,9 +111,13 @@
     "displayName": "U18 Masculine",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "purple",
+    "accent": "orange",
     "description": "Dernière marche avant les seniors : formation et compétition.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "u15f",
@@ -100,9 +128,13 @@
     "displayName": "U15 Féminine",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "orange",
+    "accent": "ochre",
     "description": "Apprentissage du jeu collectif et premiers championnats.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   },
   {
     "slug": "u15g",
@@ -113,8 +145,12 @@
     "displayName": "U15 Masculine",
     "level": "Départemental",
     "coach": "À définir",
-    "accent": "orange",
+    "accent": "ochre",
     "description": "Apprentissage du jeu collectif et premiers championnats.",
-    "widgets": { "nextGames": "", "players": "", "ranking": "" }
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
   }
 ]

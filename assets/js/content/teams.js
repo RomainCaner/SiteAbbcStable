@@ -1,14 +1,14 @@
 /**
- * content/teams.js — Pages d'équipe et annuaire des équipes.
+ * content/teams.js — Fiches d'équipe et annuaire.
  *
  * Les neuf pages `equipes/*.html` sont des coquilles : elles ne portent que
  * leurs métadonnées SEO et un `<body data-team="sf1">`. Tout le corps de la
- * page est produit ici depuis `teams.json`, ce qui évite d'avoir neuf fois
- * la même structure à maintenir.
+ * page est produit ici depuis `teams.json`, ce qui évite d'avoir neuf fois la
+ * même structure à maintenir.
  *
  * Cibles dans le HTML :
- *   `#team-page`   (equipes/*.html) → fiche complète de l'équipe
- *   `#teams-grid`  (equipes.html)   → cartes de toutes les équipes
+ *   `#team-page`  (equipes/*.html) → fiche complète de l'équipe
+ *   `#teams-grid` (equipes.html)   → cartes de toutes les équipes
  */
 
 import { escapeHTML } from '../core/dom.js';
@@ -16,87 +16,97 @@ import { getTeams, url } from '../core/data.js';
 import { observe } from '../ui/reveal.js';
 import { widgetHTML } from './scorenco.js';
 
-/** Dégradés Tailwind par accent, pour garder des classes complètes (purge-safe). */
+/**
+ * Couleur d'accent par équipe, exposée en variable CSS.
+ * Les valeurs restent dans l'identité du club (vert du blason, orange du
+ * ballon) : la teinte distingue les catégories sans sortir de la marque.
+ */
 const ACCENTS = {
-  blue: 'from-blue-500 to-cyan-500',
-  green: 'from-green-500 to-emerald-500',
-  purple: 'from-purple-500 to-pink-500',
-  orange: 'from-orange-500 to-red-500',
+  green: 'var(--green-600)',   // seniors féminines
+  forest: 'var(--green-800)',  // seniors masculins
+  orange: 'var(--orange-500)', // U18
+  ochre: '#B8860B',            // U15
 };
-
-const gradient = (accent) => ACCENTS[accent] || ACCENTS.blue;
+const accentOf = (team) => ACCENTS[team.accent] || 'var(--brand)';
 
 const GROUP_LABELS = { seniors: 'Seniors', jeunes: 'Jeunes' };
 
-/** Carte blanche standard, utilisée pour les trois blocs d'une fiche équipe. */
-const panel = (icon, accent, title, body) => `
-  <div class="bg-white p-8 rounded-2xl shadow-lg card-hover border border-gray-100 bounce-in">
-    <div class="w-16 h-16 bg-gradient-to-br ${gradient(accent)} rounded-2xl flex items-center justify-center mx-auto mb-6">
-      <i class="fas fa-${icon} text-white text-2xl" aria-hidden="true"></i>
-    </div>
-    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">${title}</h2>
-    ${body}
+const infoRow = (label, value) => `
+  <div class="info-row">
+    <dt>${label}</dt>
+    <dd>${value}</dd>
   </div>`;
 
-const infoRow = (icon, label, value) => `
-  <div class="flex items-center gap-3">
-    <i class="fas fa-${icon} text-blue-600" aria-hidden="true"></i>
-    <span><strong>${label} :</strong> ${value}</span>
+const panel = (icon, title, body) => `
+  <div class="panel reveal">
+    <h2 class="panel__title"><i class="fas fa-${icon}" aria-hidden="true"></i>${title}</h2>
+    ${body}
   </div>`;
 
 function teamPageHTML(team) {
   const name = escapeHTML(team.displayName || team.name);
   const short = escapeHTML(team.shortName);
+  const accent = accentOf(team);
 
   return `
-    <section class="py-20 px-6 bg-white">
-      <div class="max-w-6xl mx-auto text-center fade-in">
-        <nav aria-label="Fil d'Ariane" class="breadcrumb justify-center">
+    <header class="page-head">
+      <div class="container">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb">
           <a href="${url('index.html')}">Accueil</a>
-          <span aria-hidden="true">›</span>
+          <span aria-hidden="true">/</span>
           <a href="${url('equipes.html')}">Équipes</a>
-          <span aria-hidden="true">›</span>
-          <span class="breadcrumb-current">${short}</span>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">${short}</span>
         </nav>
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
-          <span class="block text-blue-600">${short}</span>
-          <span class="block text-green-600">ABB Cornebarrieu</span>
-        </h1>
-        <p class="text-xl text-gray-600 mb-4">${name}</p>
-        ${team.description ? `<p class="text-gray-500 max-w-2xl mx-auto">${escapeHTML(team.description)}</p>` : ''}
-        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mt-8" aria-hidden="true"></div>
-      </div>
-    </section>
 
-    <section class="py-20 px-6 bg-gray-50">
-      <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Seul le bloc « Informations » prend l'accent de l'équipe ; les deux
-             autres gardent une couleur fixe pour rester identifiables d'une
-             équipe à l'autre. -->
-        ${panel('info-circle', team.accent, 'Informations', `
-          <div class="space-y-4 text-gray-600">
-            ${infoRow('tag', 'Catégorie', name)}
-            ${infoRow('calendar', 'Saison', '<span data-config="season">2026-2027</span>')}
-            ${infoRow('user-tie', 'Entraîneur', escapeHTML(team.coach || 'À définir'))}
-            ${infoRow('trophy', 'Niveau', escapeHTML(team.level || 'À définir'))}
+        <div class="team-hero">
+          <h1 class="team-hero__code">${short}</h1>
+          <div class="team-hero__meta">
+            <p class="team-hero__name">${name}</p>
+            <p class="team-hero__tags">
+              <span class="chip" style="--chip-bg: ${accent}">${escapeHTML(team.level || 'À définir')}</span>
+              <span class="chip chip--outline chip--light">${escapeHTML(GROUP_LABELS[team.group] || '')}</span>
+            </p>
+          </div>
+        </div>
+        ${team.description ? `<p class="team-hero__desc">${escapeHTML(team.description)}</p>` : ''}
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container grid grid--3">
+        ${panel('circle-info', 'Informations', `
+          <dl class="info-list">
+            ${infoRow('Catégorie', name)}
+            ${infoRow('Saison', '<span data-config="season">2026-2027</span>')}
+            ${infoRow('Entraîneur', escapeHTML(team.coach || 'À définir'))}
+            ${infoRow('Niveau', escapeHTML(team.level || 'À définir'))}
+          </dl>`)}
+
+        ${panel('calendar-days', 'Rencontres', `
+          <div class="widget-frame">
+            ${widgetHTML('previous-next', team.widgets?.nextGames, 'Calendrier bientôt disponible.')}
           </div>`)}
 
-        ${panel('calendar-alt', 'green', 'Prochaines rencontres',
-          widgetHTML('previous-next', team.widgets?.nextGames, 'Calendrier bientôt disponible.'))}
-
-        ${panel('users', 'purple', 'Effectif',
-          widgetHTML('players', team.widgets?.players, 'Effectif bientôt publié.'))}
+        ${panel('users', 'Effectif', `
+          <div class="widget-frame">
+            ${widgetHTML('players', team.widgets?.players, 'Effectif bientôt publié.')}
+          </div>`)}
       </div>
     </section>
 
-    <section id="classement" class="py-20 px-6 bg-white">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12 fade-in">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Classement</h2>
-          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto" aria-hidden="true"></div>
-          <p class="text-gray-600 mt-6 text-lg">Classement en temps réel de l'équipe ${short}</p>
+    <section id="classement" class="section section--dark">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Championnat</p>
+            <h2 class="section__title">Classement <span>${short}</span></h2>
+          </div>
+          <a href="${url('equipes.html')}" class="link-arrow">
+            Toutes les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          </a>
         </div>
-        <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl fade-in">
+        <div class="widget-frame reveal">
           ${widgetHTML('ranking', team.widgets?.ranking, 'Classement bientôt disponible.')}
         </div>
       </div>
@@ -105,13 +115,17 @@ function teamPageHTML(team) {
 
 function notFoundHTML(slug) {
   return `
-    <section class="py-24 px-6 text-center">
-      <i class="fas fa-triangle-exclamation text-5xl text-gray-300 mb-6" aria-hidden="true"></i>
-      <h1 class="text-3xl font-bold text-gray-800 mb-4">Équipe introuvable</h1>
-      <p class="text-gray-600 mb-8">
-        Aucune équipe « ${escapeHTML(slug)} » dans <code>assets/data/teams.json</code>.
-      </p>
-      <a href="${url('equipes.html')}" class="text-blue-600 font-semibold focus-ring">Voir toutes les équipes</a>
+    <section class="section">
+      <div class="container">
+        <div class="empty">
+          <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+          <h1>Équipe introuvable</h1>
+          <p>Aucune équipe « ${escapeHTML(slug || '')} » dans <code>assets/data/teams.json</code>.</p>
+          <a href="${url('equipes.html')}" class="link-arrow">
+            Voir toutes les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
     </section>`;
 }
 
@@ -123,7 +137,7 @@ async function renderTeamPage(container) {
     teams = await getTeams();
   } catch (error) {
     console.warn('[ABBC] teams.json indisponible :', error);
-    container.innerHTML = '<p class="text-center text-gray-500 py-16">Impossible de charger cette équipe.</p>';
+    container.innerHTML = notFoundHTML(slug);
     return;
   }
 
@@ -132,38 +146,57 @@ async function renderTeamPage(container) {
   observe(container);
 }
 
-function teamCardHTML(team) {
+function teamCardHTML(team, delay) {
   return `
-    <a href="${url(`equipes/${team.page}`)}"
-       class="group bg-white rounded-2xl shadow-lg card-hover border border-gray-100 overflow-hidden slide-in focus-ring">
-      <div class="h-2 bg-gradient-to-r ${gradient(team.accent)}" aria-hidden="true"></div>
-      <div class="p-8">
-        <div class="flex items-baseline justify-between mb-4">
-          <span class="text-3xl font-bold text-gray-800">${escapeHTML(team.shortName)}</span>
-          <span class="text-xs uppercase tracking-wide text-gray-400">${escapeHTML(GROUP_LABELS[team.group] || '')}</span>
-        </div>
-        <p class="text-gray-700 font-semibold mb-1">${escapeHTML(team.displayName || team.name)}</p>
-        <p class="text-sm text-blue-600 font-medium mb-4">${escapeHTML(team.level)}</p>
-        <p class="text-sm text-gray-500 mb-6">${escapeHTML(team.description || '')}</p>
-        <span class="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm">
-          Voir l'équipe <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
-        </span>
+    <a href="${url(`equipes/${team.page}`)}" class="card card--team reveal" data-delay="${delay}"
+       style="--team-accent: ${accentOf(team)}">
+      <div class="card__body">
+        <p class="card--team__code">${escapeHTML(team.shortName)}</p>
+        <p class="card--team__name">${escapeHTML(team.displayName || team.name)}</p>
+        <p class="card--team__level">${escapeHTML(team.level || 'À définir')}</p>
+        <p class="card__text">${escapeHTML(team.description || '')}</p>
+        <p class="card__foot">
+          <span class="link-arrow">Voir l'équipe <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+        </p>
       </div>
     </a>`;
 }
 
-/** Annuaire complet, sur `equipes.html`. */
+/** Annuaire complet, sur `equipes.html`, groupé par catégorie. */
 async function renderTeamsIndex(container) {
   let teams;
   try {
     teams = await getTeams();
   } catch (error) {
     console.warn('[ABBC] teams.json indisponible :', error);
-    container.innerHTML = '<p class="col-span-full text-center text-gray-500 py-16">Impossible de charger les équipes.</p>';
+    container.innerHTML = `
+      <div class="empty">
+        <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+        <p>Impossible de charger les équipes.</p>
+      </div>`;
     return;
   }
 
-  container.innerHTML = teams.map(teamCardHTML).join('');
+  const groups = new Map();
+  teams.forEach((team) => {
+    const key = team.group || 'autres';
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(team);
+  });
+
+  container.innerHTML = Array.from(groups, ([key, list]) => `
+    <section class="list-block">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">${escapeHTML(GROUP_LABELS[key] || key)}</p>
+          <h2 class="section__title">${list.length} équipe${list.length > 1 ? 's' : ''}</h2>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        ${list.map((team, i) => teamCardHTML(team, i % 3)).join('')}
+      </div>
+    </section>`).join('');
+
   observe(container);
 }
 

@@ -1,0 +1,1115 @@
+/* ============================================================================
+   ABBC — Composants
+   ----------------------------------------------------------------------------
+   Sommaire
+     1.  Boutons
+     2.  Sections et bandes
+     3.  En-tête de site (navbar)
+     4.  Hero d'accueil
+     5.  Bandeau « prochain rendez-vous »
+     6.  Cartes (actualités, équipes, événements)
+     7.  Étiquettes et badges
+     8.  Chiffres clés
+     9.  Widgets Score'n'co
+     10. Fil d'Ariane
+     11. En-tête de page interne
+     12. Fiche d'équipe
+     13. Partenaires
+     14. Contenu d'article
+     15. Pied de page
+     16. Éléments flottants
+     17. Scène 3D
+   ========================================================================= */
+
+
+/* ============================================================================
+   1. Boutons
+   ========================================================================= */
+.btn {
+  --btn-bg: var(--brand);
+  --btn-fg: var(--white);
+  --btn-border: var(--btn-bg);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 0.9rem 1.75rem;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 2px solid var(--btn-border);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease),
+              color var(--duration-fast) var(--ease),
+              border-color var(--duration-fast) var(--ease),
+              transform var(--duration-fast) var(--ease);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn--accent { --btn-bg: var(--accent); --btn-border: var(--accent); }
+.btn--accent:hover { --btn-bg: var(--accent-strong); --btn-border: var(--accent-strong); }
+
+.btn--primary:hover { --btn-bg: var(--brand-strong); --btn-border: var(--brand-strong); }
+
+/* Contour clair : sur fond sombre ou photo. */
+.btn--outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--white);
+  --btn-border: rgba(255, 255, 255, .55);
+}
+.btn--outline:hover { --btn-bg: var(--white); --btn-fg: var(--ink-900); --btn-border: var(--white); }
+
+.btn--light { --btn-bg: var(--white); --btn-fg: var(--ink-900); --btn-border: var(--white); }
+.btn--light:hover { --btn-bg: var(--accent); --btn-fg: var(--white); --btn-border: var(--accent); }
+
+.btn--sm { padding: 0.6rem 1.1rem; font-size: var(--text-base); }
+
+/* Lien fléché, utilisé en fin de section et dans les cartes. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--accent);
+}
+.link-arrow i { transition: transform var(--duration-fast) var(--ease); }
+.link-arrow:hover i { transform: translateX(5px); }
+
+
+/* ============================================================================
+   2. Sections et bandes
+   ----------------------------------------------------------------------------
+   Le rythme du site vient de l'alternance des fonds : clair → sombre → marque.
+   ========================================================================= */
+.section { padding-block: var(--section-y); background: var(--bg); }
+.section--raised { background: var(--bg-raised); }
+
+/* Bande sombre : le contexte inverse les rôles de couleur pour que tous les
+   composants enfants s'adaptent sans classe supplémentaire. */
+.section--dark {
+  --bg-raised: var(--ink-800);
+  --text: var(--white);
+  --text-muted: var(--ink-300);
+  --border: var(--border-inverse);
+  --brand: var(--green-300);
+  background: var(--ink-900);
+  color: var(--white);
+}
+
+[data-theme="dark"] .section--dark { background: var(--ink-950); }
+
+/* Bande aux couleurs du club. */
+.section--brand {
+  --bg-raised: rgba(255, 255, 255, .06);
+  --text: var(--white);
+  --text-muted: rgba(255, 255, 255, .72);
+  --border: rgba(255, 255, 255, .18);
+  background: var(--green-700);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Filigrane du blason, très discret, dans les bandes de marque. */
+.section--brand::after {
+  content: '';
+  position: absolute;
+  right: -6%;
+  top: 50%;
+  translate: 0 -50%;
+  width: min(46rem, 60%);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, .07) 0%, transparent 68%);
+  pointer-events: none;
+}
+.section--brand > * { position: relative; z-index: 1; }
+
+/* En-tête de section : titre à gauche, lien « tout voir » à droite, séparés
+   par une ligne. C'est le motif standard des sites de clubs. */
+.section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+  padding-bottom: var(--space-4);
+  border-bottom: 2px solid var(--border);
+}
+.section__title { font-size: var(--display-sm); }
+.section__title span { color: var(--accent); }
+
+
+/* ============================================================================
+   3. En-tête de site
+   ----------------------------------------------------------------------------
+   Transparent au-dessus du hero, plein dès que la page défile
+   (classe .is-stuck posée par ui/navigation.js).
+   ========================================================================= */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--duration) var(--ease),
+              border-color var(--duration) var(--ease);
+}
+.site-header.is-stuck {
+  background: var(--bg-raised);
+  border-bottom-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Les pages internes n'ont pas de hero : l'en-tête y est plein d'emblée. */
+body:not([data-hero]) .site-header { background: var(--bg-raised); border-bottom-color: var(--border); }
+body:not([data-hero]) { padding-top: var(--header-h); }
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--header-h);
+}
+
+.brand { display: flex; align-items: center; gap: var(--space-3); margin-right: auto; }
+.brand img { width: 44px; height: 44px; border-radius: 50%; }
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--header-fg, var(--text));
+}
+.brand__name small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  color: var(--accent);
+}
+
+/* Sur le hero, le texte de l'en-tête est blanc ; une fois collé, il reprend
+   la couleur du thème. */
+body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
+
+.site-nav { display: flex; align-items: center; gap: var(--space-1); }
+@media (max-width: 1023px) { .site-nav { display: none; } }
+
+.nav-link {
+  position: relative;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--header-fg, var(--text));
+  transition: color var(--duration-fast) var(--ease);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: 0.35rem;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration) var(--ease);
+}
+.nav-link:hover::after,
+.nav-link[data-active="true"]::after { transform: scaleX(1); }
+
+/* Mega-menu Équipes */
+.nav-item { position: relative; }
+.nav-item > .nav-link i { font-size: 0.65em; margin-left: var(--space-2); }
+
+.mega {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50% 0;
+  min-width: 34rem;
+  padding: var(--space-6);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  opacity: 0;
+  visibility: hidden;
+  translate: -50% 8px;
+  transition: opacity var(--duration) var(--ease),
+              translate var(--duration) var(--ease),
+              visibility var(--duration);
+}
+.nav-item:hover .mega,
+.nav-item:focus-within .mega { opacity: 1; visibility: visible; translate: -50% 0; }
+
+.mega__group-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--accent);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.mega__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  transition: background-color var(--duration-fast) var(--ease);
+}
+.mega__link:hover { background: var(--brand-soft); }
+.mega__link b {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  min-width: 3.2rem;
+}
+.mega__link span { font-size: var(--text-sm); color: var(--text-muted); }
+
+/* Actions à droite de l'en-tête */
+.header-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius);
+  color: var(--header-fg, var(--text));
+  transition: background-color var(--duration-fast) var(--ease);
+}
+.icon-btn:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+
+.burger { display: none; }
+@media (max-width: 1023px) { .burger { display: grid; } }
+
+/* Sous 1024px, le bouton d'appel à l'action laisse la place au burger :
+   « Nous rejoindre » reste accessible dans le panneau mobile. */
+@media (max-width: 1023px) { .nav-cta { display: none; } }
+
+/* Panneau mobile */
+.mobile-nav {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  z-index: 99;
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border);
+  padding: var(--space-5) 0 var(--space-8);
+  overflow-y: auto;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--duration) var(--ease), visibility var(--duration);
+}
+.mobile-nav.is-open { transform: none; visibility: visible; }
+@media (min-width: 1024px) { .mobile-nav { display: none; } }
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-4) var(--gutter);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+.mobile-nav__link[data-active="true"] { color: var(--accent); }
+.mobile-nav__sub { display: none; background: var(--bg-sunken); }
+.mobile-nav__sub.is-open { display: block; }
+.mobile-nav__sub a {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--gutter) var(--space-3) calc(var(--gutter) + var(--space-5));
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-sm);
+}
+.mobile-nav__sub a b { font-family: var(--font-display); min-width: 3.2rem; }
+.mobile-nav__sub a span { color: var(--text-muted); }
+.mobile-nav__group {
+  padding: var(--space-4) var(--gutter) var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--accent);
+}
+.burger i { transition: transform var(--duration-fast) var(--ease); }
+.mobile-nav__link i { transition: transform var(--duration-fast) var(--ease); font-size: 0.7em; }
+.mobile-nav__link[aria-expanded="true"] i { transform: rotate(180deg); }
+
+
+/* ============================================================================
+   4. Hero d'accueil
+   ========================================================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--header-h);
+  background: var(--green-900);
+  color: var(--white);
+  overflow: hidden;
+}
+
+.hero__media { position: absolute; inset: 0; }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Deux couches : un voile vert pour ancrer la marque, un dégradé sombre en
+   bas à gauche pour garantir le contraste du texte. */
+.hero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgba(8, 22, 10, .97) 0%, rgba(10, 30, 12, .92) 38%, rgba(14, 42, 17, .68) 72%, rgba(20, 60, 23, .55) 100%),
+    linear-gradient(0deg, rgba(8, 22, 10, .9) 0%, transparent 42%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: var(--space-7);
+  padding-block: var(--space-8) var(--space-9);
+  width: 100%;
+}
+@media (max-width: 1023px) {
+  .hero__inner { grid-template-columns: 1fr; padding-block: var(--space-7) var(--space-8); }
+  .hero__visual { order: -1; }
+}
+
+.hero__title {
+  font-size: var(--display-xl);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.005em;
+  margin-bottom: var(--space-5);
+}
+.hero__title span { display: block; }
+.hero__title .is-accent { color: var(--orange-400); }
+
+.hero__lede {
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+  color: rgba(255, 255, 255, .82);
+  max-width: 34rem;
+  margin-bottom: var(--space-6);
+}
+.hero__lede b { color: var(--white); font-weight: 700; }
+
+.hero__eyebrow { color: var(--orange-400); }
+.hero__eyebrow::before { background: var(--orange-400); }
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-5);
+  translate: -50% 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: rgba(255, 255, 255, .6);
+}
+.hero__scroll i { animation: nudge 1.8s var(--ease) infinite; }
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+@media (max-width: 1023px) { .hero__scroll { display: none; } }
+
+
+/* ============================================================================
+   5. Bandeau « prochain rendez-vous »
+   ----------------------------------------------------------------------------
+   L'élément signature des sites de clubs : une barre pleine largeur qui
+   chevauche le bas du hero et annonce la prochaine échéance.
+   ========================================================================= */
+.nextup {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--space-8) * -1);
+  background: var(--accent);
+  color: var(--white);
+}
+@media (max-width: 767px) { .nextup { margin-top: 0; } }
+
+.nextup__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
+}
+
+.nextup__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-right: var(--space-5);
+  border-right: 2px solid rgba(255, 255, 255, .3);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  line-height: 1.3;
+}
+@media (max-width: 767px) { .nextup__label { border-right: 0; padding-right: 0; } }
+
+.nextup__date {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.nextup__title { font-weight: 700; font-size: var(--text-lg); }
+.nextup__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, .85);
+}
+.nextup__meta span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.nextup__cta { margin-left: auto; }
+@media (max-width: 767px) { .nextup__cta { margin-left: 0; } }
+
+.nextup--empty { background: var(--ink-800); }
+
+
+/* ============================================================================
+   6. Cartes
+   ========================================================================= */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease),
+              border-color var(--duration) var(--ease);
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+
+.card__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-sunken); }
+/* Article sans visuel : le bloc garde sa hauteur pour ne pas casser la grille. */
+.card__media-empty { height: 100%; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; transition: scale var(--duration) var(--ease); }
+.card:hover .card__media img { scale: 1.04; }
+
+.card__body { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-5); flex: 1; }
+.card__title { font-size: 1.5rem; line-height: 1.1; }
+.card__text { font-size: var(--text-sm); color: var(--text-muted); }
+.card__foot { margin-top: auto; padding-top: var(--space-3); }
+.card__date {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-faint);
+}
+
+/* Grille éditoriale de l'accueil : un article en vedette occupe toute la
+   hauteur de la colonne de gauche, les deux suivants s'empilent à droite. */
+.news-grid { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
+@media (min-width: 900px) {
+  .news-grid {
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .news-grid .card--feature { grid-row: span 2; }
+
+  /* Tant que le club n'a publié qu'un article, la vedette occupe toute la
+     largeur plutôt que de laisser une colonne vide. */
+  .news-grid .card--feature:only-child { grid-column: 1 / -1; }
+}
+
+/* --- Actualité mise en avant : image pleine, texte en surimpression --- */
+.card--feature { min-height: 26rem; }
+.card--feature .card__media { position: absolute; inset: 0; aspect-ratio: auto; }
+.card--feature .card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Le club publie ses propres photos : le voile doit rester lisible quelle
+     que soit la luminosité de l'image. */
+  background: linear-gradient(0deg,
+    rgba(8, 22, 10, .96) 0%,
+    rgba(8, 22, 10, .82) 35%,
+    rgba(8, 22, 10, .45) 65%,
+    rgba(8, 22, 10, .18) 100%);
+}
+.card--feature .card__body {
+  position: relative;
+  justify-content: flex-end;
+  color: var(--white);
+  padding: var(--space-6);
+}
+.card--feature .card__title { font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem); }
+.card--feature .card__text { color: rgba(255, 255, 255, .8); }
+.card--feature .card__date { color: rgba(255, 255, 255, .7); }
+
+@media (max-width: 899px) {
+  .card--feature { min-height: 22rem; }
+}
+
+/* --- Carte équipe : le code d'équipe en très gros, barre d'accent au-dessus --- */
+.card--team { padding-top: 5px; background: var(--bg-raised); }
+.card--team::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--team-accent, var(--brand));
+}
+.card--team .card__body { gap: var(--space-2); }
+.card--team__code {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--text);
+}
+.card--team__name { font-weight: 600; }
+.card--team__level {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--team-accent, var(--brand));
+}
+[data-theme="dark"] .card--team__level,
+.section--dark .card--team__level {
+  color: color-mix(in srgb, var(--team-accent, var(--brand)) 45%, white);
+}
+
+/* --- Carte événement : bloc date à gauche --- */
+.event {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-5);
+  align-items: start;
+  padding: var(--space-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--event-accent, var(--brand));
+  border-radius: var(--radius);
+  transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+.event:hover { transform: translateX(4px); box-shadow: var(--shadow); }
+
+.event__date {
+  display: grid;
+  place-items: center;
+  gap: 0;
+  min-width: 4.75rem;
+  padding: var(--space-3) var(--space-2);
+  background: var(--event-accent, var(--brand));
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.event__day { font-size: 2rem; font-weight: 700; }
+.event__month { font-size: var(--text-sm); letter-spacing: var(--tracking-wide); }
+.event__year { font-size: var(--text-xs); opacity: .75; margin-top: 2px; }
+
+.event__title { font-size: 1.4rem; margin-bottom: var(--space-2); }
+.event__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+.event__meta span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.event__meta i { color: var(--event-accent, var(--brand)); }
+[data-theme="dark"] .event__meta i,
+.section--dark .event__meta i {
+  color: color-mix(in srgb, var(--event-accent, var(--brand)) 45%, white);
+}
+.event__text { font-size: var(--text-sm); color: var(--text-faint); }
+
+.event--past { opacity: .62; }
+
+/* Bloc de liste séparé du suivant (sections « À venir » / « Déjà passés »,
+   groupes de l'annuaire des équipes). */
+.list-block + .list-block,
+.list-block { margin-bottom: var(--space-8); }
+.list-block:last-child { margin-bottom: 0; }
+
+/* Ligne d'étiquettes sous le nom d'une équipe. */
+.team-hero__tags { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+
+/* État vide générique */
+.empty {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5);
+  text-align: center;
+  color: var(--text-faint);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+.empty i { font-size: 2rem; opacity: .5; }
+
+
+/* ============================================================================
+   7. Étiquettes et badges
+   ========================================================================= */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.3rem 0.7rem;
+  background: var(--chip-bg, var(--accent));
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  line-height: 1.4;
+  align-self: flex-start;
+}
+.chip--outline {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: var(--accent);
+}
+/* Variante lisible sur les fonds sombres (en-tête de fiche d'équipe). */
+.chip--light { color: var(--orange-400); }
+
+
+/* ============================================================================
+   8. Chiffres clés
+   ========================================================================= */
+/* Deux colonnes fixes : les quatre chiffres forment un carré plein, sans
+   cellule orpheline quelle que soit la largeur. */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--border); }
+.stat { padding: var(--space-6) var(--space-4); background: var(--bg-raised); text-align: center; }
+.stat__num {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--accent);
+}
+.stat__label {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+
+/* ============================================================================
+   9. Widgets Score'n'co
+   ========================================================================= */
+.widget {
+  min-height: 220px;
+  position: relative;
+  /* Le script tiers laisse un texte de repli visible : on le masque en
+     attendant que le widget prenne la main. */
+  font-size: 0;
+  color: transparent;
+}
+.widget-frame {
+  padding: var(--space-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.widget-loader {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 46px; height: 46px;
+  translate: -50% -50%;
+  border: 4px solid var(--brand);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Identifiant absent ou script injoignable : encart lisible plutôt qu'un
+   chargement qui ne se termine jamais. */
+.widget-pending,
+.widget--failed {
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  min-height: 220px;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+.widget-pending i { font-size: 1.75rem; opacity: .45; }
+.widget-pending__help { font-size: var(--text-xs); color: var(--text-faint); }
+.widget-pending__help code {
+  padding: 0.1rem 0.35rem;
+  background: var(--bg-raised);
+  border-radius: var(--radius-sm);
+  font-size: 0.95em;
+}
+
+
+/* ============================================================================
+   10. Fil d'Ariane
+   ========================================================================= */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-faint);
+}
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb [aria-current] { color: var(--accent); }
+
+
+/* ============================================================================
+   11. En-tête de page interne
+   ========================================================================= */
+.page-head {
+  position: relative;
+  padding-block: var(--space-8);
+  background: var(--green-800);
+  color: var(--white);
+  overflow: hidden;
+}
+.page-head::after {
+  content: '';
+  position: absolute;
+  inset: auto -10% -60% auto;
+  width: 34rem;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(255, 255, 255, .06), transparent 65%);
+}
+.page-head > * { position: relative; z-index: 1; }
+.page-head .breadcrumb { color: rgba(255, 255, 255, .6); margin-bottom: var(--space-5); }
+.page-head .breadcrumb [aria-current] { color: var(--orange-400); }
+.page-head__title { font-size: var(--display-lg); line-height: var(--leading-tight); }
+.page-head__lede { color: rgba(255, 255, 255, .78); max-width: var(--measure); margin-top: var(--space-4); }
+
+
+/* ============================================================================
+   12. Fiche d'équipe
+   ========================================================================= */
+.team-hero { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-5) var(--space-7); }
+.team-hero__code {
+  font-family: var(--font-display);
+  font-size: var(--display-lg);
+  font-weight: 700;
+  line-height: 0.82;
+  color: var(--white);
+}
+.team-hero__meta { padding-bottom: var(--space-2); }
+.team-hero__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  text-transform: uppercase;
+  color: var(--orange-400);
+  line-height: 1.1;
+}
+.team-hero__desc { color: rgba(255, 255, 255, .78); max-width: 40rem; margin-top: var(--space-3); }
+
+.info-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-raised);
+}
+.info-row dt {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-faint);
+}
+.info-row dd { margin: 0; font-weight: 600; text-align: right; }
+
+.panel { display: flex; flex-direction: column; gap: var(--space-4); }
+.panel__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1.35rem;
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--border);
+}
+.panel__title i { color: var(--accent); font-size: 0.85em; }
+
+
+/* ============================================================================
+   13. Partenaires
+   ========================================================================= */
+.partners { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.partner {
+  display: grid;
+  place-items: center;
+  min-height: 8rem;
+  padding: var(--space-5);
+  background: var(--bg-raised);
+  text-align: center;
+  transition: background-color var(--duration-fast) var(--ease);
+}
+.partner:hover { background: var(--brand-soft); }
+.partner img { max-height: 4rem; width: auto; filter: grayscale(1); opacity: .7; transition: filter var(--duration) var(--ease), opacity var(--duration) var(--ease); }
+.partner:hover img { filter: none; opacity: 1; }
+.partner__name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
+}
+
+
+/* ============================================================================
+   14. Contenu d'article
+   ========================================================================= */
+
+/* En-tête d'article : étiquette, titre, date, visuel. */
+.article__title { font-size: var(--display-md); margin: var(--space-4) 0; }
+.article__meta { margin-bottom: var(--space-6); }
+.article__cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: var(--space-7);
+}
+.article__back { margin-top: var(--space-7); }
+.article__breadcrumb { margin-bottom: var(--space-5); }
+
+.prose { max-width: var(--measure); font-size: var(--text-lg); }
+.prose > * + * { margin-top: 1.35rem; }
+.prose h2 { font-size: 1.9rem; margin-top: 2.5rem; }
+.prose h3 { font-size: 1.4rem; margin-top: 2rem; }
+.prose ul { list-style: disc; padding-left: 1.4rem; }
+.prose ol { list-style: decimal; padding-left: 1.4rem; }
+.prose li + li { margin-top: 0.4rem; }
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose code { padding: 0.1rem 0.35rem; background: var(--bg-sunken); border-radius: var(--radius-sm); font-size: 0.9em; }
+.prose blockquote {
+  padding-left: var(--space-5);
+  border-left: 4px solid var(--accent);
+  font-style: italic;
+  color: var(--text-muted);
+}
+.prose img { border-radius: var(--radius); }
+
+
+/* ============================================================================
+   15. Pied de page
+   ========================================================================= */
+.site-footer {
+  background: var(--ink-950);
+  color: var(--ink-300);
+  padding-block: var(--space-8) var(--space-5);
+  border-top: 4px solid var(--accent);
+}
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-7);
+  padding-bottom: var(--space-7);
+}
+.site-footer h3 {
+  font-size: var(--text-base);
+  letter-spacing: var(--tracking-wider);
+  color: var(--white);
+  margin-bottom: var(--space-4);
+}
+.site-footer a:hover { color: var(--orange-400); }
+.site-footer .brand__name { color: var(--white); }
+.footer-links { display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+.footer-contact { display: grid; gap: var(--space-3); font-size: var(--text-sm); }
+.footer-contact li { display: flex; gap: var(--space-3); }
+.footer-contact i { color: var(--orange-400); margin-top: 0.25rem; }
+
+.socials { display: flex; gap: var(--space-2); margin-top: var(--space-5); }
+.social {
+  display: grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  background: var(--ink-800);
+  border-radius: var(--radius);
+  color: var(--ink-300);
+  transition: background-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
+}
+.social:hover { background: var(--accent); color: var(--white); }
+
+.newsletter { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+.newsletter input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7rem var(--space-4);
+  background: var(--ink-800);
+  border: 1px solid var(--ink-700);
+  border-radius: var(--radius);
+  color: var(--white);
+  font-size: var(--text-sm);
+}
+.newsletter input::placeholder { color: var(--ink-400); }
+.newsletter input:focus { outline: none; border-color: var(--accent); }
+.form-feedback { margin-top: var(--space-2); font-size: var(--text-xs); }
+.form-feedback.is-success { color: var(--green-300); }
+.form-feedback.is-error { color: var(--orange-400); }
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ink-800);
+  font-size: var(--text-xs);
+  color: var(--ink-400);
+}
+
+
+/* ============================================================================
+   16. Éléments flottants
+   ========================================================================= */
+.scroll-progress {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 200;
+  width: 0;
+  height: 3px;
+  background: var(--accent);
+  transition: width 80ms linear;
+}
+
+.to-top {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  background: var(--brand);
+  color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 10px;
+  transition: opacity var(--duration) var(--ease), translate var(--duration) var(--ease),
+              visibility var(--duration), background-color var(--duration-fast) var(--ease);
+}
+.to-top.is-visible { opacity: 1; visibility: visible; translate: 0; }
+.to-top:hover { background: var(--accent); }
+
+.partial-error {
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+
+/* ============================================================================
+   17. Scène 3D
+   ========================================================================= */
+.hero-3d {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.hero-3d.is-grabbing { cursor: grabbing; }
+.hero-3d canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+.hero-3d__fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity .6s var(--ease);
+}
+.hero-3d__fallback img { width: 62%; border-radius: 50%; box-shadow: var(--shadow-lg); }
+.hero-3d[data-hero3d-state="ready"] .hero-3d__fallback { opacity: 0; pointer-events: none; }
+
+.hero-3d__hint {
+  position: absolute;
+  inset: auto 0 -0.5rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: rgba(255, 255, 255, .55);
+  opacity: 0;
+  transition: opacity .6s var(--ease) .4s;
+  pointer-events: none;
+}
+.hero-3d[data-hero3d-state="ready"] .hero-3d__hint { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero-3d__hint { display: none; } }

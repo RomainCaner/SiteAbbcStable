@@ -1,0 +1,158 @@
+/* ============================================================================
+   ABBC — Jetons de design
+   ----------------------------------------------------------------------------
+   Point d'entrée unique pour l'identité visuelle. Toute couleur, taille de
+   texte ou espacement du site descend d'une variable définie ici : changer la
+   marque se fait dans ce fichier, pas dans les composants.
+
+   Les couleurs de marque sont prélevées sur le logo du club :
+     vert   #226321   fond du blason
+     orange #E85F11   ballon
+     blanc  #FFFFFF   typographie du blason
+   ========================================================================= */
+
+:root {
+  /* ---------- Palette de marque ---------- */
+  --green-950: #08160A;
+  --green-900: #0E2A11;
+  --green-800: #143C17;
+  --green-700: #1A4F1D;
+  --green-600: #226321;   /* vert officiel du logo */
+  --green-500: #2E7D2B;
+  --green-400: #3F9C39;
+  --green-300: #6FBF67;
+  --green-100: #DCEEDA;
+  --green-50:  #F0F7EF;
+
+  --orange-700: #A83E06;
+  --orange-600: #C94E0A;
+  --orange-500: #E85F11;  /* orange officiel du ballon */
+  --orange-400: #FF7A2E;
+  --orange-100: #FDE4D3;
+
+  /* ---------- Neutres (légèrement verdis pour rester dans la famille) ---- */
+  --ink-950: #080B08;
+  --ink-900: #0F140F;
+  --ink-800: #18201A;
+  --ink-700: #232E25;
+  --ink-600: #3A473C;
+  --ink-500: #59665B;
+  --ink-400: #7C877E;
+  --ink-300: #A8B0A9;
+  --ink-200: #D3D8D2;
+  --ink-100: #E8EBE6;
+  --ink-50:  #F4F6F2;
+  --white:   #FFFFFF;
+
+  /* ---------- Rôles sémantiques (thème clair) ----------
+     Les composants n'utilisent QUE ces variables-là : le thème sombre se
+     contente de les redéfinir plus bas. */
+  --bg:            var(--ink-50);
+  --bg-raised:     var(--white);
+  --bg-sunken:     var(--ink-100);
+  --bg-inverse:    var(--ink-900);
+
+  --text:          var(--ink-900);
+  --text-muted:    var(--ink-500);
+  --text-faint:    var(--ink-400);
+  --text-inverse:  var(--white);
+  --text-on-brand: var(--white);
+
+  --border:        var(--ink-200);
+  --border-strong: var(--ink-300);
+  --border-inverse: rgba(255, 255, 255, .14);
+
+  --brand:         var(--green-600);
+  --brand-strong:  var(--green-700);
+  --brand-soft:    var(--green-50);
+  --accent:        var(--orange-500);
+  --accent-strong: var(--orange-600);
+
+  --focus:         var(--orange-400);
+
+  /* ---------- Typographie ----------
+     Display condensée majuscules pour les titres (codes visuels du sport),
+     Inter pour tout le texte courant. */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Échelle fluide : la taille s'adapte à la largeur sans media query. */
+  --text-xs:   0.75rem;
+  --text-sm:   0.8125rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+
+  --display-sm: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  --display-md: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+  --display-lg: clamp(2.5rem, 1.6rem + 4vw, 5rem);
+  --display-xl: clamp(2.75rem, 1.3rem + 5vw, 6rem);
+
+  --leading-tight: 0.92;
+  --leading-snug:  1.2;
+  --leading-body:  1.65;
+
+  --tracking-wide:  0.08em;
+  --tracking-wider: 0.16em;
+
+  /* ---------- Rythme ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --gutter:    clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  --measure:   68ch;   /* longueur de ligne confortable */
+  --container: 1280px;
+
+  /* ---------- Formes ----------
+     Angles quasi nets : les grands arrondis sont la signature des gabarits
+     génériques, les sites de clubs restent anguleux. */
+  --radius-sm: 2px;
+  --radius:    4px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(8, 22, 10, .08);
+  --shadow:    0 4px 16px rgba(8, 22, 10, .10);
+  --shadow-lg: 0 18px 48px rgba(8, 22, 10, .18);
+
+  /* ---------- Mouvement ---------- */
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --duration-fast: 140ms;
+  --duration: 260ms;
+
+  --header-h: 72px;
+}
+
+/* ============================================================================
+   Thème sombre — seuls les rôles changent, jamais les composants.
+   ========================================================================= */
+[data-theme="dark"] {
+  --bg:            var(--ink-900);
+  --bg-raised:     var(--ink-800);
+  --bg-sunken:     var(--ink-950);
+  --bg-inverse:    var(--ink-950);
+
+  --text:          var(--ink-50);
+  --text-muted:    var(--ink-300);
+  --text-faint:    var(--ink-400);
+  --text-inverse:  var(--white);
+
+  --border:        var(--ink-700);
+  --border-strong: var(--ink-600);
+
+  --brand:         var(--green-400);
+  --brand-strong:  var(--green-300);
+  --brand-soft:    var(--green-900);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5);
+  --shadow:    0 4px 16px rgba(0, 0, 0, .55);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, .6);
+}

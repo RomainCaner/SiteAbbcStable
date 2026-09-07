@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SF1 · Senior Féminine 1 · ABB Cornebarrieu</title>
   <meta name="description" content="Équipe Senior Féminine 1 (SF1) de l'ABB Cornebarrieu évoluant en Nationale 3 — entraîneur Stéphane Soulé. Résultats, effectif et classement en temps réel.">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="SF1 · Senior Féminine 1 · ABBC">
@@ -24,17 +24,21 @@
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/styles.css">
-</head>
-<body class="bg-gray-50 text-gray-800" data-page="equipes" data-team="sf1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body data-page="equipes" data-team="sf1">
+
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div data-partial="navbar"></div>
 
-  <main id="main-content">
+  <main id="main">
     <!--
       Cette page est une coquille : son contenu (en-tête, informations,
       rencontres, effectif, classement) est généré par
@@ -43,7 +47,7 @@
       identifiant de widget Score'n'co, éditez le JSON, pas ce fichier.
     -->
     <div id="team-page">
-      <p class="text-center text-gray-500 py-24">Chargement de l'équipe…</p>
+      <p style="padding: var(--space-9) var(--gutter); text-align: center">Chargement de l'équipe…</p>
     </div>
   </main>
 

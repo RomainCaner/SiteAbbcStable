@@ -11,7 +11,7 @@
 
 import { prefersReducedMotion } from '../core/dom.js';
 
-const REVEAL_SELECTOR = '.fade-in, .slide-in, .bounce-in';
+const REVEAL_SELECTOR = '.reveal';
 
 let revealObserver = null;
 let reducedMotion = false;

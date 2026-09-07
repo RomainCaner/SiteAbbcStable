@@ -1,9 +1,9 @@
 /**
- * ui/navigation.js — Comportements de la navbar et du footer.
+ * ui/navigation.js — Comportements de l'en-tête et du pied de page.
  *
  * Le mega-menu « Équipes » (desktop et mobile) est généré depuis
- * `teams.json` : ajouter une équipe au JSON suffit à la faire apparaître
- * dans la navigation, sans toucher au HTML du fragment.
+ * `teams.json` : ajouter une équipe au JSON suffit à la faire apparaître dans
+ * la navigation, sans toucher au fragment HTML.
  */
 
 import { escapeHTML } from '../core/dom.js';
@@ -26,29 +26,26 @@ function groupTeams(teams) {
   return groups;
 }
 
-const teamLink = (team, className) =>
-  `<a href="${url(`equipes/${team.page}`)}" class="${className}" role="menuitem">
-     ${escapeHTML(team.shortName)} — ${escapeHTML(team.level)}
-   </a>`;
+const teamLink = (team, className) => `
+  <a href="${url(`equipes/${team.page}`)}" class="${className}">
+    <b>${escapeHTML(team.shortName)}</b>
+    <span>${escapeHTML(team.level)}</span>
+  </a>`;
+
+const groupLabel = (key) => escapeHTML(GROUP_LABELS[key] || key);
 
 function renderDesktopMenu(container, groups) {
   container.innerHTML = Array.from(groups, ([key, teams]) => `
     <div>
-      <h3 class="team-menu-title team-menu-title--${escapeHTML(key)}">
-        ${escapeHTML(GROUP_LABELS[key] || key)}
-      </h3>
-      <ul class="space-y-2">
-        ${teams.map((team) => `<li>${teamLink(team, 'block text-gray-700 hover:text-blue-600 text-sm')}</li>`).join('')}
-      </ul>
+      <p class="mega__group-title">${groupLabel(key)}</p>
+      ${teams.map((team) => teamLink(team, 'mega__link')).join('')}
     </div>`).join('');
 }
 
 function renderMobileMenu(container, groups) {
   container.innerHTML = Array.from(groups, ([key, teams]) => `
-    <p class="team-menu-title team-menu-title--${escapeHTML(key)} px-4 pt-3 pb-1 text-xs">
-      ${escapeHTML(GROUP_LABELS[key] || key)}
-    </p>
-    ${teams.map((team) => teamLink(team, 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100')).join('')}
+    <p class="mobile-nav__group">${groupLabel(key)}</p>
+    ${teams.map((team) => teamLink(team, '')).join('')}
   `).join('');
 }
 
@@ -63,47 +60,65 @@ async function renderTeamMenus() {
     if (mobile) renderMobileMenu(mobile, groups);
   } catch (error) {
     console.warn('[ABBC] Menu des équipes non généré :', error);
+    if (desktop) desktop.innerHTML = '<p>Menu indisponible.</p>';
   }
 }
 
+/**
+ * En-tête transparent au-dessus du hero, plein dès que la page défile.
+ * Les pages sans hero sont pleines d'emblée (géré en CSS).
+ */
+function initStickyHeader() {
+  const header = document.getElementById('site-header');
+  if (!header) return;
+
+  const update = () => header.classList.toggle('is-stuck', window.scrollY > 40);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
 /** Bouton hamburger : ouvre/ferme le panneau mobile. */
-function initMobileMenu() {
+function initMobileNav() {
   const toggle = document.getElementById('nav-toggle');
-  const menu = document.getElementById('mobile-menu');
+  const panel = document.getElementById('mobile-nav');
   const icon = document.getElementById('nav-icon');
-  if (!toggle || !menu || !icon) return;
+  if (!toggle || !panel || !icon) return;
 
   const setOpen = (open) => {
-    menu.classList.toggle('hidden', !open);
+    panel.classList.toggle('is-open', open);
     icon.classList.toggle('fa-bars', !open);
-    icon.classList.toggle('fa-times', open);
+    icon.classList.toggle('fa-xmark', open);
     toggle.setAttribute('aria-expanded', String(open));
+    // Empêche la page de défiler derrière le panneau ouvert.
+    document.body.style.overflow = open ? 'hidden' : '';
   };
 
-  toggle.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+  toggle.addEventListener('click', () => setOpen(!panel.classList.contains('is-open')));
 
-  // Un clic sur n'importe quel lien du panneau le referme.
-  menu.addEventListener('click', (event) => {
+  // Un clic sur un lien referme le panneau.
+  panel.addEventListener('click', (event) => {
     if (event.target.closest('a')) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && panel.classList.contains('is-open')) setOpen(false);
   });
 }
 
-/** Accordéon « Équipes » à l'intérieur du panneau mobile. */
+/** Accordéon « Équipes » dans le panneau mobile. */
 function initMobileTeamsAccordion() {
   const toggle = document.getElementById('mobile-teams-toggle');
-  const menu = document.getElementById('mobile-teams-menu');
-  const icon = document.getElementById('mobile-teams-icon');
-  if (!toggle || !menu || !icon) return;
+  const sub = document.getElementById('teams-menu-mobile');
+  if (!toggle || !sub) return;
 
   toggle.addEventListener('click', () => {
-    const open = menu.classList.contains('hidden');
-    menu.classList.toggle('hidden', !open);
-    icon.classList.toggle('rotate-180', open);
+    const open = !sub.classList.contains('is-open');
+    sub.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
   });
 }
 
-/** Souligne l'entrée de menu correspondant à `<body data-page="…">`. */
+/** Marque l'entrée de menu correspondant à `<body data-page="…">`. */
 function markActivePage() {
   const page = document.body.dataset.page;
   if (!page) return;
@@ -126,10 +141,10 @@ function initFooter() {
     const feedback = document.getElementById('newsletter-feedback');
     if (!input || !feedback) return;
 
-    // TODO : brancher un vrai service (Mailchimp, Brevo…). Pour l'instant,
+    // TODO : brancher un vrai service (Brevo, Mailchimp…). Pour l'instant,
     // seule la validité du format est vérifiée côté client.
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
-    feedback.className = valid ? 'success' : 'error';
+    feedback.className = `form-feedback ${valid ? 'is-success' : 'is-error'}`;
     feedback.textContent = valid
       ? 'Merci ! Votre inscription a bien été prise en compte.'
       : 'Veuillez saisir une adresse email valide.';
@@ -137,9 +152,10 @@ function initFooter() {
   });
 }
 
-/** Branche navbar + footer. À appeler après `loadPartials()`. */
+/** Branche l'en-tête et le pied de page. À appeler après `loadPartials()`. */
 export function initNavigation() {
-  initMobileMenu();
+  initStickyHeader();
+  initMobileNav();
   initMobileTeamsAccordion();
   markActivePage();
   initTheme();

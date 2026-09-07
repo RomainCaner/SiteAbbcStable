@@ -28,7 +28,7 @@ function initBackToTop() {
   if (!button) return;
 
   window.addEventListener('scroll', () => {
-    button.classList.toggle('visible', window.scrollY > 400);
+    button.classList.toggle('is-visible', window.scrollY > 400);
   }, { passive: true });
 
   button.addEventListener('click', () => {

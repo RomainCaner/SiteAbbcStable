@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nos équipes · ABB Cornebarrieu</title>
-  <meta name="description" content="Toutes les équipes de l'Association Basket-Ball de Cornebarrieu (ABBC) : seniors féminines et masculines, U18 et U15. Niveaux, entraîneurs et classements en temps réel.">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="description" content="Toutes les équipes de l'ABB Cornebarrieu : seniors féminines et masculines, U18 et U15. Niveaux, entraîneurs et classements en temps réel.">
+  <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Nos équipes · ABB Cornebarrieu">
@@ -24,38 +24,38 @@
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-gray-50 text-gray-800" data-page="equipes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body data-page="equipes">
+
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div data-partial="navbar"></div>
 
-  <main id="main-content">
-
-    <section class="py-20 px-6 bg-white">
-      <div class="max-w-6xl mx-auto text-center fade-in">
-        <nav aria-label="Fil d'Ariane" class="breadcrumb justify-center">
+  <main id="main">
+    <header class="page-head">
+      <div class="container">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb">
           <a href="index.html">Accueil</a>
-          <span aria-hidden="true">›</span>
-          <span class="breadcrumb-current">Équipes</span>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Équipes</span>
         </nav>
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
-          <span class="block text-blue-600">Nos équipes</span>
-        </h1>
-        <p class="text-xl text-gray-600">Des U15 aux Seniors, découvrez toutes les équipes du club</p>
-        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mt-8" aria-hidden="true"></div>
+        <h1 class="page-head__title">Nos équipes</h1>
+        <p class="page-head__lede">Des U15 aux Seniors, neuf collectifs portent les couleurs du club chaque week-end.</p>
       </div>
-    </section>
+    </header>
 
-    <section class="py-16 px-6 bg-gray-50">
-      <div class="max-w-7xl mx-auto">
+    <section class="section">
+      <div class="container">
         <!-- Cartes générées par content/teams.js depuis assets/data/teams.json -->
-        <div id="teams-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <p class="col-span-full text-center text-gray-500 py-12">Chargement des équipes…</p>
+        <div id="teams-grid">
+          <p>Chargement des équipes…</p>
         </div>
       </div>
     </section>
