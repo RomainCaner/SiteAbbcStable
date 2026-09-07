@@ -117,12 +117,28 @@ for (const r of reponses.sort((a, b) => score(b) - score(a) || b.taille - a.tail
   );
 }
 
-// --- 3. Le corps de la meilleure candidate -------------------------------
+// --- 3. Où sont les clés de classement dans la meilleure candidate -------
+//
+// Chercher le club ne suffit pas : il figure aussi dans les rencontres, et
+// c'est cette occurrence-là qu'on tombe en premier. Ce sont les clés propres
+// au classement qu'il faut situer.
 const meilleure = reponses.find((r) => score(r) >= 3);
 if (meilleure) {
-  console.log(`\n--- Extrait de ${meilleure.url} ---`);
-  const position = meilleure.corps.search(CLUB);
-  console.log(meilleure.corps.slice(Math.max(0, position - 900), position + 900));
+  console.log(`\n--- Clés de classement dans ${meilleure.url} ---`);
+  const vues = new Set();
+  const motif = new RegExp(CLASSEMENT.source, 'gi');
+  let trouve;
+  let echantillons = 0;
+  while ((trouve = motif.exec(meilleure.corps)) && echantillons < 6) {
+    const cle = trouve[1].toLowerCase();
+    if (vues.has(cle)) continue; // une occurrence par clé suffit à situer
+    vues.add(cle);
+    echantillons += 1;
+    const debut = Math.max(0, trouve.index - 260);
+    console.log(`\n  « ${cle} » à la position ${trouve.index} :`);
+    console.log(`    …${meilleure.corps.slice(debut, trouve.index + 460)}…`);
+  }
+  if (!echantillons) console.log('  Aucune, finalement.');
 } else {
   console.log('\nAucune réponse ne contient à la fois le club et une forme de classement.');
 }
@@ -142,5 +158,53 @@ const routes = await page.evaluate(() =>
 );
 console.log(`\n--- Formes de routes de la page (${routes.length}) ---`);
 routes.forEach((r) => console.log(`  ${r}`));
+
+
+// --- 5. Le classement est-il derrière un onglet ? ------------------------
+//
+// La page s'ouvre sur le calendrier — d'où les rencontres, et le club absent
+// de l'écran. S'il existe une commande « Classement », la suivre montre d'où
+// vient la donnée : une navigation (autre URL) ou un appel (autre requête).
+const avant = reponses.length;
+const commande = page
+  .locator('a, button, [role="tab"]')
+  .filter({ hasText: /classement/i })
+  .first();
+
+if (await commande.count()) {
+  const libelle = (await commande.textContent())?.trim();
+  const href = await commande.getAttribute('href');
+  console.log(`\n--- Commande « ${libelle} » trouvée ---`);
+  console.log(`  href : ${href ?? '(aucun, c\'est un bouton)'}`);
+  await commande.click().catch((e) => console.log(`  clic impossible : ${e.message}`));
+  await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {});
+  await page.waitForTimeout(3000);
+
+  console.log(`  URL après clic : ${page.url()}`);
+  const nouvelles = reponses.slice(avant);
+  console.log(`  Nouvelles requêtes JSON : ${nouvelles.length}`);
+  nouvelles.forEach((r) => {
+    const marques = [CLUB.test(r.corps) ? 'CLUB' : null, CLASSEMENT.test(r.corps) ? 'classement' : null]
+      .filter(Boolean)
+      .join(' + ');
+    console.log(`    [${r.statut}] ${r.taille} car. ${marques && `« ${marques} »`}\n        ${r.url}`);
+  });
+
+  const apres = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('table')).map((t) => ({
+      entetes: Array.from(t.querySelectorAll('th')).map((th) => th.textContent.trim()),
+      lignes: Array.from(t.querySelectorAll('tbody tr'))
+        .slice(0, 12)
+        .map((tr) => Array.from(tr.cells).map((c) => c.textContent.trim()).join(' | ')),
+    })),
+  );
+  if (!apres.length) console.log('  Toujours aucun <table>.');
+  apres.forEach((t, i) => {
+    console.log(`  Tableau ${i + 1} — ${t.entetes.join(' / ')}`);
+    t.lignes.forEach((l) => console.log(`      ${l}`));
+  });
+} else {
+  console.log('\nAucune commande « Classement » dans la page.');
+}
 
 await browser.close();
