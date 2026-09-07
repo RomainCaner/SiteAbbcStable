@@ -77,20 +77,35 @@ def is_club_row(name: str) -> bool:
 # ------------------------------------------------------------------- parsing
 
 # Intitulés de colonnes rencontrés sur les tableaux FFBB, ramenés à nos clés.
-# On associe par intitulé plutôt que par position : une colonne ajoutée en
-# amont ne décale plus tout le reste.
+# Première stratégie : associer par intitulé, ce qui encaisse l'ajout d'une
+# colonne en amont sans tout décaler.
 COLUMN_ALIASES = {
     "rank": ("clt", "class", "rang", "pos"),
     "team": ("equipe", "équipe", "club", "nom"),
     "points": ("pts", "point", "points"),
     "played": ("jou", "joue", "joué", "mj", "matchs", "match"),
     "won": ("g", "gagne", "gagné", "v", "victoires"),
-    "lost": ("p", "perdu", "d", "defaites", "défaites"),
+    "lost": ("p", "perdu", "perdus", "d", "defaites", "défaites"),
     "drawn": ("n", "nul", "nuls"),
-    "scored": ("bp", "pour", "marques", "marqués"),
-    "conceded": ("bc", "contre", "encaisses", "encaissés"),
+    "scored": ("bp", "pour", "pm", "marques", "marqués", "pts mar", "p.m."),
+    "conceded": ("bc", "contre", "pe", "encaisses", "encaissés", "pts enc", "p.e."),
     "diff": ("diff", "difference", "différence", "coef"),
 }
+
+# Seconde stratégie : la disposition réelle des tableaux FFBB, relevée sur un
+# scraper en production (github.com/niko4nicolas/FFBB_Alternative). Une ligne
+# compte 18 cellules, 17 quand la compétition n'attribue pas de bonus — d'où
+# le décalage appliqué aux trois dernières colonnes.
+POSITIONAL_LAYOUT = {
+    "rank": 0,
+    "team": 1,
+    "points": 2,
+    "played": 3,
+    "won": 4,
+    "lost": 5,
+}
+POSITIONAL_TAIL = {"scored": 15, "conceded": 16, "diff": 17}
+FULL_ROW_LENGTH = 18
 
 
 def build_header_map(cells: list[str]) -> dict[int, str]:
@@ -99,10 +114,55 @@ def build_header_map(cells: list[str]) -> dict[int, str]:
     for index, label in enumerate(cells):
         key = clean(label).lower().rstrip(".")
         for field, aliases in COLUMN_ALIASES.items():
+            # Première occurrence gagnante : les tableaux FFBB répètent certains
+            # intitulés (G/P par exemple) pour les sous-totaux domicile/extérieur,
+            # et ce sont les colonnes de gauche qui portent le total.
             if key in aliases and field not in mapping.values():
                 mapping[index] = field
                 break
     return mapping
+
+
+def cell_text(cell) -> str:
+    """Texte d'une cellule ; le nom d'équipe est encapsulé dans un lien."""
+    link = cell.find("a")
+    return clean((link or cell).get_text())
+
+
+def is_data_row(cells) -> bool:
+    """Une ligne de classement commence par un rang numérique."""
+    return len(cells) >= 6 and to_int(cell_text(cells[0])) is not None
+
+
+def extract_row(cells, header_map: dict[int, str]) -> dict:
+    """Extrait une ligne en combinant les deux stratégies.
+
+    L'association par intitulé passe en premier ; tout champ qu'elle n'a pas su
+    remplir est repris à sa position connue. Une colonne dont l'intitulé aurait
+    changé n'est donc plus perdue.
+    """
+    entry: dict = {}
+
+    for index, field in header_map.items():
+        if index < len(cells):
+            raw = cell_text(cells[index])
+            entry[field] = raw if field == "team" else to_int(raw)
+
+    # Repli positionnel sur les colonnes de tête.
+    for field, index in POSITIONAL_LAYOUT.items():
+        if entry.get(field) in (None, "") and index < len(cells):
+            raw = cell_text(cells[index])
+            entry[field] = raw if field == "team" else to_int(raw)
+
+    # Repli positionnel sur les colonnes de queue, décalées d'un cran quand la
+    # compétition n'a pas de colonne bonus.
+    offset = 0 if len(cells) >= FULL_ROW_LENGTH else len(cells) - FULL_ROW_LENGTH
+    for field, index in POSITIONAL_TAIL.items():
+        position = index + offset
+        if entry.get(field) is None and 0 <= position < len(cells):
+            entry[field] = to_int(cell_text(cells[position]))
+
+    return entry
 
 
 def parse_standings(html: str) -> dict:
@@ -133,26 +193,22 @@ def parse_standings(html: str) -> dict:
         if len(rows) < 2:
             continue
 
-        header_cells = [clean(c.get_text()) for c in rows[0].select("th, td")]
-        header_map = build_header_map(header_cells)
-
-        # Un vrai tableau de classement porte au moins un rang et un nom d'équipe.
-        if "team" not in header_map.values():
-            continue
-
+        # Le tableau peut comporter plusieurs lignes d'en-tête (regroupements) :
+        # on prend comme en-tête la dernière ligne précédant la première ligne
+        # de données, plutôt que systématiquement la première.
+        header_map: dict[int, str] = {}
         entries = []
-        for row in rows[1:]:
+
+        for row in rows:
             cells = row.select("td")
-            if len(cells) < 3:
+            if not is_data_row(cells):
+                labels = [clean(c.get_text()) for c in row.select("th, td")]
+                candidate = build_header_map(labels)
+                if candidate:
+                    header_map = candidate
                 continue
 
-            entry = {}
-            for index, field in header_map.items():
-                if index >= len(cells):
-                    continue
-                raw = clean(cells[index].get_text())
-                entry[field] = raw if field == "team" else to_int(raw)
-
+            entry = extract_row(cells, header_map)
             name = entry.get("team") or ""
             if not name:
                 continue
@@ -165,7 +221,7 @@ def parse_standings(html: str) -> dict:
 
     raise ParsingError(
         "tableau '.liste' présent mais aucune ligne de classement exploitable "
-        "(colonnes attendues : classement, équipe, points…)"
+        "(une ligne doit commencer par un rang numérique)"
     )
 
 

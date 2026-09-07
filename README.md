@@ -250,17 +250,40 @@ python scripts/fetch_standings.py --html-file scripts/tests/championnat-exemple.
 python scripts/fetch_standings.py --html-file ma-page.html --team sf1 --dry-run
 ```
 
-Le script **associe les colonnes par intitulé** (`Clt`, `Equipe`, `Pts`, `J`,
-`G`, `P`, `BP`, `BC`, `Diff`) plutôt que par position : une colonne ajoutée par
-la FFBB ne décale plus tout le tableau. Si la structure change au point de
-devenir illisible, il **échoue bruyamment** (code de sortie 1, message
-explicite) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
+Le parsing combine **deux stratégies**, ce qui le rend nettement plus solide
+qu'une seule :
 
-> ⚠️ Le parsing n'a pas encore été confronté à une vraie page FFBB — il a été
-> écrit d'après la structure connue (`#idTdDivision` pour le titre,
-> `table.liste` pour le classement) et validé sur un jeu d'essai. La première
-> exécution avec un vrai `championshipId` peut demander un ajustement des
-> intitulés de colonnes dans `COLUMN_ALIASES`.
+1. **Association par intitulé** (`Clt`, `Equipe`, `Pts`, `Jou.`, `G`, `P`,
+   `BP`, `BC`, `Diff`…). Encaisse l'ajout d'une colonne en amont sans décaler
+   le reste.
+2. **Repli positionnel** sur la disposition réelle des tableaux FFBB : une
+   ligne compte **18 cellules**, 17 quand la compétition n'attribue pas de
+   bonus. Le rang, le nom, les points, les matchs joués, gagnés et perdus sont
+   aux index 0 à 5 ; les points marqués, encaissés et l'écart aux index 15 à 17
+   (décalés d'un cran dans le cas à 17 colonnes).
+
+Concrètement : si la FFBB renomme « BP » en « Réal. », l'étape 1 ne reconnaît
+plus la colonne, mais l'étape 2 la retrouve à sa position. Et si une colonne
+est insérée en début de tableau, c'est l'inverse qui joue.
+
+Autres garde-fous :
+- le nom d'équipe est lu dans le `<a>` de sa cellule, comme sur les vraies pages ;
+- une ligne de données est reconnue à son **rang numérique en première cellule**,
+  ce qui permet d'ignorer les lignes d'en-tête de regroupement ;
+- une structure devenue illisible provoque un **échec explicite** (code de
+  sortie 1) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
+
+Trois jeux d'essai couvrent ces cas dans `scripts/tests/` :
+`ffbb-18-colonnes.html` (structure réelle, intitulés de queue inconnus),
+`ffbb-17-colonnes.html` (sans bonus, décalage) et `championnat-exemple.html`
+(tableau simple).
+
+> ⚠️ Le parsing n'a pas encore été confronté à une **vraie page en ligne** :
+> `resultats.ffbb.com` est injoignable depuis l'environnement de développement
+> utilisé. Il a été calé sur la structure réelle relevée dans un scraper en
+> production ([FFBB_Alternative](https://github.com/niko4nicolas/FFBB_Alternative))
+> et validé sur les jeux d'essai ci-dessus. La première exécution avec un vrai
+> `championshipId` reste la validation définitive.
 
 ### Bon voisinage
 
