@@ -1,0 +1,87 @@
+# Met à jour les classements du club depuis resultats.ffbb.com.
+#
+# Le script écrit assets/data/standings.json ; s'il a changé, le workflow le
+# commite sur main, ce qui déclenche automatiquement le redéploiement Pages.
+#
+# Rien n'est commité tant qu'aucune équipe n'a d'identifiant `ffbb.championshipId`
+# renseigné dans assets/data/teams.json : le site reste alors sur les widgets
+# Score'n'co.
+
+name: Classements FFBB
+
+on:
+  schedule:
+    # Tous les jours à 6h00 UTC (8h en heure d'été française).
+    # Les championnats amateurs se jouent le week-end : une fois par jour suffit
+    # largement, et on reste courtois avec la FFBB.
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # bouton « Run workflow » dans l'onglet Actions
+    inputs:
+      decouvrir:
+        description: >-
+          URL d'une page FFBB du club (page du club ou d'une de ses équipes).
+          Renseignée, le workflow ne met rien à jour : il liste les identifiants
+          de championnat où le club apparaît, à reporter dans teams.json.
+        required: false
+        type: string
+
+# Un seul déploiement à la fois, pour éviter deux commits concurrents.
+concurrency:
+  group: classements
+  cancel-in-progress: false
+
+jobs:
+  mise-a-jour:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # nécessaire pour commiter le JSON
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Installer les dépendances
+        run: pip install -r scripts/requirements.txt
+
+      # Le runner GitHub a un accès Internet complet, contrairement à un
+      # environnement de développement restreint : c'est ici qu'on peut
+      # interroger la FFBB pour retrouver les identifiants.
+      - name: Trouver les identifiants de championnat
+        if: inputs.decouvrir != ''
+        run: python scripts/fetch_standings.py --discover "${{ inputs.decouvrir }}"
+
+      - name: Récupérer les classements
+        if: inputs.decouvrir == ''
+        id: fetch
+        # Le script sort en code 1 si une équipe échoue. On ne veut pas faire
+        # échouer tout le workflow pour un championnat momentanément
+        # indisponible : on note le résultat et on décide ensuite.
+        run: |
+          set +e
+          python scripts/fetch_standings.py
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Commiter si le classement a changé
+        if: inputs.decouvrir == ''
+        run: |
+          if git diff --quiet -- assets/data/standings.json; then
+            echo "Aucun changement de classement."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data/standings.json
+          git commit -m "Classements FFBB au $(date -u '+%d/%m/%Y')"
+          git push
+
+      - name: Signaler les échecs de récupération
+        if: inputs.decouvrir == '' && steps.fetch.outputs.code != '0'
+        run: |
+          echo "::warning::Au moins un championnat n'a pas pu être récupéré."
+          echo "Vérifiez les identifiants ffbb.championshipId dans assets/data/teams.json,"
+          echo "ou la structure de la page si la FFBB a changé son site."

@@ -1,0 +1,4 @@
+# Dépendances du script de récupération des classements FFBB.
+# Utilisées uniquement par le workflow GitHub Actions, jamais par le site.
+requests>=2.31
+beautifulsoup4>=4.12

@@ -61,6 +61,8 @@ SiteAbbcStable/
 │
 ├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
 ├── partials/             navbar.html · footer.html (fragments injectés)
+├── scripts/              récupération des classements FFBB (hors site)
+├── .github/workflows/    mise à jour automatique des classements
 │
 ├── assets/
 │   ├── data/             ← LE CONTENU DU SITE (voir « Gérer le contenu »)
@@ -108,7 +110,8 @@ assets/js/
     ├── events.js         Bandeau « prochain rendez-vous » + agenda
     ├── news.js           Actualités (grille éditoriale, liste, article)
     ├── teams.js          Fiches d'équipe + annuaire
-    └── scorenco.js       Widgets Score'n'co
+    ├── standings.js      Classement rendu par le site (données FFBB)
+    └── scorenco.js       Widgets Score'n'co (repli)
 ```
 
 **Le rendu est piloté par le HTML.** Chaque module cherche ses conteneurs
@@ -186,6 +189,192 @@ Le premier article occupe la grande carte de la grille d'accueil.
 
 ---
 
+## Classements : du widget tiers aux données du club
+
+Le site sait afficher **ses propres tableaux de classement**, alimentés par les
+données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
+
+### Pourquoi
+
+| | Widget Score'n'co | Classement maison |
+|---|---|---|
+| Script tiers sur la page | oui | **non** |
+| Mise en forme | imposée | **à la charte du site** |
+| Bloqueur de contenu | peut le masquer | insensible |
+| Source indisponible | bloc vide | **dernier classement connu reste affiché** |
+| Historique | aucun | **versionné dans git** |
+
+### Comment ça marche
+
+```
+.github/workflows/classements.yml   (tous les jours à 6h UTC)
+        │
+        ▼
+scripts/fetch_standings.py          récupère + parse resultats.ffbb.com
+        │
+        ▼
+assets/data/standings.json          commité si le classement a changé
+        │
+        ▼
+assets/js/content/standings.js      rend le tableau sur la fiche d'équipe
+```
+
+Le site étant statique, il ne peut pas appeler la FFBB depuis le navigateur
+(CORS). C'est donc GitHub Actions qui récupère les données en amont et les
+dépose dans un JSON servi par le site — aucune infrastructure à héberger.
+
+### Repères FFBB du club
+
+Vérifiés sur les pages officielles, et conservés dans `config.json` (section
+`ffbb`) pour ne pas avoir à les rechercher :
+
+| | |
+|---|---|
+| Code club | **OCC0031019** |
+| Ligue / comité | Occitanie (`occ`) / Haute-Garonne (`0031`) |
+| Page du club | [competitions.ffbb.com/…/clubs/occ0031019](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019) |
+| SG1 | RM2 Occitanie, poule **PYR-B** — équipe `200000005142728` |
+| Adversaires PYR-B | ES Toulouse Casselardit, Toulouse Lardenne, Avenir Muretain |
+
+### Deux plateformes FFBB : laquelle viser
+
+La FFBB expose ses compétitions à deux endroits, avec des schémas d'URL
+différents :
+
+| | `resultats.ffbb.com` | `competitions.ffbb.com` |
+|---|---|---|
+| URL | `/championnat/<hex>.html` | `/ligues/occ/competitions/rm2?poule=<id>&phase=<id>` |
+| Rendu | HTML côté serveur | application web (probablement une API JSON derrière) |
+| Statut | ancienne plateforme, encore utilisée par des outils tiers | plateforme actuelle |
+
+**Le script cible aujourd'hui `resultats.ffbb.com`**, parce que son HTML est
+rendu côté serveur et se parse sans navigateur. C'est le choix pragmatique,
+mais l'ancienne plateforme peut disparaître : si c'est le cas, il faudra
+regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
+`200000005142728` ci-dessus est un bon point d'entrée pour l'explorer).
+
+### Brancher une équipe
+
+Ouvrir la page de **classement** de l'équipe sur
+[competitions.ffbb.com](https://competitions.ffbb.com), copier l'URL de la
+barre d'adresse et la coller dans `assets/data/teams.json` :
+
+```json
+"ffbb": {
+  "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
+}
+```
+
+C'est tout : pas d'identifiant à extraire, l'URL suffit. Lancer ensuite le
+workflow (*Actions* → *Classements FFBB* → *Run workflow*) ou attendre
+l'exécution planifiée.
+
+SG1 est déjà branchée sur RM2 Occitanie / PYR-B.
+
+### Comment le classement est extrait
+
+Deux stratégies, essayées dans cet ordre, ce qui couvre les deux plateformes
+de la FFBB :
+
+1. **Données JSON de la page** (`__NEXT_DATA__`, `__NUXT__`,
+   `__INITIAL_STATE__`) — c'est le cas de `competitions.ffbb.com`, dont les
+   pages sont construites en JavaScript. Le script parcourt la structure et
+   retient **le tableau qui contient le club**. Les champs sont reconnus par
+   correspondance approximative de noms (`rangOfficiel`, `nbVictoires`,
+   `pointsInscrits`… sont compris sans avoir été prévus), et un nom d'équipe
+   imbriqué (`{"equipe": {"nom": "…"}}`) est géré.
+2. **Tableau HTML** — l'ancienne plateforme `resultats.ffbb.com`, avec
+   l'association par intitulé doublée du repli positionnel décrit plus bas.
+
+La sortie indique la stratégie retenue :
+
+```
+sg1     4 équipes — Régionale Masculine 2 - PYR-B [via __NEXT_DATA__]
+```
+
+#### Une mauvaise URL ne peut pas passer
+
+Une URL pointant vers la mauvaise poule produirait un tableau parfaitement
+valide, mais qui n'est pas celui du club — une erreur qu'aucun contrôle visuel
+ne rattrape. Le script **refuse tout classement où le club n'apparaît pas**,
+sur les deux plateformes :
+
+```
+sg1 : le club n'apparaît pas dans ce classement
+      (4 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET, SETE BASKET…).
+      L'URL pointe probablement vers une autre poule.
+```
+
+La reconnaissance du club se règle dans `CLUB_PATTERNS`, en tête de
+`scripts/fetch_standings.py`.
+
+#### Si une page résiste
+
+Le mode découverte décrit ce que contient réellement une page — titre, liens,
+présence d'un bloc de données, identifiants et URL d'API repérées :
+
+```bash
+python scripts/fetch_standings.py --discover "https://competitions.ffbb.com/..."
+```
+
+Disponible aussi depuis le workflow, champ `decouvrir`, ce qui permet de
+l'exécuter depuis un environnement ayant accès à la FFBB.
+
+### Tester le parsing sans appeler la FFBB
+
+```bash
+pip install -r scripts/requirements.txt
+
+# Sur un jeu d'essai fourni
+python scripts/fetch_standings.py --html-file scripts/tests/championnat-exemple.html --team sf1 --dry-run
+
+# Sur une vraie page enregistrée depuis le navigateur (Ctrl+S)
+python scripts/fetch_standings.py --html-file ma-page.html --team sf1 --dry-run
+```
+
+Le parsing combine **deux stratégies**, ce qui le rend nettement plus solide
+qu'une seule :
+
+1. **Association par intitulé** (`Clt`, `Equipe`, `Pts`, `Jou.`, `G`, `P`,
+   `BP`, `BC`, `Diff`…). Encaisse l'ajout d'une colonne en amont sans décaler
+   le reste.
+2. **Repli positionnel** sur la disposition réelle des tableaux FFBB : une
+   ligne compte **18 cellules**, 17 quand la compétition n'attribue pas de
+   bonus. Le rang, le nom, les points, les matchs joués, gagnés et perdus sont
+   aux index 0 à 5 ; les points marqués, encaissés et l'écart aux index 15 à 17
+   (décalés d'un cran dans le cas à 17 colonnes).
+
+Concrètement : si la FFBB renomme « BP » en « Réal. », l'étape 1 ne reconnaît
+plus la colonne, mais l'étape 2 la retrouve à sa position. Et si une colonne
+est insérée en début de tableau, c'est l'inverse qui joue.
+
+Autres garde-fous :
+- le nom d'équipe est lu dans le `<a>` de sa cellule, comme sur les vraies pages ;
+- une ligne de données est reconnue à son **rang numérique en première cellule**,
+  ce qui permet d'ignorer les lignes d'en-tête de regroupement ;
+- une structure devenue illisible provoque un **échec explicite** (code de
+  sortie 1) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
+
+Trois jeux d'essai couvrent ces cas dans `scripts/tests/` :
+`ffbb-18-colonnes.html` (structure réelle, intitulés de queue inconnus),
+`ffbb-17-colonnes.html` (sans bonus, décalage) et `championnat-exemple.html`
+(tableau simple).
+
+> ⚠️ Le parsing n'a pas encore été confronté à une **vraie page en ligne** :
+> `resultats.ffbb.com` est injoignable depuis l'environnement de développement
+> utilisé. Il a été calé sur la structure réelle relevée dans un scraper en
+> production ([FFBB_Alternative](https://github.com/niko4nicolas/FFBB_Alternative))
+> et validé sur les jeux d'essai ci-dessus. La première exécution avec un vrai
+> `championshipId` reste la validation définitive.
+
+### Bon voisinage
+
+Le script s'identifie par un `User-Agent` explicite avec un contact, attend
+1,5 s entre deux requêtes et ne tourne qu'une fois par jour. Les championnats
+amateurs se jouent le week-end : inutile d'interroger la FFBB plus souvent.
+
+---
+
 ## La scène 3D (`assets/js/ui/hero3d.js`)
 
 Le ballon du bandeau d'accueil est **entièrement procédural** : géométrie
@@ -255,7 +444,7 @@ GitHub Pages, Netlify ou Vercel — sans configuration.
 | Google Fonts | Barlow Condensed + Inter | polices système |
 | Font Awesome (cdnjs) | icônes | icônes absentes, mise en page intacte |
 | Three.js (jsDelivr) | scène 3D | logo statique |
-| Score'n'co | résultats et classements | encart « momentanément indisponible » |
+| Score'n'co | résultats, et classements des équipes non encore basculées | encart « momentanément indisponible » |
 
 Aucune n'est bloquante : le site reste lisible et navigable si toutes tombent.
 

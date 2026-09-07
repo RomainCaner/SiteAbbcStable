@@ -1,0 +1,5 @@
+{
+  "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis resultats.ffbb.com. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml. Pour brancher une equipe, renseignez son 'ffbb.championshipId' dans teams.json.",
+  "updatedAt": null,
+  "teams": {}
+}
