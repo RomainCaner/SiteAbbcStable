@@ -307,6 +307,26 @@ def parse_hydration(html: str):
             "L'URL pointe probablement vers une autre poule."
         )
 
+    # Dernier recours : le flux Next.js, ou les donnees arrivent en morceaux
+    # de JSON encode dans des chaines JavaScript.
+    flight = decode_next_flight(html)
+    if flight:
+        best = None
+        for fragment in json_fragments(flight):
+            candidates = []
+            collect_standings_tables(fragment, candidates)
+            for rows in candidates:
+                if any(is_club_row(row["team"]) for row in rows):
+                    # On garde le tableau le plus complet : le flux contient
+                    # aussi des listes de rencontres, plus courtes.
+                    scored = sum(1 for r in rows if r.get("points") is not None)
+                    if best is None or scored > best[1]:
+                        best = (rows, scored)
+        if best:
+            for row in best[0]:
+                row["isClub"] = is_club_row(row["team"])
+            return best[0], "flux Next.js"
+
     return None, None
 
 
@@ -456,6 +476,64 @@ JSON_SCRIPT = re.compile(
     r'<script[^>]+type="application/json"[^>]*>(.*?)</script>', re.S | re.I
 )
 
+# Next.js App Router diffuse ses donnees par petits morceaux :
+#   self.__next_f.push([1,"…json echappe…"])
+# Le contenu est donc du JSON encode dans une chaine JavaScript, ce qu'aucune
+# lecture directe de balise <script> ne peut atteindre.
+NEXT_FLIGHT = re.compile(r'self\.__next_f\.push\(\[\d+,\s*(".*?")\]\)', re.S)
+
+
+def decode_next_flight(html: str) -> str:
+    """Reassemble le flux Next.js en un seul texte JSON exploitable.
+
+    Chaque morceau est une chaine JavaScript : on la decode pour retrouver le
+    JSON qu'elle contient, puis on recolle le tout dans l'ordre d'emission.
+    """
+    parts = []
+    for literal in NEXT_FLIGHT.findall(html):
+        try:
+            parts.append(json.loads(literal))
+        except json.JSONDecodeError:
+            continue
+    return "".join(parts)
+
+
+def json_fragments(text: str, limit: int = 400):
+    """Extrait les tableaux d'objets JSON complets contenus dans un texte.
+
+    Le flux Next.js n'est pas un document JSON unique mais une suite de
+    fragments prefixes. Plutot que d'interpreter ce format, on repere les
+    ouvertures de tableau d'objets et on lit jusqu'a la fermeture equilibree.
+    """
+    found = 0
+    index = text.find("[{")
+    while index != -1 and found < limit:
+        depth, in_string, escaped = 0, False, False
+        for position in range(index, len(text)):
+            char = text[position]
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == '"':
+                    in_string = False
+            elif char == '"':
+                in_string = True
+            elif char in "[{":
+                depth += 1
+            elif char in "]}":
+                depth -= 1
+                if depth == 0:
+                    chunk = text[index:position + 1]
+                    try:
+                        yield json.loads(chunk)
+                        found += 1
+                    except json.JSONDecodeError:
+                        pass
+                    break
+        index = text.find("[{", index + 2)
+
 
 def report_page(url: str, html: str) -> None:
     """Décrit ce que contient une page FFBB, pour comprendre à quoi on a affaire.
@@ -496,6 +574,12 @@ def report_page(url: str, html: str) -> None:
     blocks = list(json_payloads(html))
     if blocks:
         print(f"  Blocs JSON      : {len(blocks)} — {', '.join(n for n, _ in blocks[:5])}")
+
+    flight = decode_next_flight(html)
+    if flight:
+        fragments = list(json_fragments(flight))
+        print(f"  Flux Next.js    : {len(flight)} caractères décodés, "
+              f"{len(fragments)} tableaux JSON exploitables")
 
     # Le plus parlant : voir comment le club est ecrit dans la page.
     for pattern in CLUB_PATTERNS:
