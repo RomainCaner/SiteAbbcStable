@@ -1,0 +1,101 @@
+{
+  "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
+  "updatedAt": "2026-09-07T14:27:46+00:00",
+  "teams": {
+    "sf1": {
+      "next": {
+        "date": "2026-09-13T15:30:00",
+        "journee": "1",
+        "home": "LONS BASKET - 1",
+        "away": "ABB CORNEBARRIEU - 1",
+        "isHome": false,
+        "opponent": "LONS BASKET - 1",
+        "venue": "",
+        "city": "",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": null,
+      "count": 22,
+      "updatedAt": "2026-09-07T14:27:46+00:00"
+    },
+    "sf2": {
+      "next": {
+        "date": "2026-09-27T15:30:00",
+        "journee": "1",
+        "home": "OUEST TOULOUSAIN BASKET - 1",
+        "away": "ABB CORNEBARRIEU - 2",
+        "isHome": false,
+        "opponent": "OUEST TOULOUSAIN BASKET - 1",
+        "venue": "",
+        "city": "",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": null,
+      "count": 18,
+      "updatedAt": "2026-09-07T14:27:46+00:00"
+    },
+    "sf3": {
+      "next": {
+        "date": "2026-09-20T15:30:00",
+        "journee": "1",
+        "home": "ABB CORNEBARRIEU - 3",
+        "away": "IE - BASKET CLUB VERFEILLOIS - 2",
+        "isHome": true,
+        "opponent": "IE - BASKET CLUB VERFEILLOIS - 2",
+        "venue": "",
+        "city": "",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": null,
+      "count": 22,
+      "updatedAt": "2026-09-07T14:27:46+00:00"
+    },
+    "sg1": {
+      "next": {
+        "date": "2026-09-19T20:00:00",
+        "journee": "1",
+        "home": "ABB CORNEBARRIEU - 1",
+        "away": "E.S. TOULOUSE CASSELARDIT - 1",
+        "isHome": true,
+        "opponent": "E.S. TOULOUSE CASSELARDIT - 1",
+        "venue": "",
+        "city": "",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": null,
+      "count": 22,
+      "updatedAt": "2026-09-07T14:27:46+00:00"
+    },
+    "sg2": {
+      "next": {
+        "date": "2026-09-20T13:00:00",
+        "journee": "1",
+        "home": "ABB CORNEBARRIEU - 2",
+        "away": "OUEST TOULOUSAIN BASKET - 3",
+        "isHome": true,
+        "opponent": "OUEST TOULOUSAIN BASKET - 3",
+        "venue": "",
+        "city": "",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": null,
+      "count": 22,
+      "updatedAt": "2026-09-07T14:27:46+00:00"
+    }
+  }
+}
