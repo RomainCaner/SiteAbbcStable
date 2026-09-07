@@ -1,8 +1,8 @@
 # Site ABBC — Association Basket-Ball Cornebarrieu
 
 Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu.
-HTML statique, CSS maison, modules ES natifs, widgets Score'n'co pour les
-résultats en temps réel et une scène 3D Three.js sur la page d'accueil.
+HTML statique, CSS maison, modules ES natifs, classements et rencontres tirés
+de l'API FFBB, et une scène 3D Three.js sur la page d'accueil.
 
 **Aucune étape de build.** Pas de bundler, pas de framework, pas de Tailwind :
 un serveur HTTP local suffit pour développer.
@@ -61,8 +61,8 @@ SiteAbbcStable/
 │
 ├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
 ├── partials/             navbar.html · footer.html (fragments injectés)
-├── scripts/              récupération des classements FFBB (hors site)
-├── .github/workflows/    mise à jour automatique des classements
+├── scripts/              récupération FFBB : classements, rencontres, découverte
+├── .github/workflows/    mise à jour automatique (3× par semaine)
 │
 ├── assets/
 │   ├── data/             ← LE CONTENU DU SITE (voir « Gérer le contenu »)
@@ -87,7 +87,7 @@ mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
 `.section--dark` / `.section--brand` d'adapter automatiquement tout leur
 contenu.
 
-### JavaScript — 13 modules ES
+### JavaScript — 16 modules ES
 
 ```
 assets/js/
@@ -111,7 +111,8 @@ assets/js/
     ├── news.js           Actualités (grille éditoriale, liste, article)
     ├── teams.js          Fiches d'équipe + annuaire
     ├── standings.js      Classement rendu par le site (données FFBB)
-    └── scorenco.js       Widgets Score'n'co (repli)
+    ├── fixtures.js       Prochaine rencontre + dernier résultat (données FFBB)
+    └── scorenco.js       Widgets Score'n'co — neutralisé, conservé
 ```
 
 **Le rendu est piloté par le HTML.** Chaque module cherche ses conteneurs
@@ -144,9 +145,9 @@ Tout ce qui change souvent vit dans `assets/data/`. Modifiez le JSON,
 rafraîchissez la page. Les valeurs à compléter sont marquées **`TODO`**.
 
 ### `config.json` — réglages globaux
-Saison, chiffres clés, coordonnées, liens réseaux et widgets du club. Ces
-valeurs alimentent tous les `<span data-config="…">` et les liens
-`data-social`. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
+Saison, chiffres clés, coordonnées et liens réseaux. Ces valeurs alimentent
+tous les `<span data-config="…">` et les liens `data-social`. La section
+`scorenco` y subsiste sans être lue. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
 
 ### `teams.json` — les équipes **(source unique)**
 Ce fichier alimente à lui seul :
@@ -162,16 +163,16 @@ Ce fichier alimente à lui seul :
 | `shortName` / `displayName` | « SF1 » / « Senior Féminine 1 » |
 | `level`, `coach`, `description` | affichés sur la fiche |
 | `accent` | `green`, `forest`, `orange` ou `ochre` |
-| `widgets` | identifiants Score'n'co : `nextGames`, `players`, `ranking` |
+| `ffbb.pouleId` | identifiant de poule FFBB — **c'est lui qui branche le classement et les rencontres** |
+| `widgets` | anciens identifiants Score'n'co, conservés mais plus lus |
 
 **Ajouter une équipe** : ajouter l'entrée dans `teams.json`, puis copier une
 page existante de `equipes/` en changeant son `data-team`, son `<title>` et sa
 `<meta name="description">`. Rien d'autre.
 
-**Trouver un identifiant Score'n'co** : sur `scorenco.com`, ouvrir l'équipe ou
-la compétition → *Partager* → *Widget* ; l'identifiant est la valeur
-`data-widget-id` du code fourni. Tant qu'un identifiant est vide, la page
-affiche un encart « bientôt disponible » — jamais un chargement infini.
+**Trouver un `pouleId`** : lancer `scripts/decouvrir_poules.py` (voir
+« Brancher une équipe » plus bas). Tant qu'il est vide, la fiche affiche un
+encart « bientôt disponible » — jamais un chargement infini.
 
 ### `events.json` — agenda
 Champs : `title`, `category`, `color` (`red`, `orange`, `yellow`, `green`,
@@ -191,8 +192,9 @@ Le premier article occupe la grande carte de la grille d'accueil.
 
 ## Classements : du widget tiers aux données du club
 
-Le site sait afficher **ses propres tableaux de classement**, alimentés par les
-données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
+Le site affiche **ses propres tableaux de classement et ses propres
+rencontres**, alimentés par les données publiques de la FFBB. Les widgets
+Score'n'co qu'ils remplacent sont neutralisés.
 
 ### Pourquoi
 
@@ -398,18 +400,23 @@ Rien à corriger dans le code quand ce message s'affiche : c'est au rythme des
 appels qu'il faut laisser du temps. C'est aussi une raison de plus de préférer
 `pouleId` à `classementUrl` — l'API, elle, n'a jamais bronché.
 
-#### Une mauvaise URL ne peut pas passer
+#### Une mauvaise poule ne peut pas passer
 
-Une URL pointant vers la mauvaise poule produirait un tableau parfaitement
-valide, mais qui n'est pas celui du club — une erreur qu'aucun contrôle visuel
-ne rattrape. Le script **refuse tout classement où le club n'apparaît pas**,
-sur les deux plateformes :
+Une poule ou une URL erronée produirait un tableau parfaitement valide, mais
+qui n'est pas celui du club — une erreur qu'aucun contrôle visuel ne rattrape.
+Le script **refuse tout classement où le club n'apparaît pas**, quelle que soit
+la source, API comprise :
 
 ```
-sg1 : le club n'apparaît pas dans ce classement
-      (4 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET, SETE BASKET…).
-      L'URL pointe probablement vers une autre poule.
+sg1 : API FFBB : le club n'apparaît pas dans ce classement
+      (12 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET, SETE BASKET…).
+      L'identifiant de poule 200000003054822 vise probablement une autre poule.
 ```
+
+Ce contrôle ne peut pas tout : deux équipes **du même club** apparaissent
+chacune dans son classement, donc confondre SF2 et SF3 passerait inaperçu.
+C'est pourquoi `decouvrir_poules.py` affiche le numéro d'équipe — il faut le
+vérifier plutôt que le supposer.
 
 La reconnaissance du club se règle dans `CLUB_PATTERNS`, en tête de
 `scripts/fetch_standings.py`.
@@ -432,21 +439,26 @@ site appelle réellement** : chaque réponse JSON, classée selon qu'elle contie
 le club et des clés de classement, les tableaux rendus à l'écran et la forme
 des routes. C'est ce sondage qui a mis au jour l'en-tête `RSC`. Il est ponctuel,
 déclenché par le champ `sonder` du workflow, et ne met rien à jour ; la mise à
-jour quotidienne reste en HTTP simple, sans navigateur.
+jour planifiée reste en HTTP simple, sans navigateur.
 
-### Tester le parsing sans appeler la FFBB
+### Tester sans appeler la FFBB
 
 ```bash
 pip install -r scripts/requirements.txt
 
 # Sur un jeu d'essai fourni
-python scripts/fetch_standings.py --html-file scripts/tests/championnat-exemple.html --team sf1 --dry-run
+python scripts/fetch_standings.py --html-file scripts/tests/ffbb-flux-rsc.txt --team sg1 --dry-run
 
 # Sur une vraie page enregistrée depuis le navigateur (Ctrl+S)
 python scripts/fetch_standings.py --html-file ma-page.html --team sf1 --dry-run
 ```
 
-Le parsing combine **deux stratégies**, ce qui le rend nettement plus solide
+`scripts/tests/` couvre **dix cas**, chacun passant par la stratégie attendue :
+tableaux HTML à 18 et 17 colonnes, `__NEXT_DATA__`, `__NUXT__`, flux Next.js
+encodé, flux RSC brut, plus trois refus qui doivent rester des refus — deux
+mauvaises poules et une page sans classement.
+
+Le repli HTML combine **deux stratégies**, ce qui le rend nettement plus solide
 qu'une seule :
 
 1. **Association par intitulé** (`Clt`, `Equipe`, `Pts`, `Jou.`, `G`, `P`,
@@ -469,23 +481,17 @@ Autres garde-fous :
 - une structure devenue illisible provoque un **échec explicite** (code de
   sortie 1) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
 
-Trois jeux d'essai couvrent ces cas dans `scripts/tests/` :
-`ffbb-18-colonnes.html` (structure réelle, intitulés de queue inconnus),
-`ffbb-17-colonnes.html` (sans bonus, décalage) et `championnat-exemple.html`
-(tableau simple).
-
-> ⚠️ Le parsing n'a pas encore été confronté à une **vraie page en ligne** :
-> `resultats.ffbb.com` est injoignable depuis l'environnement de développement
-> utilisé. Il a été calé sur la structure réelle relevée dans un scraper en
-> production ([FFBB_Alternative](https://github.com/niko4nicolas/FFBB_Alternative))
-> et validé sur les jeux d'essai ci-dessus. La première exécution avec un vrai
-> `championshipId` reste la validation définitive.
-
 ### Bon voisinage
 
 Le script s'identifie par un `User-Agent` explicite avec un contact, attend
-1,5 s entre deux requêtes et ne tourne qu'une fois par jour. Les championnats
-amateurs se jouent le week-end : inutile d'interroger la FFBB plus souvent.
+1,5 s entre deux appels — y compris entre deux tentatives sur la même équipe —
+et ne tourne que **trois fois par semaine**. Les championnats amateurs se
+jouent le week-end : inutile d'interroger la FFBB plus souvent.
+
+Ce n'est pas qu'une politesse. `competitions.ffbb.com` finit par servir une
+page vidée de son contenu quand on l'appelle trop souvent depuis la même
+adresse — constaté en développement, après une dizaine d'appels rapprochés.
+L'API, elle, n'a jamais bronché.
 
 ---
 
@@ -558,9 +564,15 @@ GitHub Pages, Netlify ou Vercel — sans configuration.
 | Google Fonts | Barlow Condensed + Inter | polices système |
 | Font Awesome (cdnjs) | icônes | icônes absentes, mise en page intacte |
 | Three.js (jsDelivr) | scène 3D | logo statique |
-| Score'n'co | résultats, et classements des équipes non encore basculées | encart « momentanément indisponible » |
 
 Aucune n'est bloquante : le site reste lisible et navigable si toutes tombent.
+
+**Plus aucun script tiers ne s'exécute sur les pages.** Les widgets Score'n'co
+sont neutralisés — en commentaire dans `main.js`, `teams.js` et `index.html`,
+le module `content/scorenco.js` étant conservé intact et chaque endroit
+indiquant comment le rétablir. Classements et rencontres sont désormais servis
+depuis `assets/data/`, donc lisibles même si la FFBB est indisponible : c'est le
+dernier JSON commité qui s'affiche.
 
 ---
 
