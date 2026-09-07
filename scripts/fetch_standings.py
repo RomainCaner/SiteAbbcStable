@@ -496,6 +496,10 @@ def fetch_from_api(poule_id: str) -> dict:
 
     rows = [api_row(team) for team in ranking]
     rows = [row for row in rows if row["team"]]
+    # L'API renvoie les lignes dans l'ordre lexicographique du rang : 1, 10, 11,
+    # 12, 2, 3… Sans ce tri, le site afficherait le classement dans cet ordre.
+    rows.sort(key=lambda row: (row["rank"] if row["rank"] is not None else 999,
+                               row["team"]))
     if not rows:
         raise ParsingError(
             f"classement de la poule {poule_id} reçu, mais sans nom d'équipe lisible"
