@@ -28,10 +28,11 @@
         "competition": "RM2 — Regionale Masculine Seniors Division 2, Occitanie",
         "poule": "PYR-B",
         "teamId": "200000005142728",
-        "competitionUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2",
-        "_adversaires": "Poule PYR-B relevee via recherche : ES Toulouse Casselardit, Toulouse Lardenne Basket, Avenir Muretain, ABB Cornebarrieu. Sert a verifier qu'un identifiant pointe bien vers la bonne poule.",
-        "_pouleIdCandidat": "200000002990280 (phase 200000002857729) — releve sur une URL competitions.ffbb.com renvoyee pour une recherche PYR-B, MAIS le lien entre cet identifiant et PYR-B n'a pas pu etre verifie. A confirmer avant tout usage.",
-        "_championshipId": "TODO — identifiant hexadecimal de la poule sur resultats.ffbb.com, a reporter dans teams.json. Non trouve : les pages FFBB n'etaient pas joignables. Le script refusant un classement ou le club est absent, un identifiant peut etre teste sans risque."
+        "phaseId": "200000002857729",
+        "pouleId": "200000002990280",
+        "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280",
+        "_adversaires": "PYR-B : ES Toulouse Casselardit, Toulouse Lardenne Basket, Avenir Muretain, ABB Cornebarrieu.",
+        "_note": "Identifiants de la plateforme competitions.ffbb.com. Le script cible aujourd'hui resultats.ffbb.com, dont l'identifiant hexadecimal de cette poule reste inconnu."
       }
     }
   }
