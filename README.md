@@ -146,8 +146,8 @@ rafraîchissez la page. Les valeurs à compléter sont marquées **`TODO`**.
 
 ### `config.json` — réglages globaux
 Saison, chiffres clés, coordonnées et liens réseaux. Ces valeurs alimentent
-tous les `<span data-config="…">` et les liens `data-social`. La section
-`scorenco` y subsiste sans être lue. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
+tous les `<span data-config="…">` et les liens `data-social`. Un réseau laissé à `TODO`
+voit son icône masquée. La section `scorenco` y subsiste sans être lue. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
 
 ### `teams.json` — les équipes **(source unique)**
 Ce fichier alimente à lui seul :

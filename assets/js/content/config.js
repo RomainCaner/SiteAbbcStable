@@ -5,8 +5,8 @@
  *   `<span data-config="season">`     → remplacé par la valeur du JSON
  *   `<a data-social="instagram">`     → href remplacé si une vraie URL existe
  *
- * Les valeurs encore marquées « TODO » sont ignorées : le contenu écrit en dur
- * dans le HTML reste alors visible, ce qui évite d'afficher un placeholder.
+ * Les valeurs encore marquées « TODO » masquent leur lien social : mieux vaut
+ * une icône en moins qu'une icône qui renvoie à l'accueil du réseau.
  */
 
 import { getConfig } from '../core/data.js';
@@ -28,9 +28,14 @@ export async function applyConfig() {
   });
 
   const social = config.social || {};
+  // Un réseau sans URL renseignée est masqué plutôt que laissé sur l'adresse
+  // écrite en dur dans le HTML : celle-ci pointe vers l'accueil du réseau, ce
+  // qui envoie le visiteur nulle part. Renseigner la valeur le fait réapparaître.
   document.querySelectorAll('[data-social]').forEach((link) => {
     const value = social[link.dataset.social];
-    if (value && !isPlaceholder(value)) link.href = value;
+    const renseigne = Boolean(value) && !isPlaceholder(value);
+    if (renseigne) link.href = value;
+    link.hidden = !renseigne;
   });
 
   return config;
