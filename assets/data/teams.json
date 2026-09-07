@@ -28,7 +28,7 @@
     "shortName": "SF2",
     "name": "Senior Feminine 2",
     "displayName": "Senior Féminine 2",
-    "level": "Régional",
+    "level": "Régionale 2",
     "coach": "À définir",
     "accent": "green",
     "description": "L'équipe réserve féminine, passerelle entre les jeunes et la Nationale.",
@@ -38,6 +38,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054806",
       "classementUrl": ""
     }
   },
@@ -48,7 +49,7 @@
     "shortName": "SF3",
     "name": "Senior Feminine 3",
     "displayName": "Senior Féminine 3",
-    "level": "Départemental",
+    "level": "Pré-régionale",
     "coach": "À définir",
     "accent": "green",
     "description": "Basket plaisir et compétition départementale dans une ambiance conviviale.",
@@ -58,6 +59,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054392",
       "classementUrl": ""
     }
   },
@@ -68,7 +70,7 @@
     "shortName": "SG1",
     "name": "Senior Masculine 1",
     "displayName": "Senior Masculine 1",
-    "level": "Régional 2",
+    "level": "Régionale 2",
     "coach": "Staff technique ABBC",
     "accent": "forest",
     "description": "L'équipe fanion masculine, engagée au niveau régional.",
@@ -89,7 +91,7 @@
     "shortName": "SG2",
     "name": "Senior Masculine 2",
     "displayName": "Senior Masculine 2",
-    "level": "Départemental",
+    "level": "Départementale 2",
     "coach": "À définir",
     "accent": "forest",
     "description": "L'équipe réserve masculine, ouverte aux joueurs de tous horizons.",
@@ -99,6 +101,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054393",
       "classementUrl": ""
     }
   },
