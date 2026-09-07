@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.classementUrl' = URL de la page de classement de l'equipe, copiee telle quelle depuis le navigateur (competitions.ffbb.com/.../classement?phase=...&poule=...). Une fois renseignee, le site affiche son propre tableau au lieu du widget Score'n'co. Laissez vide tant qu'elle n'est pas connue : l'equipe reste sur son widget.",
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.pouleId' = identifiant de poule FFBB, interroge via l'API : c'est la voie a privilegier, obtenue avec scripts/decouvrir_poules.py. 'ffbb.classementUrl' = URL de la page de classement, copiee depuis le navigateur, utilisee a defaut. Tant qu'aucune des deux n'est renseignee, l'equipe reste sur son widget Score'n'co.",
     "slug": "sf1",
     "page": "sf1.html",
     "group": "seniors",
@@ -17,6 +17,7 @@
       "ranking": "39763"
     },
     "ffbb": {
+      "pouleId": "200000003054399",
       "classementUrl": ""
     }
   },
@@ -77,6 +78,7 @@
       "ranking": "39756"
     },
     "ffbb": {
+      "pouleId": "200000003054822",
       "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
     }
   },

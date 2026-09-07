@@ -67,13 +67,20 @@ def main() -> int:
             continue  # engagement sans poule attribuée (compétition à venir)
         lignes.append(
             {
-                "equipe": texte(getattr(hit, "nom_equipe", None)) or texte(hit.nom),
+                # Le numéro d'équipe est ce qui distingue SF1 de SF2 : les
+                # intitulés de compétition, eux, ne le disent pas.
+                "numero": texte(getattr(hit, "numero_equipe", None)),
+                "equipe": texte(getattr(hit, "nom_equipe", None))
+                or texte(getattr(hit, "nom_usuel", None))
+                or texte(hit.nom),
                 "club": texte(getattr(hit, "nom_club", None)),
                 "competition": texte(getattr(hit, "id_competition", None)),
                 "poule": texte(getattr(poule, "nom", None)),
                 "poule_id": poule_id,
                 "niveau": texte(getattr(hit, "niveau", None)),
                 "categorie": texte(getattr(hit, "categorie", None)),
+                "sexe": texte(getattr(hit, "sexe", None)),
+                "age": texte(getattr(hit, "age", None)),
             }
         )
 
@@ -84,20 +91,29 @@ def main() -> int:
         )
         return 1
 
-    lignes.sort(key=lambda l: (l["club"], l["competition"], l["equipe"]))
-    largeur = max(len(l["equipe"]) for l in lignes)
+    # Trié comme on lit une liste d'équipes : par sexe, puis catégorie d'âge,
+    # puis numéro d'équipe. C'est l'ordre qui rend le rapprochement évident.
+    lignes.sort(key=lambda l: (l["sexe"], l["age"], l["numero"], l["competition"]))
+    largeur = max(len(l["competition"]) for l in lignes)
     for ligne in lignes:
+        reperes = " ".join(
+            filter(None, [ligne["sexe"], ligne["age"], ligne["categorie"]])
+        )
+        numero = f"n°{ligne['numero']}" if ligne["numero"] else "n°?"
         print(
-            f"  {ligne['equipe']:<{largeur}}  {ligne['poule_id']}  "
-            f"{ligne['competition']} — poule {ligne['poule'] or '?'}"
-            f"{'  [' + ligne['categorie'] + ']' if ligne['categorie'] else ''}"
+            f"  {numero:<5s} {ligne['competition']:<{largeur}}  poule "
+            f"{(ligne['poule'] or '?'):<8s}  {ligne['poule_id']}"
+            f"{'   ' + reperes if reperes else ''}"
         )
 
-    print("\nÀ reporter dans assets/data/teams.json, sur l'équipe correspondante :")
+    print(f"\n{len(lignes)} engagement(s) avec poule, sur {len(hits)} trouvé(s).")
+    print("À reporter dans assets/data/teams.json, sur l'équipe correspondante :")
     print(f'  "ffbb": {{ "pouleId": "{lignes[0]["poule_id"]}" }}')
     print(
-        "\nLe rapprochement équipe du site ↔ engagement FFBB se fait à la main : "
-        "les intitulés diffèrent (SF1 côté site, « Séniors Féminines 1 » côté FFBB)."
+        "\nLe rapprochement se fait à la main : le sexe, la catégorie d'âge et le "
+        "numéro d'équipe ci-dessus suffisent en général à lever l'ambiguïté. Une "
+        "équipe engagée en CTC (entente entre clubs) n'apparaît pas sous le nom du "
+        "club — la chercher sous le nom de l'entente."
     )
     return 0
 
