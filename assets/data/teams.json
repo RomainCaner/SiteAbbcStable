@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.championshipId' = identifiant de la page de championnat sur resultats.ffbb.com (l'ID dans l'URL resultats.ffbb.com/championnat/<ID>.html) ; une fois renseigne, le site affiche son propre tableau de classement au lieu du widget Score'n'co. Laissez une valeur vide tant qu'elle n'est pas connue : le bloc affichera un message d'attente ou le widget, jamais un chargement casse.",
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.classementUrl' = URL de la page de classement de l'equipe, copiee telle quelle depuis le navigateur (competitions.ffbb.com/.../classement?phase=...&poule=...). Une fois renseignee, le site affiche son propre tableau au lieu du widget Score'n'co. Laissez vide tant qu'elle n'est pas connue : l'equipe reste sur son widget.",
     "slug": "sf1",
     "page": "sf1.html",
     "group": "seniors",
@@ -17,7 +17,7 @@
       "ranking": "39763"
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -37,7 +37,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -57,7 +57,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -77,7 +77,7 @@
       "ranking": "39756"
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
     }
   },
   {
@@ -97,7 +97,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -117,7 +117,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -137,7 +137,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -157,7 +157,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   },
   {
@@ -177,7 +177,7 @@
       "ranking": ""
     },
     "ffbb": {
-      "championshipId": ""
+      "classementUrl": ""
     }
   }
 ]

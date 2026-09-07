@@ -253,66 +253,72 @@ mais l'ancienne plateforme peut disparaître : si c'est le cas, il faudra
 regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
 `200000005142728` ci-dessus est un bon point d'entrée pour l'explorer).
 
-### Trouver les identifiants automatiquement
-
-Plutôt que de chercher les identifiants à la main, **laissez le workflow le
-faire** : onglet *Actions* → *Classements FFBB* → *Run workflow* → renseigner
-le champ **`decouvrir`** avec l'URL d'une page FFBB du club.
-
-Le script relève tous les liens `/championnat/<id>.html` de cette page, ouvre
-chaque candidat, et ne retient que ceux dont le classement **mentionne le
-club**. La sortie donne directement la ligne à copier :
-
-```
-3 championnat(s) à tester…
-
-  ✗ b5e6211fe70a  le club n'apparaît pas dans ce classement (12 équipes : …)
-  ✓ b5e6211fe70c  REGIONALE MASCULINE 2 - POULE PYR-B — 12 équipes
-
-À reporter dans assets/data/teams.json :
-  "ffbb": { "championshipId": "b5e6211fe70c" }   → REGIONALE MASCULINE 2 - POULE PYR-B
-```
-
-Le contrôle de présence du club sert ici de validateur : un identifiant retenu
-est forcément le bon.
-
-En local, si la machine a accès à la FFBB :
-
-```bash
-python scripts/fetch_standings.py --discover "https://resultats.ffbb.com/..."
-```
-
 ### Brancher une équipe
 
-1. Récupérer l'identifiant (voir ci-dessus) et le coller dans
-   `assets/data/teams.json` :
-   ```json
-   "ffbb": { "championshipId": "b5e6211fe70c" }
-   ```
-2. Lancer le workflow sans remplir `decouvrir`, ou attendre l'exécution
-   planifiée.
+Ouvrir la page de **classement** de l'équipe sur
+[competitions.ffbb.com](https://competitions.ffbb.com), copier l'URL de la
+barre d'adresse et la coller dans `assets/data/teams.json` :
 
-#### Un identifiant peut être testé sans risque
+```json
+"ffbb": {
+  "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
+}
+```
 
-Un identifiant pointant vers la mauvaise poule produirait un tableau
-parfaitement valide, mais qui n'est pas celui du club — une erreur qu'aucun
-contrôle visuel ne rattrape.
+C'est tout : pas d'identifiant à extraire, l'URL suffit. Lancer ensuite le
+workflow (*Actions* → *Classements FFBB* → *Run workflow*) ou attendre
+l'exécution planifiée.
 
-Le script **refuse donc tout classement où le club n'apparaît pas** :
+SG1 est déjà branchée sur RM2 Occitanie / PYR-B.
+
+### Comment le classement est extrait
+
+Deux stratégies, essayées dans cet ordre, ce qui couvre les deux plateformes
+de la FFBB :
+
+1. **Données JSON de la page** (`__NEXT_DATA__`, `__NUXT__`,
+   `__INITIAL_STATE__`) — c'est le cas de `competitions.ffbb.com`, dont les
+   pages sont construites en JavaScript. Le script parcourt la structure et
+   retient **le tableau qui contient le club**. Les champs sont reconnus par
+   correspondance approximative de noms (`rangOfficiel`, `nbVictoires`,
+   `pointsInscrits`… sont compris sans avoir été prévus), et un nom d'équipe
+   imbriqué (`{"equipe": {"nom": "…"}}`) est géré.
+2. **Tableau HTML** — l'ancienne plateforme `resultats.ffbb.com`, avec
+   l'association par intitulé doublée du repli positionnel décrit plus bas.
+
+La sortie indique la stratégie retenue :
+
+```
+sg1     4 équipes — Régionale Masculine 2 - PYR-B [via __NEXT_DATA__]
+```
+
+#### Une mauvaise URL ne peut pas passer
+
+Une URL pointant vers la mauvaise poule produirait un tableau parfaitement
+valide, mais qui n'est pas celui du club — une erreur qu'aucun contrôle visuel
+ne rattrape. Le script **refuse tout classement où le club n'apparaît pas**,
+sur les deux plateformes :
 
 ```
 sg1 : le club n'apparaît pas dans ce classement
-      (3 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET…).
-      L'identifiant pointe probablement vers une autre poule.
+      (4 équipes : MONTPELLIER BC, NIMES BASKET, AGDE BASKET, SETE BASKET…).
+      L'URL pointe probablement vers une autre poule.
 ```
 
-Au pire, un identifiant erroné est rejeté avec la liste des équipes trouvées,
-ce qui permet de voir immédiatement sur quelle poule on est tombé. Jamais de
-classement publié de travers. La reconnaissance du club se règle dans
-`CLUB_PATTERNS` en tête de `scripts/fetch_standings.py`.
+La reconnaissance du club se règle dans `CLUB_PATTERNS`, en tête de
+`scripts/fetch_standings.py`.
 
-Tant qu'un `championshipId` est vide, l'équipe **continue d'afficher son widget
-Score'n'co**. La bascule se fait donc équipe par équipe, sans rien casser.
+#### Si une page résiste
+
+Le mode découverte décrit ce que contient réellement une page — titre, liens,
+présence d'un bloc de données, identifiants et URL d'API repérées :
+
+```bash
+python scripts/fetch_standings.py --discover "https://competitions.ffbb.com/..."
+```
+
+Disponible aussi depuis le workflow, champ `decouvrir`, ce qui permet de
+l'exécuter depuis un environnement ayant accès à la FFBB.
 
 ### Tester le parsing sans appeler la FFBB
 

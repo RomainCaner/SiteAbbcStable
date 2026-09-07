@@ -171,13 +171,141 @@ def extract_row(cells, header_map: dict[int, str]) -> dict:
     return entry
 
 
-def parse_standings(html: str) -> dict:
-    """Extrait le classement d'une page de championnat FFBB.
+# ---------------------------------------------- plateforme moderne (JSON)
 
-    Lève ParsingError si la structure attendue est absente : mieux vaut un
-    échec visible dans le workflow qu'un JSON silencieusement vide qui
-    remplacerait de bonnes données.
+# Correspondance approximative entre les clés d'un objet JSON et nos champs.
+# On teste par inclusion, sans connaître les noms exacts employés par la FFBB.
+JSON_KEY_HINTS = {
+    "rank": ("rang", "position", "classement", "place", "clt"),
+    "team": ("nomequipe", "nomusuel", "equipe", "team", "libelle", "nom"),
+    "points": ("point",),
+    "played": ("joue", "played", "matchs", "rencontres", "mj"),
+    "won": ("gagne", "victoire", "won", "win"),
+    "lost": ("perdu", "defaite", "lost"),
+    "scored": ("marque", "pour", "inscrits", "bp"),
+    "conceded": ("encaisse", "contre", "recus", "bc"),
+    "diff": ("difference", "diff", "ecart", "goalaverage"),
+}
+
+# Clés à ignorer : elles contiennent « point » ou « nom » sans être ce qu'on veut.
+JSON_KEY_EXCLUDE = ("id", "uuid", "code", "url", "logo", "image", "couleur")
+
+
+def normalise_key(key: str) -> str:
+    return re.sub(r"[^a-z]", "", key.lower())
+
+
+def looks_like_team_name(value) -> bool:
+    return isinstance(value, str) and 2 < len(value) < 80 and any(c.isalpha() for c in value)
+
+
+def map_json_row(row: dict) -> dict:
+    """Ramène un objet JSON de la FFBB à notre schéma, par correspondance de clés."""
+    entry: dict = {}
+    for raw_key, value in row.items():
+        key = normalise_key(raw_key)
+        if any(bad in key for bad in JSON_KEY_EXCLUDE):
+            continue
+        for field, hints in JSON_KEY_HINTS.items():
+            if field in entry or not any(hint in key for hint in hints):
+                continue
+            if field == "team":
+                # Le nom peut être imbriqué : {"equipe": {"nom": "..."}}.
+                candidate = value.get("nom") if isinstance(value, dict) else value
+                if looks_like_team_name(candidate):
+                    entry[field] = clean(candidate)
+            elif isinstance(value, (int, float)) or (isinstance(value, str) and value.lstrip("+-").isdigit()):
+                entry[field] = to_int(str(value))
+            break
+    return entry
+
+
+def collect_standings_tables(node, found: list, depth: int = 0) -> None:
+    """Collecte, dans une structure JSON, tous les tableaux ressemblant à un
+    classement.
+
+    Plutôt que de deviner le chemin d'accès, on parcourt tout et on retient les
+    tableaux d'objets porteurs d'un nom d'équipe. L'extraction est ainsi
+    indépendante du nommage employé par la FFBB.
     """
+    if depth > 12:
+        return
+
+    if isinstance(node, list):
+        rows = [item for item in node if isinstance(item, dict)]
+        if len(rows) >= 3:
+            named = [m for m in (map_json_row(row) for row in rows) if m.get("team")]
+            if len(named) >= 3:
+                found.append(named)
+        for item in node:
+            collect_standings_tables(item, found, depth + 1)
+
+    elif isinstance(node, dict):
+        for value in node.values():
+            collect_standings_tables(value, found, depth + 1)
+
+
+def parse_hydration(html: str):
+    """Extrait le classement des données JSON déposées dans la page.
+
+    Les applications web modernes embarquent les données affichées dans un bloc
+    JSON. Les lire évite d'avoir à interpréter un DOM construit en JavaScript.
+
+    Parmi les tableaux candidats, on retient celui qui contient le club : c'est
+    à la fois la façon de trouver le bon et la garantie d'être sur la bonne
+    poule. Si aucun ne le contient alors que des classements existent, l'URL
+    vise une autre poule — et on le dit.
+    """
+    for name, pattern in HYDRATION_BLOCKS:
+        found = pattern.search(html)
+        if not found:
+            continue
+        raw = found.group(1).strip().rstrip(";")
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+
+        candidates: list = []
+        collect_standings_tables(data, candidates)
+        if not candidates:
+            continue
+
+        for rows in candidates:
+            if any(is_club_row(row["team"]) for row in rows):
+                for row in rows:
+                    row["isClub"] = is_club_row(row["team"])
+                return rows, name
+
+        # Des classements existent, mais aucun ne mentionne le club.
+        sample = candidates[0][:4]
+        raise ParsingError(
+            "le club n'apparaît pas dans ce classement "
+            f"({len(candidates[0])} équipes : {', '.join(r['team'] for r in sample)}…). "
+            "L'URL pointe probablement vers une autre poule."
+        )
+
+    return None, None
+
+
+def parse_standings(html: str) -> dict:
+    """Extrait le classement d'une page FFBB, quelle que soit la plateforme.
+
+    Deux stratégies, essayées dans cet ordre :
+      1. les données JSON embarquées dans la page (plateforme moderne) ;
+      2. le tableau HTML `.liste` (ancienne plateforme).
+
+    Lève ParsingError si aucune n'aboutit : mieux vaut un échec visible dans le
+    workflow qu'un JSON silencieusement vide qui remplacerait de bonnes données.
+    """
+    rows, source_kind = parse_hydration(html)
+    if rows:
+        competition = ""
+        match = re.search(r"<title>(.*?)</title>", html, re.S | re.I)
+        if match:
+            competition = clean(re.sub(r"\s*\|\s*FFBB\s*$", "", match.group(1)))
+        return {"competition": competition, "rows": rows, "extraction": source_kind}
+
     try:
         from bs4 import BeautifulSoup
     except ImportError:  # pragma: no cover
@@ -188,10 +316,10 @@ def parse_standings(html: str) -> dict:
     title_node = soup.select_one("#idTdDivision")
     competition = clean(title_node.get_text()) if title_node else ""
 
-    tables = soup.select("table.liste") or soup.select(".liste")
+    tables = soup.select("table.liste") or soup.select(".liste") or soup.select("table")
     if not tables:
         raise ParsingError(
-            "aucun tableau '.liste' trouvé — la page a probablement changé de structure"
+            "aucun tableau ni bloc de données JSON — page probablement rendue en JavaScript"
         )
 
     for table in tables:
@@ -229,11 +357,10 @@ def parse_standings(html: str) -> dict:
                     f"({len(entries)} équipes : {', '.join(e['team'] for e in entries[:4])}…). "
                     "L'identifiant pointe probablement vers une autre poule."
                 )
-            return {"competition": competition, "rows": entries}
+            return {"competition": competition, "rows": entries, "extraction": "tableau HTML"}
 
     raise ParsingError(
-        "tableau '.liste' présent mais aucune ligne de classement exploitable "
-        "(une ligne doit commencer par un rang numérique)"
+        "ni données JSON exploitables, ni tableau de classement lisible dans la page"
     )
 
 
@@ -418,16 +545,22 @@ def main() -> int:
 
     for team in teams:
         slug = team["slug"]
-        championship_id = (team.get("ffbb") or {}).get("championshipId", "")
+        ffbb = team.get("ffbb") or {}
+        # `classementUrl` : URL de la page de classement, copiée depuis le
+        # navigateur. `championshipId` : ancienne plateforme, conservé pour
+        # compatibilité.
+        source_url = ffbb.get("classementUrl", "")
+        if not source_url and ffbb.get("championshipId"):
+            source_url = BASE_URL.format(id=ffbb["championshipId"])
 
         if args.html_file:
             html = Path(args.html_file).read_text(encoding="utf-8", errors="replace")
-        elif championship_id:
+        elif source_url:
             if not first:
                 time.sleep(DELAY_BETWEEN_REQUESTS)
             first = False
             try:
-                html = fetch_html(championship_id)
+                html = fetch_url(source_url)
             except Exception as error:  # réseau, 404, 5xx…
                 failures.append(f"{slug} : récupération impossible ({error})")
                 continue
@@ -441,10 +574,12 @@ def main() -> int:
             failures.append(f"{slug} : {error}")
             continue
 
-        standings["source"] = BASE_URL.format(id=championship_id) if championship_id else args.html_file
+        standings["source"] = source_url or args.html_file
         standings["updatedAt"] = now
         result["teams"][slug] = standings
-        print(f"  {slug:6s} {len(standings['rows']):2d} équipes — {standings['competition'] or '(sans titre)'}")
+        print(f"  {slug:6s} {len(standings['rows']):2d} équipes — "
+              f"{standings['competition'] or '(sans titre)'} "
+              f"[via {standings.pop('extraction', '?')}]")
 
     if failures:
         print("\nÉchecs :", file=sys.stderr)
