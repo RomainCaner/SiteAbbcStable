@@ -384,8 +384,23 @@ def parse_standings(html: str) -> dict:
 
     tables = soup.select("table.liste") or soup.select(".liste") or soup.select("table")
     if not tables:
+        # Sans la taille, deux échecs très différents se ressemblent dans les
+        # journaux du workflow : une page complète dont on n'a pas su lire la
+        # structure, et une réponse vidée de son contenu. Une page de
+        # compétition FFBB complète fait environ un million de caractères et
+        # porte plus de trois cents liens ; bien en dessous, il n'y a pas de
+        # structure à ne pas avoir reconnue.
+        taille, liens = len(html), len(soup.select("a[href]"))
+        if taille < 50_000 and liens < 20:
+            raise ParsingError(
+                f"réponse de {taille} caractères et {liens} liens : trop peu pour une "
+                "page de compétition. Soit l'URL ne mène pas à un classement, soit la "
+                "FFBB a servi une page vide (requête refusée, ou trop d'appels "
+                "rapprochés)."
+            )
         raise ParsingError(
-            "aucun tableau ni bloc de données JSON — page probablement rendue en JavaScript"
+            f"aucun tableau ni bloc de données JSON dans {taille} caractères — "
+            "structure de page non reconnue"
         )
 
     for table in tables:

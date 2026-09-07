@@ -273,24 +273,68 @@ SG1 est déjà branchée sur RM2 Occitanie / PYR-B.
 
 ### Comment le classement est extrait
 
-Deux stratégies, essayées dans cet ordre, ce qui couvre les deux plateformes
-de la FFBB :
+Pour chaque équipe, le script essaie plusieurs **formes du même contenu**, à la
+demande, et s'arrête à la première qui donne un classement lisible — les
+suivantes ne sont jamais demandées.
 
-1. **Données JSON de la page** (`__NEXT_DATA__`, `__NUXT__`,
-   `__INITIAL_STATE__`) — c'est le cas de `competitions.ffbb.com`, dont les
-   pages sont construites en JavaScript. Le script parcourt la structure et
-   retient **le tableau qui contient le club**. Les champs sont reconnus par
-   correspondance approximative de noms (`rangOfficiel`, `nbVictoires`,
-   `pointsInscrits`… sont compris sans avoir été prévus), et un nom d'équipe
-   imbriqué (`{"equipe": {"nom": "…"}}`) est géré.
-2. **Tableau HTML** — l'ancienne plateforme `resultats.ffbb.com`, avec
-   l'association par intitulé doublée du repli positionnel décrit plus bas.
+Deux formes d'URL (avec et sans `/classement`, selon les ligues) et, sur
+`competitions.ffbb.com`, deux formes de réponse :
+
+- **Flux de données** (en-tête `RSC`). Le site est une application Next.js : au
+  premier chargement le serveur envoie du HTML, mais avec cet en-tête il envoie
+  à la place le flux de données brut — c'est ainsi que le site change de poule
+  ou de journée sans recharger la page. Essayé en premier.
+- **HTML**, pour l'ancienne plateforme `resultats.ffbb.com`.
+
+Sur chaque document, trois stratégies d'analyse dans cet ordre :
+
+1. **Blocs de données nommés** (`__NEXT_DATA__`, `__NUXT_DATA__`,
+   `ng-state`, `__PRELOADED_STATE__`), plus un filet générique sur tout
+   `<script type="application/json">` de taille significative. Le script
+   parcourt la structure et retient **le tableau qui contient le club**. Les
+   champs sont reconnus par correspondance approximative de noms
+   (`rangOfficiel`, `nbVictoires`, `pointsInscrits`… sont compris sans avoir
+   été prévus), et un nom d'équipe imbriqué (`{"equipe": {"nom": "…"}}`) est
+   géré.
+2. **Flux Next.js**, sous ses deux formes : encodé dans des chaînes JavaScript
+   (`self.__next_f.push`) dans une page HTML, brut dans une réponse `RSC`. Le
+   flux n'étant pas un document JSON unique mais une suite de fragments
+   préfixés, les tableaux d'objets en sont extraits par lecture à parenthésage
+   équilibré. Le flux contient aussi les **rencontres**, où le club figure sans
+   classement : entre plusieurs candidats, celui qui porte le plus de points
+   l'emporte.
+3. **Tableau HTML** — l'ancienne plateforme, avec l'association par intitulé
+   doublée du repli positionnel décrit plus bas.
 
 La sortie indique la stratégie retenue :
 
 ```
-sg1     4 équipes — Régionale Masculine 2 - PYR-B [via __NEXT_DATA__]
+sg1     4 équipes — Régionale Masculine 2 - PYR-B [via flux RSC]
 ```
+
+Une réponse `RSC` n'ayant pas de `<title>`, le nom de la compétition retombe
+alors sur le champ `level` de `teams.json`.
+
+#### État actuel : la FFBB ne répond plus normalement
+
+Le mécanisme est en place et vérifié sur dix jeux d'essai hors ligne, mais il
+**ne ramène pas encore de vraies données**. Les premiers appels depuis le
+workflow recevaient bien la page complète (1 076 897 caractères, 352 liens) ;
+après une dizaine d'appels rapprochés, `competitions.ffbb.com` a commencé à
+servir une page vidée de son contenu — au navigateur comme en HTTP simple. Le
+script le dit explicitement plutôt que de laisser croire à un défaut
+d'analyse :
+
+```
+sg1 : flux RSC : réponse de 2 378 caractères et 3 liens : trop peu pour une
+      page de compétition. Soit l'URL ne mène pas à un classement, soit la
+      FFBB a servi une page vide (requête refusée, ou trop d'appels
+      rapprochés).
+```
+
+Il n'y a rien à corriger dans le code tant que ce message-là s'affiche : c'est
+au rythme des appels qu'il faut laisser du temps. Le site, lui, reste sur les
+widgets Score'n'co, qui fonctionnent.
 
 #### Une mauvaise URL ne peut pas passer
 
@@ -319,6 +363,14 @@ python scripts/fetch_standings.py --discover "https://competitions.ffbb.com/..."
 
 Disponible aussi depuis le workflow, champ `decouvrir`, ce qui permet de
 l'exécuter depuis un environnement ayant accès à la FFBB.
+
+Quand ça ne suffit pas — parce que la donnée n'est pas dans le HTML du tout —
+`scripts/decouvrir_api.mjs` ouvre la page dans Chromium et relève **ce que le
+site appelle réellement** : chaque réponse JSON, classée selon qu'elle contient
+le club et des clés de classement, les tableaux rendus à l'écran et la forme
+des routes. C'est ce sondage qui a mis au jour l'en-tête `RSC`. Il est ponctuel,
+déclenché par le champ `sonder` du workflow, et ne met rien à jour ; la mise à
+jour quotidienne reste en HTTP simple, sans navigateur.
 
 ### Tester le parsing sans appeler la FFBB
 
