@@ -259,6 +259,17 @@ def collect_standings_tables(node, found: list, depth: int = 0) -> None:
             collect_standings_tables(value, found, depth + 1)
 
 
+def json_payloads(html: str):
+    """Tous les blocs JSON de la page, nommés quand c'est possible."""
+    for name, pattern in HYDRATION_BLOCKS:
+        found = pattern.search(html)
+        if found:
+            yield name, found.group(1)
+    for index, raw in enumerate(JSON_SCRIPT.findall(html), start=1):
+        if len(raw) > 200:  # on ignore les petits blocs de configuration
+            yield f"script JSON #{index}", raw
+
+
 def parse_hydration(html: str):
     """Extrait le classement des données JSON déposées dans la page.
 
@@ -270,11 +281,8 @@ def parse_hydration(html: str):
     poule. Si aucun ne le contient alors que des classements existent, l'URL
     vise une autre poule — et on le dit.
     """
-    for name, pattern in HYDRATION_BLOCKS:
-        found = pattern.search(html)
-        if not found:
-            continue
-        raw = found.group(1).strip().rstrip(";")
+    for name, payload in json_payloads(html):
+        raw = payload.strip().rstrip(";")
         try:
             data = json.loads(raw)
         except json.JSONDecodeError:
@@ -436,8 +444,16 @@ FFBB_NUMERIC_ID = re.compile(r"\b(\d{12,18})\b")
 # HTML : c'est la piste à privilégier sur la plateforme moderne.
 HYDRATION_BLOCKS = (
     ("__NEXT_DATA__", re.compile(r'id="__NEXT_DATA__"[^>]*>(.*?)</script>', re.S)),
+    ("__NUXT_DATA__", re.compile(r'id="__NUXT_DATA__"[^>]*>(.*?)</script>', re.S)),
+    ("ng-state", re.compile(r'id="(?:ng-state|serverApp-state)"[^>]*>(.*?)</script>', re.S)),
     ("__NUXT__", re.compile(r"window\.__NUXT__\s*=\s*(.*?)</script>", re.S)),
-    ("__INITIAL_STATE__", re.compile(r"window\.__INITIAL_STATE__\s*=\s*(.*?)</script>", re.S)),
+    ("__INITIAL_STATE__", re.compile(r"window\.__(?:INITIAL_STATE|PRELOADED_STATE)__\s*=\s*(.*?)</script>", re.S)),
+)
+
+# Filet generique : n'importe quel <script type="application/json">. Couvre les
+# frameworks non prevus, dont les blocs ne portent pas de nom connu.
+JSON_SCRIPT = re.compile(
+    r'<script[^>]+type="application/json"[^>]*>(.*?)</script>', re.S | re.I
 )
 
 
@@ -477,7 +493,23 @@ def report_page(url: str, html: str) -> None:
         sample = [a.get("href", "") for a in links[:14]]
         print(f"  Exemples de liens : {', '.join(h[:52] for h in sample if h)}")
 
-    if len(links) < 5 and not any(p.search(html) for _, p in HYDRATION_BLOCKS):
+    blocks = list(json_payloads(html))
+    if blocks:
+        print(f"  Blocs JSON      : {len(blocks)} — {', '.join(n for n, _ in blocks[:5])}")
+
+    # Le plus parlant : voir comment le club est ecrit dans la page.
+    for pattern in CLUB_PATTERNS:
+        hit = pattern.search(html)
+        if hit:
+            start, end = max(0, hit.start() - 260), min(len(html), hit.end() + 260)
+            excerpt = re.sub(r"\s+", " ", html[start:end])
+            print(f"  Contexte autour du club (position {hit.start()}) :")
+            print(f"    …{excerpt}…")
+            break
+    else:
+        print("  ⚠ Le nom du club n'apparaît nulle part dans la page.")
+
+    if len(links) < 5 and not blocks:
         print("  ⚠ Page quasiment vide côté serveur : contenu chargé en JavaScript.")
         print("    Il faudra viser l'API plutôt que le HTML.")
     print("--- fin du diagnostic ---\n")
