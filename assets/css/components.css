@@ -1402,10 +1402,12 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 .fixture--empty i { font-size: 1.75rem; opacity: .45; }
 
 /* --- Vue d'ensemble sur l'accueil ---------------------------------------- */
+/* 20rem plutôt que 16 : avec cinq équipes, une piste plus étroite donnerait
+   quatre colonnes et une tuile seule sur la seconde ligne. */
 .fixture-grid {
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
 }
 
 .fixture-tile {
