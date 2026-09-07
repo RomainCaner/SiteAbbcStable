@@ -58,6 +58,21 @@ REQUEST_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "fr-FR,fr;q=0.9",
 }
+
+# competitions.ffbb.com est une application Next.js : le HTML du premier
+# chargement ne porte que le calendrier. Avec l'en-tête `RSC`, le même serveur
+# renvoie à la place le flux de données brut — c'est ce que le site se demande à
+# lui-même quand on change de poule ou de journée sans recharger la page. Relevé
+# en ouvrant la page dans un navigateur : elle appelle sa propre URL avec cet
+# en-tête et reçoit 587 638 caractères de données, là où le HTML n'en donnait
+# aucune d'exploitable.
+MODERN_HOST = "competitions.ffbb.com"
+RSC_HEADERS = {
+    **REQUEST_HEADERS,
+    "RSC": "1",
+    "Accept": "text/x-component,application/json;q=0.9,*/*;q=0.8",
+}
+
 REQUEST_TIMEOUT = 30
 DELAY_BETWEEN_REQUESTS = 1.5  # on reste courtois avec la FFBB
 
@@ -270,7 +285,7 @@ def json_payloads(html: str):
             yield f"script JSON #{index}", raw
 
 
-def parse_hydration(html: str):
+def parse_hydration(document: str):
     """Extrait le classement des données JSON déposées dans la page.
 
     Les applications web modernes embarquent les données affichées dans un bloc
@@ -281,7 +296,7 @@ def parse_hydration(html: str):
     poule. Si aucun ne le contient alors que des classements existent, l'URL
     vise une autre poule — et on le dit.
     """
-    for name, payload in json_payloads(html):
+    for name, payload in json_payloads(document):
         raw = payload.strip().rstrip(";")
         try:
             data = json.loads(raw)
@@ -307,12 +322,21 @@ def parse_hydration(html: str):
             "L'URL pointe probablement vers une autre poule."
         )
 
-    # Dernier recours : le flux Next.js, ou les donnees arrivent en morceaux
-    # de JSON encode dans des chaines JavaScript.
-    flight = decode_next_flight(html)
+    # Dernier recours : le flux Next.js. Il se présente sous deux formes selon
+    # la façon dont le document a été obtenu — encodé dans des chaînes
+    # JavaScript quand c'est une page HTML, brut quand c'est une réponse RSC.
+    flight = decode_next_flight(document)
+    sources = []
     if flight:
+        sources.append((flight, "flux Next.js"))
+    else:
+        # Pas de `self.__next_f` : soit ce n'est pas du Next.js, soit c'est
+        # déjà le flux lui-même. Le lire directement ne coûte rien.
+        sources.append((document, "flux RSC"))
+
+    for text, kind in sources:
         best = None
-        for fragment in json_fragments(flight):
+        for fragment in json_fragments(text):
             candidates = []
             collect_standings_tables(fragment, candidates)
             for rows in candidates:
@@ -325,7 +349,7 @@ def parse_hydration(html: str):
         if best:
             for row in best[0]:
                 row["isClub"] = is_club_row(row["team"])
-            return best[0], "flux Next.js"
+            return best[0], kind
 
     return None, None
 
@@ -408,7 +432,7 @@ def parse_standings(html: str) -> dict:
 
 # ---------------------------------------------------------------- récupération
 
-def fetch_url(url: str) -> str:
+def fetch_url(url: str, headers: dict | None = None) -> str:
     """Requête HTTP courtoise, avec réessais sur erreur serveur.
 
     Les serveurs FFBB renvoient assez souvent des 502/503/504 passagers. Une
@@ -423,7 +447,9 @@ def fetch_url(url: str) -> str:
     last_error = None
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            response = requests.get(url, headers=REQUEST_HEADERS, timeout=REQUEST_TIMEOUT)
+            response = requests.get(
+                url, headers=headers or REQUEST_HEADERS, timeout=REQUEST_TIMEOUT
+            )
         except requests.RequestException as error:  # coupure, DNS, délai dépassé
             last_error = error
         else:
@@ -684,18 +710,36 @@ def url_variants(url: str) -> list[str]:
     return variants
 
 
-def fetch_standings_page(url: str) -> tuple[str, str]:
-    """Récupère la page de classement en essayant les formes d'URL connues.
+def standings_documents(url: str):
+    """Documents où chercher un classement, du plus prometteur au moins.
 
-    @returns (html, url réellement utilisée)
+    Deux formes d'URL (avec ou sans `/classement`) et, sur la plateforme
+    moderne, deux formes de réponse : le flux de données d'abord, le HTML
+    ensuite. On les produit à la demande et l'appelant s'arrête au premier qui
+    donne un classement lisible — inutile de solliciter la FFBB pour les
+    suivants.
+
+    @returns itérateur de (document, url utilisée, forme de la réponse)
     """
     errors = []
+    served = 0
+
     for candidate in url_variants(url):
-        try:
-            return fetch_url(candidate), candidate
-        except Exception as error:
-            errors.append(f"{candidate.split('?')[0]} → {error}")
-    raise RuntimeError(" | ".join(errors))
+        forms = [(REQUEST_HEADERS, "HTML")]
+        if MODERN_HOST in candidate:
+            forms.insert(0, (RSC_HEADERS, "flux RSC"))
+
+        for headers, shape in forms:
+            try:
+                document = fetch_url(candidate, headers)
+            except Exception as error:
+                errors.append(f"{shape} sur {candidate.split('?')[0]} → {error}")
+                continue
+            served += 1
+            yield document, candidate, shape
+
+    if not served:
+        raise RuntimeError(" | ".join(errors))
 
 
 def load_teams() -> list[dict]:
@@ -741,25 +785,42 @@ def main() -> int:
             source_url = BASE_URL.format(id=ffbb["championshipId"])
 
         if args.html_file:
-            html = Path(args.html_file).read_text(encoding="utf-8", errors="replace")
+            documents = [(Path(args.html_file).read_text(encoding="utf-8", errors="replace"),
+                          args.html_file, "fichier local")]
         elif source_url:
             if not first:
                 time.sleep(DELAY_BETWEEN_REQUESTS)
             first = False
-            try:
-                html, source_url = fetch_standings_page(source_url)
-            except Exception as error:  # réseau, 404, 5xx…
-                failures.append(f"{slug} : récupération impossible ({error})")
-                continue
+            documents = standings_documents(source_url)
         else:
             # Pas d'identifiant : l'équipe reste sur le widget Score'n'co.
             continue
 
+        # Plusieurs formes du même contenu sont tentées : on s'arrête à la
+        # première qui donne un classement, et on retient laquelle c'était.
+        standings = None
+        attempts = []
         try:
-            standings = parse_standings(html)
-        except ParsingError as error:
-            failures.append(f"{slug} : {error}")
+            for document, used_url, shape in documents:
+                try:
+                    standings = parse_standings(document)
+                except ParsingError as error:
+                    attempts.append(f"{shape} : {error}")
+                    continue
+                source_url = used_url
+                break
+        except Exception as error:  # réseau, 404, 5xx… : aucune forme servie
+            failures.append(f"{slug} : récupération impossible ({error})")
             continue
+
+        if standings is None:
+            failures.append(f"{slug} : " + " ; ".join(attempts))
+            continue
+
+        # Une réponse RSC n'a pas de <title> : on retombe sur le niveau déclaré
+        # dans teams.json plutôt que d'afficher un en-tête vide.
+        if not standings["competition"]:
+            standings["competition"] = team.get("level", "")
 
         standings["source"] = source_url or args.html_file
         standings["updatedAt"] = now
