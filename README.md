@@ -61,6 +61,8 @@ SiteAbbcStable/
 │
 ├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
 ├── partials/             navbar.html · footer.html (fragments injectés)
+├── scripts/              récupération des classements FFBB (hors site)
+├── .github/workflows/    mise à jour automatique des classements
 │
 ├── assets/
 │   ├── data/             ← LE CONTENU DU SITE (voir « Gérer le contenu »)
@@ -108,7 +110,8 @@ assets/js/
     ├── events.js         Bandeau « prochain rendez-vous » + agenda
     ├── news.js           Actualités (grille éditoriale, liste, article)
     ├── teams.js          Fiches d'équipe + annuaire
-    └── scorenco.js       Widgets Score'n'co
+    ├── standings.js      Classement rendu par le site (données FFBB)
+    └── scorenco.js       Widgets Score'n'co (repli)
 ```
 
 **Le rendu est piloté par le HTML.** Chaque module cherche ses conteneurs
@@ -186,6 +189,87 @@ Le premier article occupe la grande carte de la grille d'accueil.
 
 ---
 
+## Classements : du widget tiers aux données du club
+
+Le site sait afficher **ses propres tableaux de classement**, alimentés par les
+données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
+
+### Pourquoi
+
+| | Widget Score'n'co | Classement maison |
+|---|---|---|
+| Script tiers sur la page | oui | **non** |
+| Mise en forme | imposée | **à la charte du site** |
+| Bloqueur de contenu | peut le masquer | insensible |
+| Source indisponible | bloc vide | **dernier classement connu reste affiché** |
+| Historique | aucun | **versionné dans git** |
+
+### Comment ça marche
+
+```
+.github/workflows/classements.yml   (tous les jours à 6h UTC)
+        │
+        ▼
+scripts/fetch_standings.py          récupère + parse resultats.ffbb.com
+        │
+        ▼
+assets/data/standings.json          commité si le classement a changé
+        │
+        ▼
+assets/js/content/standings.js      rend le tableau sur la fiche d'équipe
+```
+
+Le site étant statique, il ne peut pas appeler la FFBB depuis le navigateur
+(CORS). C'est donc GitHub Actions qui récupère les données en amont et les
+dépose dans un JSON servi par le site — aucune infrastructure à héberger.
+
+### Brancher une équipe
+
+1. Sur [resultats.ffbb.com](https://resultats.ffbb.com), ouvrir la page du
+   championnat de l'équipe. L'URL a la forme
+   `resultats.ffbb.com/championnat/`**`b5e6211fe70a`**`.html`.
+2. Copier l'identifiant (la partie en gras) dans `assets/data/teams.json` :
+   ```json
+   "ffbb": { "championshipId": "b5e6211fe70a" }
+   ```
+3. Lancer le workflow à la main (onglet *Actions* → *Classements FFBB* →
+   *Run workflow*), ou attendre la prochaine exécution planifiée.
+
+Tant qu'un `championshipId` est vide, l'équipe **continue d'afficher son widget
+Score'n'co**. La bascule se fait donc équipe par équipe, sans rien casser.
+
+### Tester le parsing sans appeler la FFBB
+
+```bash
+pip install -r scripts/requirements.txt
+
+# Sur un jeu d'essai fourni
+python scripts/fetch_standings.py --html-file scripts/tests/championnat-exemple.html --team sf1 --dry-run
+
+# Sur une vraie page enregistrée depuis le navigateur (Ctrl+S)
+python scripts/fetch_standings.py --html-file ma-page.html --team sf1 --dry-run
+```
+
+Le script **associe les colonnes par intitulé** (`Clt`, `Equipe`, `Pts`, `J`,
+`G`, `P`, `BP`, `BC`, `Diff`) plutôt que par position : une colonne ajoutée par
+la FFBB ne décale plus tout le tableau. Si la structure change au point de
+devenir illisible, il **échoue bruyamment** (code de sortie 1, message
+explicite) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
+
+> ⚠️ Le parsing n'a pas encore été confronté à une vraie page FFBB — il a été
+> écrit d'après la structure connue (`#idTdDivision` pour le titre,
+> `table.liste` pour le classement) et validé sur un jeu d'essai. La première
+> exécution avec un vrai `championshipId` peut demander un ajustement des
+> intitulés de colonnes dans `COLUMN_ALIASES`.
+
+### Bon voisinage
+
+Le script s'identifie par un `User-Agent` explicite avec un contact, attend
+1,5 s entre deux requêtes et ne tourne qu'une fois par jour. Les championnats
+amateurs se jouent le week-end : inutile d'interroger la FFBB plus souvent.
+
+---
+
 ## La scène 3D (`assets/js/ui/hero3d.js`)
 
 Le ballon du bandeau d'accueil est **entièrement procédural** : géométrie
@@ -255,7 +339,7 @@ GitHub Pages, Netlify ou Vercel — sans configuration.
 | Google Fonts | Barlow Condensed + Inter | polices système |
 | Font Awesome (cdnjs) | icônes | icônes absentes, mise en page intacte |
 | Three.js (jsDelivr) | scène 3D | logo statique |
-| Score'n'co | résultats et classements | encart « momentanément indisponible » |
+| Score'n'co | résultats, et classements des équipes non encore basculées | encart « momentanément indisponible » |
 
 Aucune n'est bloquante : le site reste lisible et navigable si toutes tombent.
 

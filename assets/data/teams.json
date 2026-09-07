@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. Les identifiants 'widgets' sont ceux de Score'n'co (menu Partager > Widget sur scorenco.com) : laissez la chaine vide tant que l'ID n'est pas connu, le bloc affichera un message d'attente au lieu d'un widget casse.",
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.championshipId' = identifiant de la page de championnat sur resultats.ffbb.com (l'ID dans l'URL resultats.ffbb.com/championnat/<ID>.html) ; une fois renseigne, le site affiche son propre tableau de classement au lieu du widget Score'n'co. Laissez une valeur vide tant qu'elle n'est pas connue : le bloc affichera un message d'attente ou le widget, jamais un chargement casse.",
     "slug": "sf1",
     "page": "sf1.html",
     "group": "seniors",
@@ -15,6 +15,9 @@
       "nextGames": "139710",
       "players": "163833",
       "ranking": "39763"
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -32,6 +35,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -49,6 +55,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -66,6 +75,9 @@
       "nextGames": "164626",
       "players": "164625",
       "ranking": "39756"
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -83,6 +95,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -100,6 +115,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -117,6 +135,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -134,6 +155,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   },
   {
@@ -151,6 +175,9 @@
       "nextGames": "",
       "players": "",
       "ranking": ""
+    },
+    "ffbb": {
+      "championshipId": ""
     }
   }
 ]

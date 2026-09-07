@@ -100,10 +100,13 @@
    composants enfants s'adaptent sans classe supplémentaire. */
 .section--dark {
   --bg-raised: var(--ink-800);
+  --bg-sunken: var(--ink-950);
   --text: var(--white);
   --text-muted: var(--ink-300);
+  --text-faint: var(--ink-400);
   --border: var(--border-inverse);
   --brand: var(--green-300);
+  --brand-soft: var(--green-900);
   background: var(--ink-900);
   color: var(--white);
 }
@@ -113,9 +116,12 @@
 /* Bande aux couleurs du club. */
 .section--brand {
   --bg-raised: rgba(255, 255, 255, .06);
+  --bg-sunken: rgba(0, 0, 0, .18);
   --text: var(--white);
   --text-muted: rgba(255, 255, 255, .72);
+  --text-faint: rgba(255, 255, 255, .58);
   --border: rgba(255, 255, 255, .18);
+  --brand-soft: rgba(255, 255, 255, .1);
   background: var(--green-700);
   color: var(--white);
   position: relative;
@@ -807,6 +813,108 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   font-size: 0.95em;
 }
 
+
+/* ============================================================================
+   9 bis. Classement (rendu par le site, cf. content/standings.js)
+   ========================================================================= */
+.standings {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.standings__competition {
+  padding: var(--space-4) var(--space-5);
+  /* Vert soutenu fixe : --brand s'eclaircit dans les bandes sombres, ce qui
+     ferait passer le texte blanc sous le seuil de contraste. */
+  background: var(--green-700);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Le tableau defile horizontalement sur mobile plutot que de deborder. */
+.standings__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.standings__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.standings__table th {
+  padding: var(--space-3) var(--space-3);
+  background: var(--bg-sunken);
+  border-bottom: 2px solid var(--border);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
+  text-align: center;
+}
+.standings__table th.is-left { text-align: left; }
+
+.standings__table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.standings__table tbody tr:last-child td { border-bottom: 0; }
+.standings__table tbody tr:hover { background: var(--bg-sunken); }
+
+.standings__rank {
+  width: 3rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.standings__team { font-weight: 500; white-space: normal; min-width: 12rem; }
+.standings__num { text-align: center; font-variant-numeric: tabular-nums; }
+.standings__num.is-positive { color: var(--green-500); }
+.standings__num.is-negative { color: var(--orange-600); }
+
+/* La ligne du club ressort : c'est l'information que le visiteur cherche. */
+.standings__table tr.is-club {
+  background: var(--brand-soft);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.standings__table tr.is-club:hover { background: var(--brand-soft); }
+/* Sur fond sombre, un voile vert translucide garde le texte clair lisible. */
+.section--dark .standings__table tr.is-club,
+[data-theme="dark"] .standings__table tr.is-club {
+  background: color-mix(in srgb, var(--green-500) 26%, transparent);
+}
+.section--dark .standings__table tr.is-club:hover,
+[data-theme="dark"] .standings__table tr.is-club:hover {
+  background: color-mix(in srgb, var(--green-500) 26%, transparent);
+}
+.standings__table tr.is-club td { font-weight: 700; }
+.standings__table tr.is-club .standings__rank { color: var(--accent); }
+
+.standings__footer {
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-sunken);
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+.standings__footer a { text-decoration: underline; }
+.standings__footer a:hover { color: var(--accent); }
+
+/* Intitules longs sur grand ecran, abreges des que la place manque. */
+.standings__label-short { display: none; }
+@media (max-width: 899px) {
+  .standings__label-long { display: none; }
+  .standings__label-short { display: inline; }
+  .standings__table th, .standings__table td { padding: var(--space-2); }
+}
 
 /* ============================================================================
    10. Fil d'Ariane

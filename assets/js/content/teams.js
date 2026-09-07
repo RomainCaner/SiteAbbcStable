@@ -15,6 +15,7 @@ import { escapeHTML } from '../core/dom.js';
 import { getTeams, url } from '../core/data.js';
 import { observe } from '../ui/reveal.js';
 import { widgetHTML } from './scorenco.js';
+import { getStandings, standingsHTML } from './standings.js';
 
 /**
  * Couleur d'accent par équipe, exposée en variable CSS.
@@ -43,7 +44,17 @@ const panel = (icon, title, body) => `
     ${body}
   </div>`;
 
-function teamPageHTML(team) {
+/**
+ * Bloc classement : tableau maison si `standings.json` couvre l'équipe,
+ * widget Score'n'co sinon. Cela permet de basculer équipe par équipe, en
+ * renseignant `ffbb.championshipId` dans teams.json, sans rien casser.
+ */
+function rankingHTML(team, standing) {
+  if (standing?.rows?.length) return standingsHTML(standing);
+  return `<div class="widget-frame">${widgetHTML('ranking', team.widgets?.ranking, 'Classement bientôt disponible.')}</div>`;
+}
+
+function teamPageHTML(team, standing) {
   const name = escapeHTML(team.displayName || team.name);
   const short = escapeHTML(team.shortName);
   const accent = accentOf(team);
@@ -106,9 +117,7 @@ function teamPageHTML(team) {
             Toutes les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
           </a>
         </div>
-        <div class="widget-frame reveal">
-          ${widgetHTML('ranking', team.widgets?.ranking, 'Classement bientôt disponible.')}
-        </div>
+        <div class="reveal">${rankingHTML(team, standing)}</div>
       </div>
     </section>`;
 }
@@ -133,8 +142,11 @@ function notFoundHTML(slug) {
 async function renderTeamPage(container) {
   const slug = document.body.dataset.team;
   let teams;
+  let standings;
   try {
-    teams = await getTeams();
+    // Les deux fichiers sont indépendants : un classement manquant ne doit pas
+    // empêcher la fiche de s'afficher.
+    [teams, standings] = await Promise.all([getTeams(), getStandings()]);
   } catch (error) {
     console.warn('[ABBC] teams.json indisponible :', error);
     container.innerHTML = notFoundHTML(slug);
@@ -142,7 +154,9 @@ async function renderTeamPage(container) {
   }
 
   const team = teams.find((entry) => entry.slug === slug);
-  container.innerHTML = team ? teamPageHTML(team) : notFoundHTML(slug);
+  container.innerHTML = team
+    ? teamPageHTML(team, standings?.[slug])
+    : notFoundHTML(slug);
   observe(container);
 }
 
