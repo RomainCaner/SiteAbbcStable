@@ -6,9 +6,9 @@
   "email": "bureau.abbc@gmail.com",
   "city": "Cornebarrieu, Haute-Garonne (31)",
   "social": {
-    "facebook": "TODO-url-facebook-abbc",
-    "instagram": "TODO-url-instagram-abbc",
-    "tiktok": "TODO-url-tiktok-abbc",
+    "facebook": "https://www.facebook.com/abbcornebarrieu/",
+    "instagram": "https://www.instagram.com/abbcornebarrieu/",
+    "tiktok": "https://www.tiktok.com/@abbcornebarrieu",
     "youtube": "TODO-url-youtube-abbc"
   },
   "_scorenco": "Widgets Score'n'co au niveau du club (les widgets par equipe sont dans teams.json). 'weekEvents' = tableau des rencontres de la semaine affiche sur l'accueil.",

@@ -33,6 +33,10 @@ const accentOf = (team) => ACCENTS[team.accent] || 'var(--brand)';
 
 const GROUP_LABELS = { seniors: 'Seniors', jeunes: 'Jeunes' };
 
+/** « Entraîneur » ou « Entraîneurs » : plusieurs équipes sont encadrées à deux ou trois. */
+const encadrementLabel = (coach) =>
+  coach && /,| et /.test(coach) ? 'Entraîneurs' : 'Entraîneur';
+
 const infoRow = (label, value) => `
   <div class="info-row">
     <dt>${label}</dt>
@@ -116,7 +120,7 @@ function teamPageHTML(team, standing, fixtures) {
           <dl class="info-list">
             ${infoRow('Catégorie', name)}
             ${infoRow('Saison', '<span data-config="season">2026-2027</span>')}
-            ${infoRow('Entraîneur', escapeHTML(team.coach || 'À définir'))}
+            ${infoRow(encadrementLabel(team.coach), escapeHTML(team.coach || 'À définir'))}
             ${infoRow('Niveau', escapeHTML(team.level || 'À définir'))}
           </dl>`)}
 
