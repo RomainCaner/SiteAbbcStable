@@ -104,17 +104,21 @@ jobs:
           echo "code=$?" >> "$GITHUB_OUTPUT"
           set -e
 
-      - name: Commiter si le classement a changé
+      - name: Commiter si les données ont changé
         if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == ''
         run: |
-          if git diff --quiet -- assets/data/standings.json; then
-            echo "Aucun changement de classement."
+          # Deux fichiers : les classements et le calendrier. Le second bouge
+          # plus souvent (l'horaire d'une rencontre peut changer sans que le
+          # classement bouge), d'où le test sur les deux.
+          fichiers="assets/data/standings.json assets/data/fixtures.json"
+          if git diff --quiet -- $fichiers; then
+            echo "Aucun changement."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/standings.json
-          git commit -m "Classements FFBB au $(date -u '+%d/%m/%Y')"
+          git add $fichiers
+          git commit -m "Classements et rencontres FFBB au $(date -u '+%d/%m/%Y')"
           git push
 
       - name: Signaler les échecs de récupération

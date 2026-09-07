@@ -41,6 +41,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TEAMS_FILE = ROOT / "assets" / "data" / "teams.json"
 OUTPUT_FILE = ROOT / "assets" / "data" / "standings.json"
+FIXTURES_FILE = ROOT / "assets" / "data" / "fixtures.json"
 
 BASE_URL = "https://resultats.ffbb.com/championnat/{id}.html"
 
@@ -477,6 +478,109 @@ def api_row(team) -> dict:
     }
 
 
+_CLIENT = None
+
+
+def api_client():
+    """Client FFBB partagé : une seule résolution de jetons pour tout le run."""
+    global _CLIENT
+    if _CLIENT is None:
+        try:
+            from ffbb_data_client import FFBBDataClient
+        except ImportError:  # pragma: no cover
+            sys.exit("ffbb-data-client manquant : pip install -r scripts/requirements.txt")
+        _CLIENT = FFBBDataClient.create()
+    return _CLIENT
+
+
+def attr(node, *chemin):
+    """Descend une chaîne d'attributs sans exploser sur un maillon absent.
+
+    Les objets de l'API mélangent modèles typés, dictionnaires et `None` selon
+    les champs ; `attr(match, "salle", "cartographie", "ville")` traverse les
+    trois sans distinction.
+    """
+    for nom in chemin:
+        if node is None:
+            return None
+        node = node.get(nom) if isinstance(node, dict) else getattr(node, nom, None)
+    return node
+
+
+def to_score(value):
+    """Score d'une équipe, ou None si la rencontre n'a pas de résultat."""
+    if value is None or value == "":
+        return None
+    try:
+        return int(str(value).strip())
+    except ValueError:
+        return None
+
+
+def api_fixture(match) -> dict | None:
+    """Ramène une rencontre de l'API à ce dont le site a besoin.
+
+    @returns None si la rencontre ne concerne pas le club, ou si elle n'a ni
+             nom d'équipe ni date exploitables.
+    """
+    home = clean(match.nomEquipe1 or attr(match, "idEngagementEquipe1", "nom") or "")
+    away = clean(match.nomEquipe2 or attr(match, "idEngagementEquipe2", "nom") or "")
+    if not home or not away:
+        return None
+
+    club_at_home = is_club_row(home)
+    if not club_at_home and not is_club_row(away):
+        return None
+
+    date = match.date_rencontre
+    ville = attr(match, "salle", "cartographie", "ville")
+
+    marques = to_score(match.resultatEquipe1)
+    encaisses = to_score(match.resultatEquipe2)
+
+    return {
+        "date": date.isoformat() if date else None,
+        "journee": clean(match.numeroJournee or ""),
+        "home": home,
+        "away": away,
+        "isHome": club_at_home,
+        "opponent": away if club_at_home else home,
+        "venue": clean(attr(match, "salle", "libelle") or ""),
+        "city": clean(ville or ""),
+        # `joue` est un entier côté API ; un score présent le confirme.
+        "played": bool(match.joue) or (marques is not None and encaisses is not None),
+        "postponed": bool(match.remise),
+        "scoreHome": marques,
+        "scoreAway": encaisses,
+    }
+
+
+def fetch_fixtures(poule_id: str) -> dict:
+    """Prochaine et dernière rencontre du club dans une poule.
+
+    Le calendrier d'une poule tient en un appel ; on le filtre sur le club
+    plutôt que de demander équipe par équipe.
+    """
+    matches = api_client().list_rencontres_by_poule(int(poule_id)) or []
+
+    rencontres = [f for f in (api_fixture(m) for m in matches) if f and f["date"]]
+    rencontres.sort(key=lambda f: f["date"])
+    if not rencontres:
+        raise ParsingError(f"aucune rencontre du club dans la poule {poule_id}")
+
+    maintenant = datetime.now(timezone.utc).isoformat()
+    # Une rencontre passée sans score reste « à venir » tant qu'elle n'est pas
+    # saisie : c'est le cas des matchs reportés ou en attente de feuille.
+    a_venir = [f for f in rencontres if not f["played"] and f["date"] >= maintenant]
+    jouees = [f for f in rencontres if f["played"]]
+
+    return {
+        "next": a_venir[0] if a_venir else None,
+        "last": jouees[-1] if jouees else None,
+        "count": len(rencontres),
+    }
+
+
 def fetch_from_api(poule_id: str) -> dict:
     """Classement d'une poule via l'API FFBB, à travers `ffbb-data-client`.
 
@@ -484,13 +588,7 @@ def fetch_from_api(poule_id: str) -> dict:
     interprétation de page web. Les stratégies d'analyse HTML restent en place
     pour les équipes dont on n'a que l'URL de classement.
     """
-    try:
-        from ffbb_data_client import FFBBDataClient
-    except ImportError:  # pragma: no cover
-        sys.exit("ffbb-data-client manquant : pip install -r scripts/requirements.txt")
-
-    client = FFBBDataClient.create()
-    ranking = client.get_classement(int(poule_id))
+    ranking = api_client().get_classement(int(poule_id))
     if not ranking:
         raise ParsingError(f"l'API ne renvoie aucun classement pour la poule {poule_id}")
 
@@ -865,6 +963,7 @@ def main() -> int:
 
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     result = {"teams": {}}
+    fixtures = {"teams": {}}
     failures = []
     first = True
 
@@ -901,6 +1000,21 @@ def main() -> int:
             print(f"  {slug:6s} {len(standings['rows']):2d} équipes — "
                   f"{standings['competition'] or '(sans titre)'} "
                   f"[via {standings.pop('extraction', '?')}]")
+
+            # Le calendrier est un bonus : son échec ne doit pas priver le site
+            # du classement, qui lui est déjà récupéré.
+            time.sleep(DELAY_BETWEEN_REQUESTS)
+            try:
+                calendrier = fetch_fixtures(poule_id)
+            except Exception as error:
+                failures.append(f"{slug} : rencontres indisponibles ({error})")
+            else:
+                calendrier["updatedAt"] = now
+                fixtures["teams"][slug] = calendrier
+                prochaine = calendrier["next"]
+                print(f"         rencontres : {calendrier['count']:2d} au calendrier — "
+                      + (f"prochaine le {prochaine['date'][:10]} contre "
+                         f"{prochaine['opponent']}" if prochaine else "aucune à venir"))
             continue
 
         if args.html_file:
@@ -979,6 +1093,22 @@ def main() -> int:
 
     OUTPUT_FILE.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"\nÉcrit : {OUTPUT_FILE.relative_to(ROOT)} ({len(result['teams'])} équipe(s))")
+
+    if fixtures["teams"]:
+        calendrier = {
+            "_comment": (
+                "Prochaine et derniere rencontre de chaque equipe, produites par "
+                "scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : "
+                "le fichier est reecrit a chaque execution du workflow "
+                ".github/workflows/classements.yml."
+            ),
+            "updatedAt": now,
+            **fixtures,
+        }
+        FIXTURES_FILE.write_text(
+            json.dumps(calendrier, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Écrit : {FIXTURES_FILE.relative_to(ROOT)} ({len(fixtures['teams'])} équipe(s))")
+
     return 1 if failures else 0
 
 

@@ -27,7 +27,9 @@ import { applyConfig } from './content/config.js';
 import { renderEvents } from './content/events.js';
 import { renderNews, renderArticle } from './content/news.js';
 import { renderTeams } from './content/teams.js';
-import { loadScorenco, renderClubWidgets } from './content/scorenco.js';
+import { renderClubFixtures } from './content/fixtures.js';
+// Widgets Score'n'co, remplacés par les données FFBB (voir l'étape 6 plus bas).
+// import { loadScorenco, renderClubWidgets } from './content/scorenco.js';
 
 async function bootstrap() {
   // 1. Structure : navbar et footer doivent exister avant qu'on les branche.
@@ -49,16 +51,21 @@ async function bootstrap() {
     renderNews(),
     renderArticle(),
     renderTeams(),
+    renderClubFixtures(),
   ]);
 
   // 5. `config.json` est appliqué après coup pour couvrir aussi les
   //    `data-config` présents dans le HTML généré (fiches d'équipe).
-  const config = await applyConfig();
-
-  // 6. Widgets tiers : le script Score'n'co scanne le DOM à son chargement,
-  //    ses conteneurs doivent donc déjà être en place.
-  renderClubWidgets(config);
-  loadScorenco();
+  //
+  //    Les widgets Score'n'co étaient chargés ici, une fois leurs conteneurs
+  //    en place. Ils sont neutralisés : classements et rencontres viennent
+  //    désormais de l'API FFBB (standings.json, fixtures.json), sans script
+  //    tiers sur la page. Le module content/scorenco.js est conservé — pour
+  //    le rétablir, réactiver son import ci-dessus et ces deux appels :
+  //
+  //      renderClubWidgets(config);
+  //      loadScorenco();
+  await applyConfig();
 
   await hero3d;
 }

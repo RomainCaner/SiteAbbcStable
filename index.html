@@ -151,21 +151,28 @@
       </div>
     </section>
 
-    <!-- ================= Résultats en direct ================= -->
+    <!-- ================= Prochaines rencontres ================= -->
     <section class="section section--dark">
       <div class="container">
         <div class="section__head">
           <div>
-            <p class="eyebrow">En direct</p>
-            <h2 class="section__title">Les matchs de <span>la semaine</span></h2>
+            <p class="eyebrow">Calendrier</p>
+            <h2 class="section__title">Les prochaines <span>rencontres</span></h2>
           </div>
           <a href="equipes.html" class="link-arrow">
             Classements par équipe <i class="fas fa-arrow-right" aria-hidden="true"></i>
           </a>
         </div>
 
-        <!-- Widget rempli par content/scorenco.js depuis config.json (scorenco.weekEvents) -->
-        <div id="club-week-events" class="widget-frame reveal"></div>
+        <!--
+          Rempli par content/fixtures.js depuis assets/data/fixtures.json
+          (API FFBB). Remplace le widget « rencontres de la semaine » de
+          Score'n'co, qui était rempli par content/scorenco.js depuis
+          config.json (scorenco.weekEvents) :
+
+            <div id="club-week-events" class="widget-frame reveal"></div>
+        -->
+        <div id="club-fixtures" class="reveal"></div>
       </div>
     </section>
 
