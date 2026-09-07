@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis resultats.ffbb.com. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-07T14:07:03+00:00",
+  "updatedAt": "2026-09-07T14:08:15+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -8,42 +8,6 @@
         {
           "rank": 1,
           "team": "ALBI BASKET 81",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 10,
-          "team": "IE - AUCH BASKET CLUB",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 11,
-          "team": "HAGETMAU MOMUY CASTAIGNOS BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 12,
-          "team": "LE TAILLAN BASKET",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -148,29 +112,10 @@
           "conceded": 0,
           "diff": 0,
           "isClub": false
-        }
-      ],
-      "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-07T14:07:03+00:00"
-    },
-    "sg1": {
-      "competition": "Régional 2",
-      "rows": [
-        {
-          "rank": 1,
-          "team": "BASKET CLUB DE ROQUETTES",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
         },
         {
           "rank": 10,
-          "team": "AUCH BASKET CLUB",
+          "team": "IE - AUCH BASKET CLUB",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -182,7 +127,7 @@
         },
         {
           "rank": 11,
-          "team": "IE - AVENIR MURETAIN",
+          "team": "HAGETMAU MOMUY CASTAIGNOS BASKET",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -194,7 +139,26 @@
         },
         {
           "rank": 12,
-          "team": "SEMEAC OLYMPIQUE",
+          "team": "LE TAILLAN BASKET",
+          "points": 0,
+          "played": 0,
+          "won": 0,
+          "lost": 0,
+          "scored": 0,
+          "conceded": 0,
+          "diff": 0,
+          "isClub": false
+        }
+      ],
+      "source": "API FFBB, poule 200000003054399",
+      "updatedAt": "2026-09-07T14:08:15+00:00"
+    },
+    "sg1": {
+      "competition": "Régional 2",
+      "rows": [
+        {
+          "rank": 1,
+          "team": "BASKET CLUB DE ROQUETTES",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -299,10 +263,46 @@
           "conceded": 0,
           "diff": 0,
           "isClub": false
+        },
+        {
+          "rank": 10,
+          "team": "AUCH BASKET CLUB",
+          "points": 0,
+          "played": 0,
+          "won": 0,
+          "lost": 0,
+          "scored": 0,
+          "conceded": 0,
+          "diff": 0,
+          "isClub": false
+        },
+        {
+          "rank": 11,
+          "team": "IE - AVENIR MURETAIN",
+          "points": 0,
+          "played": 0,
+          "won": 0,
+          "lost": 0,
+          "scored": 0,
+          "conceded": 0,
+          "diff": 0,
+          "isClub": false
+        },
+        {
+          "rank": 12,
+          "team": "SEMEAC OLYMPIQUE",
+          "points": 0,
+          "played": 0,
+          "won": 0,
+          "lost": 0,
+          "scored": 0,
+          "conceded": 0,
+          "diff": 0,
+          "isClub": false
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-07T14:07:03+00:00"
+      "updatedAt": "2026-09-07T14:08:15+00:00"
     }
   }
 }
