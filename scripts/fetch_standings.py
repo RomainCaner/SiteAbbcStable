@@ -239,19 +239,89 @@ def parse_standings(html: str) -> dict:
 
 # ---------------------------------------------------------------- récupération
 
-def fetch_html(championship_id: str) -> str:
+def fetch_url(url: str) -> str:
+    """Requête HTTP courtoise, avec décodage adapté aux pages FFBB."""
     try:
         import requests
     except ImportError:  # pragma: no cover
         sys.exit("requests manquant : pip install -r scripts/requirements.txt")
 
-    url = BASE_URL.format(id=championship_id)
     response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=REQUEST_TIMEOUT)
     response.raise_for_status()
     # Les pages FFBB sont en latin-1 mais ne l'annoncent pas toujours.
     if not response.encoding or response.encoding.lower() == "iso-8859-1":
         response.encoding = response.apparent_encoding or "utf-8"
     return response.text
+
+
+def fetch_html(championship_id: str) -> str:
+    return fetch_url(BASE_URL.format(id=championship_id))
+
+
+CHAMPIONSHIP_LINK = re.compile(r"championnat/([0-9a-f]{6,})\.html", re.I)
+
+
+def discover(start_url: str) -> list[tuple[str, str, int]]:
+    """Trouve les championnats où le club apparaît, à partir d'une page FFBB.
+
+    Le principe évite d'avoir à connaître la structure de la page de départ :
+    on relève tous les liens vers /championnat/<id>.html qu'elle contient, puis
+    on ouvre chaque candidat et on ne garde que ceux dont le classement
+    mentionne le club. Le contrôle de présence sert donc de validateur.
+
+    À lancer depuis un environnement ayant accès à la FFBB — typiquement le
+    runner GitHub Actions (onglet Actions → Classements FFBB → Run workflow,
+    champ « decouvrir »).
+
+    @returns liste de (identifiant, nom de compétition, nombre d'équipes)
+    """
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:  # pragma: no cover
+        sys.exit("beautifulsoup4 manquant : pip install -r scripts/requirements.txt")
+
+    print(f"Page de départ : {start_url}")
+    html = fetch_url(start_url)
+
+    ids = []
+    for href in {a.get("href", "") for a in BeautifulSoup(html, "html.parser").select("a[href]")}:
+        found = CHAMPIONSHIP_LINK.search(href)
+        if found and found.group(1) not in ids:
+            ids.append(found.group(1))
+
+    # La page de départ peut elle-même être une page de championnat.
+    own = CHAMPIONSHIP_LINK.search(start_url)
+    if own and own.group(1) not in ids:
+        ids.insert(0, own.group(1))
+
+    if not ids:
+        print("Aucun lien vers /championnat/<id>.html sur cette page.", file=sys.stderr)
+        print("Essayez la page du club ou celle d'une de ses équipes.", file=sys.stderr)
+        return []
+
+    print(f"{len(ids)} championnat(s) à tester…\n")
+    matches = []
+    for index, championship_id in enumerate(ids):
+        if index:
+            time.sleep(DELAY_BETWEEN_REQUESTS)
+        try:
+            standings = parse_standings(fetch_html(championship_id))
+        except ParsingError as error:
+            print(f"  ✗ {championship_id}  {error}")
+            continue
+        except Exception as error:
+            print(f"  ✗ {championship_id}  récupération impossible ({error})")
+            continue
+        matches.append((championship_id, standings["competition"], len(standings["rows"])))
+        print(f"  ✓ {championship_id}  {standings['competition']} — {len(standings['rows'])} équipes")
+
+    if matches:
+        print("\nÀ reporter dans assets/data/teams.json :")
+        for championship_id, competition, _ in matches:
+            print(f'  "ffbb": {{ "championshipId": "{championship_id}" }}   → {competition}')
+    else:
+        print("\nAucun championnat trouvé contenant le club sur cette page.", file=sys.stderr)
+    return matches
 
 
 def load_teams() -> list[dict]:
@@ -264,7 +334,16 @@ def main() -> int:
     parser.add_argument("--team", help="ne traiter qu'une équipe (slug)")
     parser.add_argument("--html-file", help="parser un fichier local au lieu d'appeler la FFBB")
     parser.add_argument("--dry-run", action="store_true", help="afficher sans écrire le JSON")
+    parser.add_argument(
+        "--discover",
+        metavar="URL",
+        help="trouver les identifiants de championnat du club depuis une page FFBB "
+             "(page du club ou d'une de ses équipes)",
+    )
     args = parser.parse_args()
+
+    if args.discover:
+        return 0 if discover(args.discover) else 1
 
     teams = load_teams()
     if args.team:

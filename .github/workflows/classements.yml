@@ -16,6 +16,14 @@ on:
     # largement, et on reste courtois avec la FFBB.
     - cron: '0 6 * * *'
   workflow_dispatch:  # bouton « Run workflow » dans l'onglet Actions
+    inputs:
+      decouvrir:
+        description: >-
+          URL d'une page FFBB du club (page du club ou d'une de ses équipes).
+          Renseignée, le workflow ne met rien à jour : il liste les identifiants
+          de championnat où le club apparaît, à reporter dans teams.json.
+        required: false
+        type: string
 
 # Un seul déploiement à la fois, pour éviter deux commits concurrents.
 concurrency:
@@ -39,7 +47,15 @@ jobs:
       - name: Installer les dépendances
         run: pip install -r scripts/requirements.txt
 
+      # Le runner GitHub a un accès Internet complet, contrairement à un
+      # environnement de développement restreint : c'est ici qu'on peut
+      # interroger la FFBB pour retrouver les identifiants.
+      - name: Trouver les identifiants de championnat
+        if: inputs.decouvrir != ''
+        run: python scripts/fetch_standings.py --discover "${{ inputs.decouvrir }}"
+
       - name: Récupérer les classements
+        if: inputs.decouvrir == ''
         id: fetch
         # Le script sort en code 1 si une équipe échoue. On ne veut pas faire
         # échouer tout le workflow pour un championnat momentanément
@@ -51,6 +67,7 @@ jobs:
           set -e
 
       - name: Commiter si le classement a changé
+        if: inputs.decouvrir == ''
         run: |
           if git diff --quiet -- assets/data/standings.json; then
             echo "Aucun changement de classement."
@@ -63,7 +80,7 @@ jobs:
           git push
 
       - name: Signaler les échecs de récupération
-        if: steps.fetch.outputs.code != '0'
+        if: inputs.decouvrir == '' && steps.fetch.outputs.code != '0'
         run: |
           echo "::warning::Au moins un championnat n'a pas pu être récupéré."
           echo "Vérifiez les identifiants ffbb.championshipId dans assets/data/teams.json,"

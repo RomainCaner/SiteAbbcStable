@@ -253,18 +253,44 @@ mais l'ancienne plateforme peut disparaître : si c'est le cas, il faudra
 regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
 `200000005142728` ci-dessus est un bon point d'entrée pour l'explorer).
 
+### Trouver les identifiants automatiquement
+
+Plutôt que de chercher les identifiants à la main, **laissez le workflow le
+faire** : onglet *Actions* → *Classements FFBB* → *Run workflow* → renseigner
+le champ **`decouvrir`** avec l'URL d'une page FFBB du club.
+
+Le script relève tous les liens `/championnat/<id>.html` de cette page, ouvre
+chaque candidat, et ne retient que ceux dont le classement **mentionne le
+club**. La sortie donne directement la ligne à copier :
+
+```
+3 championnat(s) à tester…
+
+  ✗ b5e6211fe70a  le club n'apparaît pas dans ce classement (12 équipes : …)
+  ✓ b5e6211fe70c  REGIONALE MASCULINE 2 - POULE PYR-B — 12 équipes
+
+À reporter dans assets/data/teams.json :
+  "ffbb": { "championshipId": "b5e6211fe70c" }   → REGIONALE MASCULINE 2 - POULE PYR-B
+```
+
+Le contrôle de présence du club sert ici de validateur : un identifiant retenu
+est forcément le bon.
+
+En local, si la machine a accès à la FFBB :
+
+```bash
+python scripts/fetch_standings.py --discover "https://resultats.ffbb.com/..."
+```
+
 ### Brancher une équipe
 
-1. Depuis la [page du club](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019),
-   ouvrir l'équipe voulue pour identifier sa compétition et sa poule.
-2. Retrouver la même poule sur [resultats.ffbb.com](https://resultats.ffbb.com) :
-   l'URL a la forme `resultats.ffbb.com/championnat/`**`b5e6211fe70a`**`.html`.
-3. Copier l'identifiant (la partie en gras) dans `assets/data/teams.json` :
+1. Récupérer l'identifiant (voir ci-dessus) et le coller dans
+   `assets/data/teams.json` :
    ```json
-   "ffbb": { "championshipId": "b5e6211fe70a" }
+   "ffbb": { "championshipId": "b5e6211fe70c" }
    ```
-4. Lancer le workflow à la main (onglet *Actions* → *Classements FFBB* →
-   *Run workflow*), ou attendre la prochaine exécution planifiée.
+2. Lancer le workflow sans remplir `decouvrir`, ou attendre l'exécution
+   planifiée.
 
 #### Un identifiant peut être testé sans risque
 
