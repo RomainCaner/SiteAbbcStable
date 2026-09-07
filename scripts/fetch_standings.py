@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Récupère les classements FFBB et les écrit dans assets/data/standings.json.
+"""Récupère les classements et les rencontres FFBB.
+
+Écrit assets/data/standings.json (classements) et assets/data/fixtures.json
+(prochaine rencontre et dernier résultat de chaque équipe).
 
 Pourquoi ce script plutôt que le widget Score'n'co :
   - le site n'embarque plus de script tiers (plus rapide, insensible aux
@@ -8,9 +11,14 @@ Pourquoi ce script plutôt que le widget Score'n'co :
   - les données sont versionnées dans git, ce qui donne l'historique gratuitement ;
   - si la source tombe, le dernier JSON valide reste servi.
 
-Source : resultats.ffbb.com/championnat/<id>.html — pages publiques, rendues
-côté serveur, sans authentification. L'identifiant de chaque équipe se règle
-dans assets/data/teams.json (champ `ffbb.championshipId`).
+Source principale : l'API FFBB, via le paquet ffbb-data-client. Une équipe se
+branche en renseignant `ffbb.pouleId` dans assets/data/teams.json — voir
+scripts/decouvrir_poules.py pour trouver l'identifiant. Aucun jeton à fournir,
+le client les résout seul.
+
+Sources de repli, pour les équipes désignées par une URL plutôt que par une
+poule : competitions.ffbb.com (flux RSC ou données d'hydratation) et
+l'ancienne plateforme resultats.ffbb.com (tableau HTML).
 
 Garde-fou important : un identifiant qui pointe vers la mauvaise poule produit
 un tableau parfaitement valide mais qui n'est pas celui du club — une erreur
@@ -18,14 +26,21 @@ que rien ne signale à l'affichage. Le script refuse donc tout classement où le
 club n'apparaît pas (voir CLUB_PATTERNS). Un identifiant peut ainsi être testé
 sans risque : au pire il est rejeté, jamais publié de travers.
 
+Ce contrôle a une limite : deux équipes du même club apparaissent chacune dans
+son propre classement, donc une confusion entre SF2 et SF3 lui échappe. Le
+numéro d'équipe affiché par decouvrir_poules.py est là pour ça.
+
 Usage :
     python scripts/fetch_standings.py                 # récupère tout
     python scripts/fetch_standings.py --team sf1      # une seule équipe
     python scripts/fetch_standings.py --html-file page.html --team sf1
                                                       # teste le parsing hors ligne
     python scripts/fetch_standings.py --dry-run       # affiche sans écrire
+    python scripts/fetch_standings.py --rencontre-brute <poule_id>
+                                                      # diagnostic d'une rencontre
 
-Dépendances : requests, beautifulsoup4 (voir scripts/requirements.txt).
+Dépendances : ffbb-data-client, requests, beautifulsoup4
+(voir scripts/requirements.txt).
 """
 
 from __future__ import annotations
@@ -1181,7 +1196,7 @@ def main() -> int:
     payload = {
         "_comment": (
             "Classements produits automatiquement par scripts/fetch_standings.py depuis "
-            "resultats.ffbb.com. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque "
+            "l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque "
             "execution du workflow .github/workflows/classements.yml."
         ),
         "updatedAt": now,
