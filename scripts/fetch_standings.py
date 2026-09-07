@@ -493,18 +493,43 @@ def api_client():
     return _CLIENT
 
 
-def attr(node, *chemin):
-    """Descend une chaîne d'attributs sans exploser sur un maillon absent.
-
-    Les objets de l'API mélangent modèles typés, dictionnaires et `None` selon
-    les champs ; `attr(match, "salle", "cartographie", "ville")` traverse les
-    trois sans distinction.
-    """
+def descendre(node, chemin):
+    """Suit un chemin d'attributs ou de clés, sans exploser sur un maillon absent."""
     for nom in chemin:
         if node is None:
             return None
         node = node.get(nom) if isinstance(node, dict) else getattr(node, nom, None)
     return node
+
+
+def attr(node, *chemin):
+    """Valeur d'un champ imbriqué, modèle typé ou dictionnaire brut.
+
+    Les objets de l'API mélangent modèles typés, dictionnaires et `None` selon
+    les champs et les endpoints ; `attr(match, "salle", "cartographie", "ville")`
+    traverse les trois. Si le modèle typé ne porte pas la valeur, on retente
+    dans `raw_data`, que le SDK conserve tel quel.
+    """
+    valeur = descendre(node, chemin)
+    if valeur is None:
+        valeur = descendre(getattr(node, "raw_data", None), chemin)
+    return valeur
+
+
+# Les rencontres nomment les équipes avec leur numéro : « LONS BASKET - 1 ».
+# Le classement, lui, donne le nom seul. On aligne les deux, en gardant le
+# numéro au-delà de la première équipe : « OUEST TOULOUSAIN BASKET 3 » dit
+# bien qu'on affronte leur troisième équipe, et c'est une information.
+TEAM_NUMBER = re.compile(r"\s*-\s*(\d{1,2})\s*$")
+
+
+def clean_team_name(name: str) -> str:
+    name = clean(name)
+    found = TEAM_NUMBER.search(name)
+    if not found:
+        return name
+    base = name[: found.start()].rstrip()
+    return base if found.group(1) == "1" else f"{base} {found.group(1)}"
 
 
 def to_score(value):
@@ -523,8 +548,8 @@ def api_fixture(match) -> dict | None:
     @returns None si la rencontre ne concerne pas le club, ou si elle n'a ni
              nom d'équipe ni date exploitables.
     """
-    home = clean(match.nomEquipe1 or attr(match, "idEngagementEquipe1", "nom") or "")
-    away = clean(match.nomEquipe2 or attr(match, "idEngagementEquipe2", "nom") or "")
+    home = clean_team_name(match.nomEquipe1 or attr(match, "idEngagementEquipe1", "nom") or "")
+    away = clean_team_name(match.nomEquipe2 or attr(match, "idEngagementEquipe2", "nom") or "")
     if not home or not away:
         return None
 
@@ -877,6 +902,31 @@ def discover(start_url: str) -> list[tuple[str, str, int]]:
     return matches
 
 
+def report_rencontre(poule_id: str) -> int:
+    """Affiche la structure brute d'une rencontre, pour voir ce que l'API remplit.
+
+    Les modèles du SDK déclarent beaucoup de champs en `Any` : seul un appel
+    réel dit lesquels portent une valeur, et sous quelle forme.
+    """
+    matches = api_client().list_rencontres_by_poule(int(poule_id)) or []
+    if not matches:
+        print(f"Aucune rencontre dans la poule {poule_id}.", file=sys.stderr)
+        return 1
+
+    match = matches[0]
+    print(f"{len(matches)} rencontres dans la poule {poule_id}. Première :\n")
+    for champ in ("id", "numero", "numeroJournee", "date_rencontre", "date", "horaire",
+                  "nomEquipe1", "nomEquipe2", "resultatEquipe1", "resultatEquipe2",
+                  "joue", "etat", "remise", "salle"):
+        print(f"  {champ:20s} {getattr(match, champ, '(absent)')!r}"[:200])
+
+    brut = getattr(match, "raw_data", None)
+    print(f"\n  raw_data : {'absent' if not brut else str(sorted(brut))[:400]}")
+    if isinstance(brut, dict) and brut.get("salle"):
+        print(f"\n  raw_data['salle'] : {json.dumps(brut['salle'], ensure_ascii=False)[:600]}")
+    return 0
+
+
 def url_variants(url: str) -> list[str]:
     """Formes équivalentes d'une URL de classement FFBB.
 
@@ -950,7 +1000,15 @@ def main() -> int:
         help="trouver les identifiants de championnat du club depuis une page FFBB "
              "(page du club ou d'une de ses équipes)",
     )
+    parser.add_argument(
+        "--rencontre-brute",
+        metavar="POULE_ID",
+        help="afficher la structure brute d'une rencontre (diagnostic)",
+    )
     args = parser.parse_args()
+
+    if args.rencontre_brute:
+        return report_rencontre(args.rencontre_brute)
 
     if args.discover:
         return 0 if discover(args.discover) else 1
