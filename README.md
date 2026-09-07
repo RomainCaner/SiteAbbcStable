@@ -1,189 +1,250 @@
 # Site ABBC — Association Basket-Ball Cornebarrieu
 
-Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu (ABBC), construit en HTML statique avec Tailwind CSS et les widgets Scorenco pour les résultats et classements en temps réel.
+Site vitrine officiel de l'Association Basket-Ball de Cornebarrieu (ABBC).
+HTML statique, Tailwind CSS, modules ES natifs, widgets Score'n'co pour les
+résultats et classements en temps réel, et une scène 3D Three.js sur la page
+d'accueil.
+
+Aucune étape de build n'est nécessaire pour développer : un serveur HTTP local
+suffit.
 
 ---
 
-## Architecture du projet
+## Démarrage rapide
+
+> `fetch()` ne fonctionne pas en `file://`. Ouvrir les fichiers directement
+> dans le navigateur laisse la page vide : il faut un serveur HTTP.
+
+```bash
+python -m http.server 8080     # ou : npm install && npm run dev
+# → http://localhost:8080
+```
+
+Autres options : *Live Server* sous VS Code, ou `docker compose up`
+(nginx, port 8080).
+
+---
+
+## Architecture
 
 ```
 SiteAbbcStable/
 │
-├── index.html              # Page d'accueil (Le Club, agenda, matchs, actus, présentation)
-├── agenda.html             # Agenda complet (rendu depuis events.json)
-├── actualites.html         # Liste des actualités (rendu depuis news.json)
-├── article.html            # Article unique (article.html?slug=...)
-├── boutique.html           # Boutique en ligne (lien HelloAsso)
-├── contact.html            # Coordonnées
-├── partenaires.html        # Partenaires du club
+├── index.html            Accueil (hero 3D, agenda, matchs, actus)
+├── equipes.html          Annuaire des équipes
+├── agenda.html           Agenda complet
+├── actualites.html       Liste des actualités
+├── article.html          Article unique (article.html?slug=…)
+├── boutique.html         Boutique en ligne (HelloAsso)
+├── contact.html          Coordonnées
+├── partenaires.html      Partenaires du club
 │
-├── partials/               # Composants HTML partagés
-│   ├── navbar.html         # Barre de navigation (mega-menu, dark toggle)
-│   └── footer.html         # Pied de page (newsletter, back-to-top)
+├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
+├── partials/             navbar.html · footer.html (fragments injectés)
 │
 ├── assets/
-│   ├── css/
-│   │   ├── styles.css            # Styles globaux + variables dark mode
-│   │   └── tailwind.input.css    # Entrée Tailwind (build optionnel)
-│   ├── js/
-│   │   └── main.js         # Loader partials + UI globale + thème + rendu data
-│   ├── data/               # Contenu éditable (voir « Gérer le contenu »)
-│   │   ├── config.json     # Saison, chiffres clés, liens réseaux
-│   │   ├── events.json     # Événements du club (agenda)
-│   │   └── news.json       # Articles / actualités
+│   ├── data/             ← LE CONTENU DU SITE (voir « Gérer le contenu »)
+│   ├── css/styles.css    Variables de thème + composants
+│   ├── js/               Modules ES (voir ci-dessous)
 │   └── images/
-│       ├── Logo.jpg        # Logo du club
-│       ├── Baniere.jpg     # Bannière héro
-│       └── sg1.jpg         # Photo équipe SG1
 │
-├── equipes/                # 9 pages d'équipe (SF1-3, SG1-2, U18F/G, U15F/G)
-│
-├── package.json            # Tailwind build optionnel + dev server
-├── tailwind.config.js      # Config Tailwind (purge des classes)
-└── .gitignore
+├── Dockerfile · nginx.conf · docker-compose.yml
+└── tailwind.config.js    Build Tailwind optionnel
 ```
 
+### Organisation du JavaScript
+
+Chaque module a une seule responsabilité et n'appelle pas les autres :
+c'est `main.js` qui orchestre l'ordre d'exécution.
+
+```
+assets/js/
+├── main.js               Point d'entrée : enchaîne les étapes d'initialisation
+│
+├── core/                 Infrastructure, sans connaissance du contenu
+│   ├── dom.js            Helpers DOM, échappement HTML, dates
+│   ├── data.js           Chargement + cache des JSON, résolution des chemins
+│   ├── theme.js          Mode clair / sombre
+│   └── partials.js       Injection de navbar.html et footer.html
+│
+├── ui/                   Comportements d'interface
+│   ├── navigation.js     Menu mobile, mega-menu équipes, page active, footer
+│   ├── chrome.js         Barre de progression, bouton retour en haut
+│   ├── reveal.js         Apparitions au scroll, compteurs animés
+│   └── hero3d.js         Scène 3D du bandeau d'accueil
+│
+└── content/              Rendu des données du club
+    ├── config.js         Applique config.json ([data-config], [data-social])
+    ├── events.js         Agenda (accueil + page agenda)
+    ├── news.js           Actualités (teaser, liste, article)
+    ├── teams.js          Fiches d'équipe + annuaire
+    └── scorenco.js       Widgets Score'n'co
+```
+
+**Le rendu est piloté par le HTML.** Chaque module cherche ses conteneurs
+(`#events-grid`, `#team-page`, `#teams-grid`…) et ne fait rien s'il ne les
+trouve pas. Ajouter une page revient donc à écrire son HTML : aucun câblage
+dans `main.js`.
+
+### Conventions des pages
+
+```html
+<html lang="fr" data-base="../">              <!-- profondeur : "" ou "../" -->
+<body data-page="equipes" data-team="sf1">    <!-- page active + équipe -->
+  <div data-partial="navbar"></div>
+  …
+  <div data-partial="footer"></div>
+  <script type="module" src="../assets/js/main.js"></script>
+```
+
+`data-base` permet aux modules de construire des chemins corrects depuis
+n'importe quelle profondeur — c'est ce qui rend `equipes/` possible sans
+dupliquer la navbar.
+
 ---
 
-## Stack technique
+## Gérer le contenu (sans toucher au code)
 
-| Technologie | Rôle |
-|---|---|
-| HTML5 | Structure de toutes les pages |
-| [Tailwind CSS](https://tailwindcss.com) (CDN) | Mise en page et utilitaires CSS |
-| CSS personnalisé (`styles.css`) | Variables CSS dark/light, animations, scroll bar, focus states |
-| JavaScript (`main.js`) | Loader des partials, thème, mega-menu mobile, compteurs animés, scroll progress, back-to-top |
-| [Font Awesome 6](https://fontawesome.com) (CDN) | Icônes |
-| [Google Fonts — Inter](https://fonts.google.com/specimen/Inter) | Typographie |
-| [Scorenco Widgets](https://widgets.scorenco.com) | Résultats, classements et effectifs en temps réel |
-
----
-
-## Fonctionnalités UI
-
-- **Agenda dynamique** : événements rendus depuis `events.json`, événements passés masqués sur l'accueil
-- **Actualités / blog** : articles rendus depuis `news.json`, page liste + page article (`article.html?slug=`)
-- **Contenu piloté par la config** : saison, chiffres clés et liens réseaux depuis `config.json`
-- **Mega-menu équipes** (2 colonnes Seniors/Jeunes) au survol desktop, accordion mobile
-- **Dark mode** persistant (`localStorage`) avec toggle dans la navbar
-- **Barre de progression** au scroll en haut de page
-- **Compteurs animés** sur les statistiques de la page d'accueil
-- **Bouton "retour en haut"** flottant
-- **Skip-link** + `focus-ring` pour navigation clavier (accessibilité)
-- **Fil d'Ariane** sur les pages d'équipe
-- **Indicateur de page active** dans la navbar (underline animé)
-- **Newsletter** avec feedback inline (validation email côté client)
-- **Open Graph + meta description** sur chaque page (SEO + partage social)
-- Respect de `prefers-reduced-motion`
-
----
-
-## Gérer le contenu (sans toucher au HTML)
-
-Le contenu qui change souvent est piloté par 3 fichiers JSON dans `assets/data/`.
-Modifiez-les, rafraîchissez la page : le site se met à jour tout seul.
-Chaque valeur à compléter par le club est marquée **`TODO`** dans les fichiers.
+Tout ce qui change souvent vit dans `assets/data/`. Modifiez le JSON,
+rafraîchissez la page. Les valeurs à compléter par le club sont marquées
+**`TODO`**.
 
 ### `config.json` — réglages globaux
-Saison, nombre de licenciés/équipes et liens réseaux sociaux. Ces valeurs se
-propagent partout (elles remplacent les `<span data-config="...">` du site et les
-liens `data-social` du footer). Un lien social laissé à `TODO` conserve le lien
-par défaut du footer.
+Saison, chiffres clés, coordonnées, liens réseaux et widgets du club. Ces
+valeurs alimentent tous les `<span data-config="…">` et les liens
+`data-social` du site. Un lien social laissé à `TODO` conserve le lien par
+défaut du HTML.
 
-### `events.json` — événements / agenda
-Un tableau d'événements. Champs : `title`, `category`, `color` (couleur Tailwind :
-`red`, `yellow`, `green`, `blue`, `purple`, `orange`), `icon` (nom Font Awesome
-sans `fa-`), `date` (format `AAAA-MM-JJ`), `time`, `location`, `description`.
-Les événements **passés** sont masqués sur l'accueil (3 prochains affichés) mais
+### `teams.json` — les équipes **(source unique)**
+Un tableau d'équipes. Ce fichier alimente à lui seul :
+- le mega-menu « Équipes » de la navbar (desktop et mobile),
+- la page `equipes.html`,
+- l'intégralité des 9 pages `equipes/*.html`.
+
+| Champ | Rôle |
+|---|---|
+| `slug` | identifiant interne, doit correspondre au `data-team` de la page |
+| `page` | nom du fichier dans `equipes/` |
+| `group` | `seniors` ou `jeunes` (regroupement dans le menu) |
+| `shortName` / `displayName` | « SF1 » / « Senior Féminine 1 » |
+| `level`, `coach`, `description` | affichés sur la fiche |
+| `accent` | `blue`, `green`, `purple` ou `orange` |
+| `widgets` | identifiants Score'n'co : `nextGames`, `players`, `ranking` |
+
+**Ajouter une équipe** : ajouter l'entrée dans `teams.json`, puis copier une
+page existante de `equipes/` en changeant son `data-team`, son `<title>` et sa
+`<meta name="description">`. Rien d'autre.
+
+**Trouver un identifiant de widget Score'n'co** : sur `scorenco.com`, ouvrir
+l'équipe ou la compétition → *Partager* → *Widget* ; l'identifiant est la
+valeur `data-widget-id` du code fourni. Tant qu'un identifiant est vide, la
+page affiche un encart « bientôt disponible » à la place du widget — jamais un
+chargement infini.
+
+### `events.json` — agenda
+Champs : `title`, `category`, `color` (`red`, `yellow`, `green`, `blue`,
+`purple`, `orange`), `icon` (nom Font Awesome sans `fa-`), `date`
+(`AAAA-MM-JJ`), `time`, `location`, `description`.
+Les événements passés sont masqués sur l'accueil (3 prochains affichés) mais
 restent visibles sur `agenda.html`.
 
-### `news.json` — actualités / blog
-Un tableau d'articles, **le plus récent en premier**. Champs : `slug` (identifiant
-unique dans l'URL, sans espace ni accent), `title`, `date` (`AAAA-MM-JJ`),
-`author`, `image` (chemin depuis la racine, ex. `assets/images/xxx.jpg`),
-`excerpt` (résumé), `body` (contenu **HTML** de l'article). Chaque carte pointe
-vers `article.html?slug=…`.
-
-> Astuce couleurs : le CDN Tailwind génère les classes à la volée, donc les
-> couleurs `color` d'`events.json` fonctionnent sans configuration. Si un jour le
-> site passe au Tailwind compilé (cf. plus bas), pensez à *safelister* les classes
-> `bg-{couleur}-500/600` et `text-{couleur}-600`.
+### `news.json` — actualités
+Le plus récent en premier. Champs : `slug` (sans espace ni accent), `title`,
+`date`, `author`, `image`, `excerpt`, `body` (HTML de l'article).
+Chaque carte pointe vers `article.html?slug=…`.
 
 ---
 
-## Lancer le site en local
+## La scène 3D (`assets/js/ui/hero3d.js`)
 
-> ⚠️ Le chargement des partials utilise `fetch()`, qui ne fonctionne **pas** avec le protocole `file://`. Il faut un serveur HTTP local.
+Le ballon du bandeau d'accueil est **entièrement procédural** : géométrie
+Three.js et texture dessinée sur un `<canvas>`. Aucun fichier de modèle à
+héberger, tout se règle dans le code.
 
-### Option 1 — Python (zéro installation sur la plupart des machines)
-```bash
-python -m http.server 8080
-# puis ouvrir http://localhost:8080
-```
+- Three.js est chargé **dynamiquement depuis un CDN**, uniquement si la page
+  contient `[data-hero3d]` et que WebGL est disponible. Les autres pages ne
+  téléchargent rien.
+- Réglages regroupés dans l'objet `SETTINGS` en haut du fichier : couleurs du
+  cuir et des coutures, vitesse de rotation, amplitude du flottement,
+  sensibilité et inertie du glisser, distance de caméra.
+- Le rendu se met en pause hors écran et quand l'onglet passe en arrière-plan.
+- `prefers-reduced-motion` : une seule image, aucune animation.
+- Sans WebGL, sans réseau ou avec un bloqueur de scripts, le logo statique du
+  HTML reste affiché (`.hero-3d__fallback`) : la page ne casse jamais.
 
-### Option 2 — VS Code Live Server
-Clic droit sur `index.html` → *Open with Live Server*.
+Le conteneur porte un état lisible dans l'inspecteur :
+`data-hero3d-state="ready" | "unsupported" | "failed"`.
 
-### Option 3 — npm (si Node.js installé)
-```bash
-npm install
-npm run dev
-# puis ouvrir http://localhost:8080
-```
+Pour changer de version de Three.js, modifier la constante `THREE_URL` en haut
+du fichier (version épinglée volontairement). Pour héberger la bibliothèque
+soi-même : `npm i three`, copier `node_modules/three/build/three.module.min.js`
+et `three.core.min.js` dans `assets/vendor/`, puis pointer `THREE_URL` dessus.
 
 ---
 
-## Build Tailwind optionnel (production)
+## Thème clair / sombre
 
-Le site utilise Tailwind CDN par défaut (~3 MB). Pour réduire à ~15 KB :
+Le thème est stocké dans `localStorage` (clé `abbc-theme`) et appliqué par un
+petit script inline dans le `<head>` de chaque page, **avant** le rendu, pour
+éviter un flash de contenu clair. `core/theme.js` gère ensuite la bascule.
+
+Les couleurs sont des variables CSS (`--bg-page`, `--text-main`…) redéfinies
+sous `[data-theme="dark"]` dans `styles.css`. Comme le site utilise le CDN
+Tailwind (classes utilitaires figées dans le HTML), une section d'overrides
+`[data-theme="dark"] .bg-white { … !important }` traduit ces classes vers les
+variables. C'est le compromis assumé du CDN ; en passant au Tailwind compilé,
+on pourrait basculer sur `darkMode: ['selector', '[data-theme="dark"]']` et
+supprimer cette section.
+
+---
+
+## Accessibilité
+
+- Skip-link vers le contenu principal sur chaque page
+- `focus-ring` visible au clavier, `aria-expanded` sur les menus dépliants
+- Fils d'Ariane sur les pages internes
+- `prefers-reduced-motion` respecté (animations, compteurs, scène 3D)
+- Icônes décoratives en `aria-hidden`, scène 3D annoncée via `role="img"`
+
+---
+
+## Build Tailwind (production, optionnel)
+
+Le site charge le CDN Tailwind par défaut (~3 MB, pratique en développement).
+Pour la production :
 
 ```bash
 npm install
-npm run build:css
+npm run build:css     # → assets/css/tailwind.min.css (~15 KB)
 ```
 
-Cela génère `assets/css/tailwind.min.css`. Remplacer ensuite dans chaque page :
+Puis remplacer dans chaque page :
+
 ```html
 <script src="https://cdn.tailwindcss.com"></script>
-```
-par :
-```html
+<!-- par -->
 <link rel="stylesheet" href="assets/css/tailwind.min.css">
 ```
 
-Pour le développement, `npm run watch:css` recompile à chaque sauvegarde.
+`npm run watch:css` recompile à chaque sauvegarde.
+
+> `tailwind.config.js` contient une **safelist** pour les classes construites
+> en JavaScript (couleurs des événements, accents des équipes) : Tailwind ne
+> peut pas les repérer en analysant le code, elles seraient purgées sans elle.
 
 ---
 
-## Pages d'équipe — structure type
+## Déploiement
 
-```
-┌─────────────────────────────────────────────┐
-│  Navbar (partial) + barre de progression    │
-├─────────────────────────────────────────────┤
-│  Fil d'Ariane → En-tête équipe              │
-├─────────────────────────────────────────────┤
-│  Informations  │  Prochaines    │  Effectif │
-│  (coach, niv.) │  rencontres    │  (joueurs)│
-│                │  [Scorenco]    │  [Scorenco]│
-├─────────────────────────────────────────────┤
-│  Classement [Widget Scorenco]               │
-├─────────────────────────────────────────────┤
-│  Footer (partial) + back-to-top             │
-└─────────────────────────────────────────────┘
+```bash
+docker compose up -d --build     # nginx sur http://localhost:8080
 ```
 
----
+`nginx.conf` gère gzip, le cache long sur les assets, l'absence de cache sur
+le HTML et les en-têtes de sécurité.
 
-## Architecture des partials
-
-Chaque page HTML contient :
-- `<html data-base="">` (racine) ou `<html data-base="../">` (`equipes/`)
-- `<body data-page="accueil|equipes|partenaires|boutique|contact">`
-- `<div id="navbar-placeholder"></div>` → remplacé par `partials/navbar.html`
-- `<div id="footer-placeholder"></div>` → remplacé par `partials/footer.html`
-
-`main.js` lit `data-base`, fetch les partials, et remplace `{{base}}` par la bonne profondeur de chemin.
+Le site étant 100 % statique, il fonctionne aussi tel quel sur GitHub Pages,
+Netlify ou Vercel — sans configuration.
 
 ---
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nos équipes · ABB Cornebarrieu</title>
+  <meta name="description" content="Toutes les équipes de l'Association Basket-Ball de Cornebarrieu (ABBC) : seniors féminines et masculines, U18 et U15. Niveaux, entraîneurs et classements en temps réel.">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nos équipes · ABB Cornebarrieu">
+  <meta property="og:description" content="Découvrez les équipes de l'ABBC, des U15 aux Seniors.">
+  <meta property="og:image" content="assets/images/Baniere.jpg">
+  <meta property="og:locale" content="fr_FR">
+
+  <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
+
+  <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
+  <script>
+    (function () {
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
+      } catch (_) {}
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-800" data-page="equipes">
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <div data-partial="navbar"></div>
+
+  <main id="main-content">
+
+    <section class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto text-center fade-in">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb justify-center">
+          <a href="index.html">Accueil</a>
+          <span aria-hidden="true">›</span>
+          <span class="breadcrumb-current">Équipes</span>
+        </nav>
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+          <span class="block text-blue-600">Nos équipes</span>
+        </h1>
+        <p class="text-xl text-gray-600">Des U15 aux Seniors, découvrez toutes les équipes du club</p>
+        <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mt-8" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="py-16 px-6 bg-gray-50">
+      <div class="max-w-7xl mx-auto">
+        <!-- Cartes générées par content/teams.js depuis assets/data/teams.json -->
+        <div id="teams-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <p class="col-span-full text-center text-gray-500 py-12">Chargement des équipes…</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-partial="footer"></div>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

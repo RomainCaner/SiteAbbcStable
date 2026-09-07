@@ -95,12 +95,19 @@ body {
 }
 
 /* ---------- Animations d'entree ---------- */
+/* Etat initial ; la classe .is-revealed est posee par ui/reveal.js lorsque
+   l'element entre dans le viewport (voir IntersectionObserver). */
 .fade-in,
 .slide-in,
 .bounce-in {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity .6s ease, transform .6s ease;
+}
+
+.is-revealed {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------- Barre de progression au scroll ---------- */
@@ -231,6 +238,138 @@ body {
   100% { transform: rotate(360deg); }
 }
 
+/* Widget dont l'identifiant Scorenco n'est pas encore renseigne, ou dont le
+   script n'a pas pu se charger : on affiche un encart lisible plutot qu'un
+   spinner qui tourne indefiniment. */
+.scorenco-pending,
+.scorenco-widget--failed {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--text-soft);
+  background: var(--bg-muted);
+  border: 1px dashed var(--border);
+  border-radius: .75rem;
+}
+.scorenco-pending i { font-size: 1.5rem; opacity: .6; }
+.scorenco-pending__help { font-size: .75rem; opacity: .75; }
+.scorenco-pending__help code {
+  background: var(--bg-surface);
+  padding: .1rem .3rem;
+  border-radius: .25rem;
+}
+
+/* ============================================================
+   Scene 3D du bandeau d'accueil (ui/hero3d.js)
+   ============================================================ */
+
+/* Le conteneur reserve sa place avant meme que Three.js soit charge :
+   pas de saut de mise en page quand le canvas apparait. */
+.hero-3d {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.hero-3d.is-grabbing { cursor: grabbing; }
+
+.hero-3d canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Repli affiche tant que la 3D n'a pas demarre, et definitivement si elle
+   echoue (pas de WebGL, CDN injoignable, bloqueur de scripts). */
+.hero-3d__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .5s ease;
+}
+.hero-3d__fallback img {
+  width: 62%;
+  border-radius: 50%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+}
+.hero-3d[data-hero3d-state="ready"] .hero-3d__fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Indice d'interaction, masque tant que la scene n'est pas prete. */
+.hero-3d__hint {
+  position: absolute;
+  bottom: -.25rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: .75rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .7);
+  opacity: 0;
+  transition: opacity .5s ease .3s;
+  pointer-events: none;
+}
+.hero-3d[data-hero3d-state="ready"] .hero-3d__hint { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d__hint { display: none; }
+}
+
+/* ============================================================
+   Composants partages
+   ============================================================ */
+
+/* ---------- Fil d'Ariane ---------- */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  color: var(--text-soft);
+  margin-bottom: 1.5rem;
+}
+.breadcrumb a { color: inherit; }
+.breadcrumb a:hover { color: #2563eb; }
+.breadcrumb-current { color: #2563eb; font-weight: 600; }
+
+/* ---------- Titres de groupe du menu Equipes ---------- */
+.team-menu-title {
+  font-weight: 700;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: .75rem;
+}
+.team-menu-title--seniors { color: #1e3a8a; }
+.team-menu-title--jeunes  { color: #047857; }
+[data-theme="dark"] .team-menu-title--seniors { color: #60a5fa; }
+[data-theme="dark"] .team-menu-title--jeunes  { color: #34d399; }
+
+/* ---------- Fragment HTML non charge (site ouvert en file://) ---------- */
+.partial-error {
+  text-align: center;
+  padding: 1rem;
+  color: #dc2626;
+  font-weight: 500;
+}
+
 /* ---------- Scrollbar personnalisee ---------- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-muted); }
@@ -244,5 +383,14 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Filet de securite : sans animation, le contenu doit rester visible meme
+     si l'IntersectionObserver n'a pas encore pose .is-revealed. */
+  .fade-in,
+  .slide-in,
+  .bounce-in {
+    opacity: 1;
+    transform: none;
   }
 }
