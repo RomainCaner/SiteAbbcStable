@@ -3,3 +3,7 @@ node_modules/
 *.log
 .env
 .env.local
+
+# Artefacts Python : le bytecode se regenere, il n'a rien a faire dans le depot.
+__pycache__/
+*.py[cod]

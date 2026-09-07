@@ -207,10 +207,10 @@ données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
 ### Comment ça marche
 
 ```
-.github/workflows/classements.yml   (tous les jours à 6h UTC)
+.github/workflows/classements.yml   (mer. et sam. 23h55, dim. 18h)
         │
         ▼
-scripts/fetch_standings.py          récupère + parse resultats.ffbb.com
+scripts/fetch_standings.py          interroge l'API FFBB (poule → classement)
         │
         ▼
 assets/data/standings.json          commité si le classement a changé
@@ -233,64 +233,143 @@ Vérifiés sur les pages officielles, et conservés dans `config.json` (section
 | Code club | **OCC0031019** |
 | Ligue / comité | Occitanie (`occ`) / Haute-Garonne (`0031`) |
 | Page du club | [competitions.ffbb.com/…/clubs/occ0031019](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019) |
-| SG1 | RM2 Occitanie, poule **PYR-B** — équipe `200000005142728` |
-| Adversaires PYR-B | ES Toulouse Casselardit, Toulouse Lardenne, Avenir Muretain |
+| SG1 | RM2 Occitanie, poule **PYR-B** — poule `200000003054822` |
+| SF1 | NF3, poule **B** — poule `200000003054399` |
 
-### Deux plateformes FFBB : laquelle viser
+### Par où passent les données
 
-La FFBB expose ses compétitions à deux endroits, avec des schémas d'URL
-différents :
+La FFBB expose ses compétitions à trois endroits. Le script les connaît tous
+les trois, mais ils ne se valent pas :
 
-| | `resultats.ffbb.com` | `competitions.ffbb.com` |
-|---|---|---|
-| URL | `/championnat/<hex>.html` | `/ligues/occ/competitions/rm2?poule=<id>&phase=<id>` |
-| Rendu | HTML côté serveur | application web (probablement une API JSON derrière) |
-| Statut | ancienne plateforme, encore utilisée par des outils tiers | plateforme actuelle |
+| | API FFBB | `competitions.ffbb.com` | `resultats.ffbb.com` |
+|---|---|---|---|
+| Accès | `ffbb-data-client` (PyPI) | page web | page web |
+| Désignation | identifiant de poule | URL de classement | `/championnat/<hex>.html` |
+| Données | champs nommés et typés | à extraire de la page | tableau HTML |
+| Statut | **voie principale** | repli | ancienne plateforme |
 
-**Le script cible aujourd'hui `resultats.ffbb.com`**, parce que son HTML est
-rendu côté serveur et se parse sans navigateur. C'est le choix pragmatique,
-mais l'ancienne plateforme peut disparaître : si c'est le cas, il faudra
-regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
-`200000005142728` ci-dessus est un bon point d'entrée pour l'explorer).
+**L'API est la voie à privilégier.** Un appel, `get_classement(poule_id)`, et
+un objet par équipe avec `position`, `points`, `match_joues`, `gagnes`,
+`perdus`, `paniers_marques`, `paniers_encaisses`, `difference` — la
+correspondance avec le schéma du site est directe, sans aucune heuristique.
+Les jetons sont résolus automatiquement : rien à demander au club, aucun
+secret à stocker dans le dépôt.
+
+Les deux autres voies restent en place pour les équipes dont on n'aurait que
+l'URL, et pour l'ancienne plateforme.
 
 ### Brancher une équipe
 
-Ouvrir la page de **classement** de l'équipe sur
-[competitions.ffbb.com](https://competitions.ffbb.com), copier l'URL de la
-barre d'adresse et la coller dans `assets/data/teams.json` :
+Lancer la découverte des poules — *Actions* → *Classements FFBB* → *Run
+workflow*, champ **poules** (ou en local, si l'environnement a accès à la
+FFBB) :
+
+```bash
+python scripts/decouvrir_poules.py Cornebarrieu
+```
+
+Elle liste les engagements du club avec, pour chacun, le numéro d'équipe, le
+sexe, la catégorie d'âge et l'identifiant de poule :
+
+```
+  n°1   NATIONALE FEMININE 3                      poule Poule B  200000003054399   F Seniors
+  n°1   Régionale masculine seniors - Division 2  poule PYR-B    200000003054822   M Seniors
+```
+
+Reporter l'identifiant dans `assets/data/teams.json`, sur l'équipe
+correspondante :
 
 ```json
 "ffbb": {
-  "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
+  "pouleId": "200000003054822"
 }
 ```
 
-C'est tout : pas d'identifiant à extraire, l'URL suffit. Lancer ensuite le
-workflow (*Actions* → *Classements FFBB* → *Run workflow*) ou attendre
-l'exécution planifiée.
+Puis relancer le workflow sans renseigner de champ, ou attendre l'exécution
+planifiée.
 
-SG1 est déjà branchée sur RM2 Occitanie / PYR-B.
+**Le rapprochement se fait à la main**, et c'est volontaire : les intitulés
+diffèrent des deux côtés (`SF2` ici, « Régionale féminine seniors - Division 2 »
+là-bas). Le garde-fou ne peut pas rattraper une confusion entre deux équipes
+du même club, puisque le club apparaît dans les deux classements — mieux vaut
+donc vérifier le numéro d'équipe que supposer.
+
+Une équipe engagée en **CTC** (entente entre clubs) n'apparaît pas sous le nom
+du club : la chercher sous le nom de l'entente.
+
+Branchées à ce jour : **SF1** et **SG1**.
 
 ### Comment le classement est extrait
 
-Deux stratégies, essayées dans cet ordre, ce qui couvre les deux plateformes
-de la FFBB :
+Une équipe désignée par `pouleId` passe par l'**API** : un appel, des champs
+nommés, rien à interpréter. Tout ce qui suit ne concerne que les équipes
+désignées par une URL.
 
-1. **Données JSON de la page** (`__NEXT_DATA__`, `__NUXT__`,
-   `__INITIAL_STATE__`) — c'est le cas de `competitions.ffbb.com`, dont les
-   pages sont construites en JavaScript. Le script parcourt la structure et
-   retient **le tableau qui contient le club**. Les champs sont reconnus par
-   correspondance approximative de noms (`rangOfficiel`, `nbVictoires`,
-   `pointsInscrits`… sont compris sans avoir été prévus), et un nom d'équipe
-   imbriqué (`{"equipe": {"nom": "…"}}`) est géré.
-2. **Tableau HTML** — l'ancienne plateforme `resultats.ffbb.com`, avec
-   l'association par intitulé doublée du repli positionnel décrit plus bas.
+Le seul traitement appliqué aux données de l'API est un **tri par rang** :
+l'API renvoie les lignes dans l'ordre lexicographique du rang (1, 10, 11, 12,
+2, 3…), et le site les afficherait dans cet ordre.
+
+#### Pour les équipes désignées par une URL
+
+Le script essaie plusieurs **formes du même contenu**, à la demande, et
+s'arrête à la première qui donne un classement lisible — les suivantes ne sont
+jamais demandées.
+
+Deux formes d'URL (avec et sans `/classement`, selon les ligues) et, sur
+`competitions.ffbb.com`, deux formes de réponse :
+
+- **Flux de données** (en-tête `RSC`). Le site est une application Next.js : au
+  premier chargement le serveur envoie du HTML, mais avec cet en-tête il envoie
+  à la place le flux de données brut — c'est ainsi que le site change de poule
+  ou de journée sans recharger la page. Essayé en premier.
+- **HTML**, pour l'ancienne plateforme `resultats.ffbb.com`.
+
+Sur chaque document, trois stratégies d'analyse dans cet ordre :
+
+1. **Blocs de données nommés** (`__NEXT_DATA__`, `__NUXT_DATA__`,
+   `ng-state`, `__PRELOADED_STATE__`), plus un filet générique sur tout
+   `<script type="application/json">` de taille significative. Le script
+   parcourt la structure et retient **le tableau qui contient le club**. Les
+   champs sont reconnus par correspondance approximative de noms
+   (`rangOfficiel`, `nbVictoires`, `pointsInscrits`… sont compris sans avoir
+   été prévus), et un nom d'équipe imbriqué (`{"equipe": {"nom": "…"}}`) est
+   géré.
+2. **Flux Next.js**, sous ses deux formes : encodé dans des chaînes JavaScript
+   (`self.__next_f.push`) dans une page HTML, brut dans une réponse `RSC`. Le
+   flux n'étant pas un document JSON unique mais une suite de fragments
+   préfixés, les tableaux d'objets en sont extraits par lecture à parenthésage
+   équilibré. Le flux contient aussi les **rencontres**, où le club figure sans
+   classement : entre plusieurs candidats, celui qui porte le plus de points
+   l'emporte.
+3. **Tableau HTML** — l'ancienne plateforme, avec l'association par intitulé
+   doublée du repli positionnel décrit plus bas.
 
 La sortie indique la stratégie retenue :
 
 ```
-sg1     4 équipes — Régionale Masculine 2 - PYR-B [via __NEXT_DATA__]
+sg1     4 équipes — Régionale Masculine 2 - PYR-B [via flux RSC]
 ```
+
+Une réponse `RSC` n'ayant pas de `<title>`, le nom de la compétition retombe
+alors sur le champ `level` de `teams.json`.
+
+#### Quand la page revient vide
+
+`competitions.ffbb.com` finit par servir une page vidée de son contenu si on
+l'appelle trop souvent depuis la même adresse — au navigateur comme en HTTP
+simple. Le script le dit explicitement plutôt que de laisser croire à un
+défaut d'analyse :
+
+```
+sg1 : flux RSC : réponse de 2 378 caractères et 3 liens : trop peu pour une
+      page de compétition. Soit l'URL ne mène pas à un classement, soit la
+      FFBB a servi une page vide (requête refusée, ou trop d'appels
+      rapprochés).
+```
+
+Rien à corriger dans le code quand ce message s'affiche : c'est au rythme des
+appels qu'il faut laisser du temps. C'est aussi une raison de plus de préférer
+`pouleId` à `classementUrl` — l'API, elle, n'a jamais bronché.
 
 #### Une mauvaise URL ne peut pas passer
 
@@ -319,6 +398,14 @@ python scripts/fetch_standings.py --discover "https://competitions.ffbb.com/..."
 
 Disponible aussi depuis le workflow, champ `decouvrir`, ce qui permet de
 l'exécuter depuis un environnement ayant accès à la FFBB.
+
+Quand ça ne suffit pas — parce que la donnée n'est pas dans le HTML du tout —
+`scripts/decouvrir_api.mjs` ouvre la page dans Chromium et relève **ce que le
+site appelle réellement** : chaque réponse JSON, classée selon qu'elle contient
+le club et des clés de classement, les tableaux rendus à l'écran et la forme
+des routes. C'est ce sondage qui a mis au jour l'en-tête `RSC`. Il est ponctuel,
+déclenché par le champ `sonder` du workflow, et ne met rien à jour ; la mise à
+jour quotidienne reste en HTTP simple, sans navigateur.
 
 ### Tester le parsing sans appeler la FFBB
 

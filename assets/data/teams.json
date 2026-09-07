@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.classementUrl' = URL de la page de classement de l'equipe, copiee telle quelle depuis le navigateur (competitions.ffbb.com/.../classement?phase=...&poule=...). Une fois renseignee, le site affiche son propre tableau au lieu du widget Score'n'co. Laissez vide tant qu'elle n'est pas connue : l'equipe reste sur son widget.",
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.pouleId' = identifiant de poule FFBB, interroge via l'API : c'est la voie a privilegier, obtenue avec scripts/decouvrir_poules.py. 'ffbb.classementUrl' = URL de la page de classement, copiee depuis le navigateur, utilisee a defaut. Tant qu'aucune des deux n'est renseignee, l'equipe reste sur son widget Score'n'co.",
     "slug": "sf1",
     "page": "sf1.html",
     "group": "seniors",
@@ -17,6 +17,7 @@
       "ranking": "39763"
     },
     "ffbb": {
+      "pouleId": "200000003054399",
       "classementUrl": ""
     }
   },
@@ -27,7 +28,7 @@
     "shortName": "SF2",
     "name": "Senior Feminine 2",
     "displayName": "Senior Féminine 2",
-    "level": "Régional",
+    "level": "Régionale 2",
     "coach": "À définir",
     "accent": "green",
     "description": "L'équipe réserve féminine, passerelle entre les jeunes et la Nationale.",
@@ -37,6 +38,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054806",
       "classementUrl": ""
     }
   },
@@ -47,7 +49,7 @@
     "shortName": "SF3",
     "name": "Senior Feminine 3",
     "displayName": "Senior Féminine 3",
-    "level": "Départemental",
+    "level": "Pré-régionale",
     "coach": "À définir",
     "accent": "green",
     "description": "Basket plaisir et compétition départementale dans une ambiance conviviale.",
@@ -57,6 +59,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054392",
       "classementUrl": ""
     }
   },
@@ -67,7 +70,7 @@
     "shortName": "SG1",
     "name": "Senior Masculine 1",
     "displayName": "Senior Masculine 1",
-    "level": "Régional 2",
+    "level": "Régionale 2",
     "coach": "Staff technique ABBC",
     "accent": "forest",
     "description": "L'équipe fanion masculine, engagée au niveau régional.",
@@ -77,6 +80,7 @@
       "ranking": "39756"
     },
     "ffbb": {
+      "pouleId": "200000003054822",
       "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280"
     }
   },
@@ -87,7 +91,7 @@
     "shortName": "SG2",
     "name": "Senior Masculine 2",
     "displayName": "Senior Masculine 2",
-    "level": "Départemental",
+    "level": "Départementale 2",
     "coach": "À définir",
     "accent": "forest",
     "description": "L'équipe réserve masculine, ouverte aux joueurs de tous horizons.",
@@ -97,6 +101,7 @@
       "ranking": ""
     },
     "ffbb": {
+      "pouleId": "200000003054393",
       "classementUrl": ""
     }
   },
