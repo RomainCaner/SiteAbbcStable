@@ -1,13 +1,23 @@
 {
-  "_comment": "Configuration centrale du site ABBC. Modifiez ici la saison, les chiffres cles et les liens reseaux : ils se propagent sur tout le site. Remplacez chaque valeur marquee TODO par la vraie donnee du club.",
+  "_comment": "Configuration centrale du site ABBC. Modifiez ici la saison, les chiffres cles, les coordonnees et les liens reseaux : ils se propagent sur tout le site via les attributs data-config / data-social. Remplacez chaque valeur marquee TODO par la vraie donnee du club.",
+
   "season": "2026-2027",
   "licencies": "180",
   "equipesCount": "17",
+
   "email": "bureau.abbc@gmail.com",
+  "city": "Cornebarrieu, Haute-Garonne (31)",
+
   "social": {
     "facebook": "TODO-url-facebook-abbc",
     "instagram": "TODO-url-instagram-abbc",
     "tiktok": "TODO-url-tiktok-abbc",
     "youtube": "TODO-url-youtube-abbc"
+  },
+
+  "_scorenco": "Widgets Score'n'co au niveau du club (les widgets par equipe sont dans teams.json). 'weekEvents' = tableau des rencontres de la semaine affiche sur l'accueil.",
+  "scorenco": {
+    "clubUrl": "https://www.scorenco.com/",
+    "weekEvents": "139743"
   }
 }

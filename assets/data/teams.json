@@ -1,0 +1,156 @@
+[
+  {
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. Les identifiants 'widgets' sont ceux de Score'n'co (menu Partager > Widget sur scorenco.com) : laissez la chaine vide tant que l'ID n'est pas connu, le bloc affichera un message d'attente au lieu d'un widget casse.",
+    "slug": "sf1",
+    "page": "sf1.html",
+    "group": "seniors",
+    "shortName": "SF1",
+    "name": "Senior Feminine 1",
+    "displayName": "Senior Féminine 1",
+    "level": "Nationale 3",
+    "coach": "Stéphane Soulé",
+    "accent": "green",
+    "description": "Le fer de lance du club : l'équipe fanion féminine évolue au niveau national.",
+    "widgets": {
+      "nextGames": "139710",
+      "players": "163833",
+      "ranking": "39763"
+    }
+  },
+  {
+    "slug": "sf2",
+    "page": "sf2.html",
+    "group": "seniors",
+    "shortName": "SF2",
+    "name": "Senior Feminine 2",
+    "displayName": "Senior Féminine 2",
+    "level": "Régional",
+    "coach": "À définir",
+    "accent": "green",
+    "description": "L'équipe réserve féminine, passerelle entre les jeunes et la Nationale.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "sf3",
+    "page": "sf3.html",
+    "group": "seniors",
+    "shortName": "SF3",
+    "name": "Senior Feminine 3",
+    "displayName": "Senior Féminine 3",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "green",
+    "description": "Basket plaisir et compétition départementale dans une ambiance conviviale.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "sg1",
+    "page": "sg1.html",
+    "group": "seniors",
+    "shortName": "SG1",
+    "name": "Senior Masculine 1",
+    "displayName": "Senior Masculine 1",
+    "level": "Régional 2",
+    "coach": "Staff technique ABBC",
+    "accent": "forest",
+    "description": "L'équipe fanion masculine, engagée au niveau régional.",
+    "widgets": {
+      "nextGames": "164626",
+      "players": "164625",
+      "ranking": "39756"
+    }
+  },
+  {
+    "slug": "sg2",
+    "page": "sg2.html",
+    "group": "seniors",
+    "shortName": "SG2",
+    "name": "Senior Masculine 2",
+    "displayName": "Senior Masculine 2",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "forest",
+    "description": "L'équipe réserve masculine, ouverte aux joueurs de tous horizons.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "u18f",
+    "page": "u18f.html",
+    "group": "jeunes",
+    "shortName": "U18F",
+    "name": "U18 Feminine",
+    "displayName": "U18 Féminine",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "orange",
+    "description": "Dernière marche avant les seniors : formation et compétition.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "u18g",
+    "page": "u18g.html",
+    "group": "jeunes",
+    "shortName": "U18G",
+    "name": "U18 Masculine",
+    "displayName": "U18 Masculine",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "orange",
+    "description": "Dernière marche avant les seniors : formation et compétition.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "u15f",
+    "page": "u15f.html",
+    "group": "jeunes",
+    "shortName": "U15F",
+    "name": "U15 Feminine",
+    "displayName": "U15 Féminine",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "ochre",
+    "description": "Apprentissage du jeu collectif et premiers championnats.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  },
+  {
+    "slug": "u15g",
+    "page": "u15g.html",
+    "group": "jeunes",
+    "shortName": "U15G",
+    "name": "U15 Masculine",
+    "displayName": "U15 Masculine",
+    "level": "Départemental",
+    "coach": "À définir",
+    "accent": "ochre",
+    "description": "Apprentissage du jeu collectif et premiers championnats.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    }
+  }
+]

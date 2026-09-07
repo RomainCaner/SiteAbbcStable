@@ -4,107 +4,97 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Boutique · ABB Cornebarrieu</title>
-  <meta name="description" content="Boutique officielle de l'ABBC : maillots, sweats et accessoires aux couleurs du club. Achats sécurisés via HelloAsso.">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="description" content="La boutique officielle de l'ABB Cornebarrieu sur HelloAsso : maillots, sweats et accessoires aux couleurs du club.">
+  <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Boutique · ABB Cornebarrieu">
-  <meta property="og:description" content="Équipements officiels ABBC sur HelloAsso : soutenez le club en vous équipant.">
+  <meta property="og:description" content="Équipez-vous aux couleurs de l'ABBC.">
   <meta property="og:image" content="assets/images/Baniere.jpg">
   <meta property="og:locale" content="fr_FR">
 
   <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
 
+  <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
   <script>
     (function () {
       try {
-        const t = localStorage.getItem('abbc-theme') || 'light';
-        document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
       } catch (_) {}
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
 </head>
-<body class="bg-gray-50 text-gray-800" data-page="boutique">
+<body data-page="boutique">
 
-  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-  <div id="navbar-placeholder"></div>
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+  <div data-partial="navbar"></div>
 
-  <main id="main-content">
-
-    <section class="py-20 px-6 bg-white">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16 fade-in">
-          <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
-            <span class="block text-blue-600">Boutique ABBC</span>
-          </h1>
-          <p class="text-xl text-gray-600 mb-8">Soutenez votre club en vous équipant aux couleurs de l'ABBC !</p>
-          <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-green-600 mx-auto mb-8"></div>
-        </div>
+  <main id="main">
+    <header class="page-head">
+      <div class="container">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb">
+          <a href="index.html">Accueil</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Boutique</span>
+        </nav>
+        <h1 class="page-head__title">Boutique</h1>
+        <p class="page-head__lede">Maillots, sweats et accessoires officiels. Chaque achat finance les activités du club.</p>
       </div>
-    </section>
+    </header>
 
-    <section id="boutique" class="py-20 px-6 bg-gray-50">
-      <div class="max-w-4xl mx-auto">
-        <div class="bg-white p-12 rounded-2xl shadow-lg border border-gray-100">
-          <div class="text-center mb-12">
-            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <i class="fas fa-shopping-cart text-white text-3xl" aria-hidden="true"></i>
-            </div>
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Notre Boutique en Ligne</h2>
-            <p class="text-gray-600 mb-8">Découvrez tous nos produits officiels : maillots, sweats, accessoires et bien plus encore !</p>
-
-            <a href="https://www.helloasso.com/associations/association-de-basket-ball-de-cornebarrieu/boutiques/boutique-abbc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus-ring">
-              <i class="fas fa-external-link-alt text-xl" aria-hidden="true"></i>
-              <span class="text-xl">Accéder à la Boutique</span>
-            </a>
+    <section class="section">
+      <div class="container">
+        <div class="grid grid--2 grid--airy grid--center">
+          <div class="stack reveal" style="--flow: var(--space-5)">
+            <p class="eyebrow">HelloAsso</p>
+            <h2>La boutique officielle</h2>
+            <p class="lede">
+              La boutique du club est hébergée sur HelloAsso, plateforme sécurisée dédiée
+              aux associations. Commande et paiement en quelques clics.
+            </p>
+            <p>
+              <a href="https://www.helloasso.com/associations/association-de-basket-ball-de-cornebarrieu/boutiques/boutique-abbc"
+                 target="_blank" rel="noopener noreferrer" class="btn btn--accent">
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                Accéder à la boutique
+              </a>
+            </p>
           </div>
 
-          <div class="border-t border-gray-200 pt-8 mt-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Pourquoi Acheter ?</h3>
-            <div class="grid md:grid-cols-3 gap-6">
-              <div class="flex flex-col items-center text-center p-6 bg-blue-50 rounded-lg">
-                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                  <i class="fas fa-tshirt text-white text-2xl" aria-hidden="true"></i>
-                </div>
-                <h4 class="font-bold text-gray-800 mb-2">Équipements Officiels</h4>
-                <p class="text-gray-600">Portez fièrement les couleurs de votre club</p>
-              </div>
-
-              <div class="flex flex-col items-center text-center p-6 bg-green-50 rounded-lg">
-                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-                  <i class="fas fa-heart text-white text-2xl" aria-hidden="true"></i>
-                </div>
-                <h4 class="font-bold text-gray-800 mb-2">Soutenez le Club</h4>
-                <p class="text-gray-600">Chaque achat aide à financer les activités du club</p>
-              </div>
-
-              <div class="flex flex-col items-center text-center p-6 bg-purple-50 rounded-lg">
-                <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-4">
-                  <i class="fas fa-star text-white text-2xl" aria-hidden="true"></i>
-                </div>
-                <h4 class="font-bold text-gray-800 mb-2">Qualité Premium</h4>
-                <p class="text-gray-600">Des produits de qualité pour tous les joueurs</p>
+          <div class="grid gap-4 reveal" data-delay="1">
+            <div class="event" style="--event-accent: var(--orange-500)">
+              <div class="event__date"><i class="fas fa-shirt" aria-hidden="true"></i></div>
+              <div>
+                <h3 class="event__title">Équipements officiels</h3>
+                <p class="event__text">Portez les couleurs du club à l'entraînement comme en match.</p>
               </div>
             </div>
-          </div>
-
-          <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg">
-            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <i class="fas fa-info-circle text-blue-600" aria-hidden="true"></i>
-              Informations
-            </h4>
-            <p class="text-gray-600 mb-3">
-              Notre boutique est gérée via HelloAsso, une plateforme sécurisée dédiée aux associations.
-              Vous y trouverez tous nos produits officiels et pourrez passer commande en toute sécurité.
-            </p>
-            <p class="text-gray-600">
-              <strong>Questions ?</strong> Contactez-nous à <a href="mailto:bureau.abbc@gmail.com" class="text-blue-600 hover:underline focus-ring">bureau.abbc@gmail.com</a>
-            </p>
+            <div class="event" style="--event-accent: var(--green-600)">
+              <div class="event__date"><i class="fas fa-heart" aria-hidden="true"></i></div>
+              <div>
+                <h3 class="event__title">Vous soutenez le club</h3>
+                <p class="event__text">Chaque achat finance directement les activités et le matériel.</p>
+              </div>
+            </div>
+            <div class="event" style="--event-accent: #6B3FA0">
+              <div class="event__date"><i class="fas fa-shield-halved" aria-hidden="true"></i></div>
+              <div>
+                <h3 class="event__title">Paiement sécurisé</h3>
+                <p class="event__text">
+                  Une question sur une commande ?
+                  <a href="mailto:bureau.abbc@gmail.com" class="underline">Écrivez-nous</a>.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -112,8 +102,8 @@
 
   </main>
 
-  <div id="footer-placeholder"></div>
+  <div data-partial="footer"></div>
 
-  <script src="assets/js/main.js" defer></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

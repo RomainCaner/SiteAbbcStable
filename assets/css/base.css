@@ -1,0 +1,196 @@
+/* ============================================================================
+   ABBC — Socle : reset, typographie, éléments de base, utilitaires de mise
+   en page. Aucun composant ici (voir components.css).
+   ========================================================================= */
+
+/* ---------- Reset ciblé ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--duration) var(--ease),
+              color var(--duration) var(--ease);
+}
+
+h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl { margin: 0; }
+ul[class], ol[class] { list-style: none; padding: 0; }
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+img { height: auto; }
+
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+
+/* ---------- Titres ---------- */
+.display,
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--display-md); line-height: var(--leading-tight); }
+h2 { font-size: var(--display-sm); }
+h3 { font-size: var(--text-xl); }
+
+/* Surtitre : petite étiquette au-dessus d'un titre de section. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--accent);
+  margin: 0 0 var(--space-3);
+}
+.eyebrow::before {
+  content: '';
+  width: 2rem;
+  height: 3px;
+  background: var(--accent);
+}
+
+.lede {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  max-width: var(--measure);
+}
+
+/* ---------- Accessibilité ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: var(--gutter);
+  transform: translateY(-110%);
+  z-index: 10000;
+  padding: var(--space-3) var(--space-5);
+  background: var(--accent);
+  color: var(--white);
+  font-weight: 600;
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: transform var(--duration-fast) var(--ease);
+}
+.skip-link:focus { transform: translateY(0); }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Mise en page ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--narrow { max-width: 900px; }
+
+/* Paliers explicites : `auto-fit` produisait des rangees orphelines (5 cartes
+   reparties en 4 + 1). Une colonne sur mobile, deux sur tablette, puis la
+   valeur nominale. */
+.grid { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
+
+@media (min-width: 640px) {
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.stack > * + * { margin-top: var(--flow, var(--space-4)); }
+.cluster { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+
+/* ---------- Utilitaires ----------
+   Volontairement peu nombreux : ils couvrent les ajustements récurrents
+   (taille de texte, respiration entre blocs) sans rouvrir la porte à une
+   soupe de classes utilitaires. Tout le reste appartient à un composant. */
+.text-sm   { font-size: var(--text-sm); }
+.text-lg   { font-size: var(--text-lg); }
+.muted     { color: var(--text-muted); }
+.nowrap    { white-space: nowrap; }
+
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+
+/* Bloc de contenu séparé du suivant, à l'intérieur d'une même section. */
+.block + .block,
+.block-gap { margin-top: var(--space-8); }
+.block-gap:last-child { margin-top: var(--space-8); margin-bottom: 0; }
+
+/* Grille dont les colonnes s'alignent en haut et respirent davantage. */
+.grid--airy { gap: var(--space-8); align-items: start; }
+.grid--center { align-items: center; }
+.push-right { margin-left: auto; }
+.cluster--between { justify-content: space-between; }
+.gap-4 { gap: var(--space-4); }
+.underline { text-decoration: underline; text-underline-offset: 3px; }
+.narrow { max-width: 34rem; }
+.display-md { font-size: var(--display-md); }
+@media (max-width: 767px) { .push-right { margin-left: 0; } }
+
+/* ---------- Barre de défilement ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-sunken); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+::selection { background: var(--accent); color: var(--white); }
+
+/* ---------- Apparition au défilement (piloté par ui/reveal.js) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.is-revealed { opacity: 1; transform: none; }
+
+/* Décalage en cascade pour les éléments d'une même grille. */
+.reveal[data-delay="1"] { transition-delay: 80ms; }
+.reveal[data-delay="2"] { transition-delay: 160ms; }
+.reveal[data-delay="3"] { transition-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+  /* Filet de sécurité : rien ne doit rester invisible sans animation. */
+  .reveal { opacity: 1; transform: none; }
+}

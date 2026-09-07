@@ -5,47 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Actualité · ABB Cornebarrieu</title>
   <meta name="description" content="Article d'actualité de l'Association Basket-Ball de Cornebarrieu (ABBC).">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Actualité · ABB Cornebarrieu">
+  <meta property="og:description" content="Article du club ABB Cornebarrieu.">
   <meta property="og:image" content="assets/images/Baniere.jpg">
   <meta property="og:locale" content="fr_FR">
 
   <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
 
+  <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
   <script>
     (function () {
       try {
-        const t = localStorage.getItem('abbc-theme') || 'light';
-        document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
       } catch (_) {}
     })();
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
 </head>
-<body class="bg-gray-50 text-gray-800" data-page="actualites">
+<body data-page="actualites">
 
-  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-  <div id="navbar-placeholder"></div>
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+  <div data-partial="navbar"></div>
 
-  <main id="main-content">
-    <section class="py-16 px-6 bg-white min-h-[60vh]">
-      <div class="max-w-6xl mx-auto">
-        <!-- Rempli dynamiquement depuis assets/data/news.json selon ?slug= dans l'URL -->
+  <main id="main">
+    <section class="section section--raised">
+      <div class="container container--narrow">
+        <!-- Rempli par content/news.js selon ?slug= dans l'URL -->
         <div id="article-content">
-          <p class="text-center text-gray-500 py-12">Chargement de l'article…</p>
+          <p>Chargement de l'article…</p>
         </div>
       </div>
     </section>
+
   </main>
 
-  <div id="footer-placeholder"></div>
+  <div data-partial="footer"></div>
 
-  <script src="assets/js/main.js" defer></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

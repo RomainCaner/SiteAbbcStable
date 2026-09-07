@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Actualités · ABB Cornebarrieu</title>
-  <meta name="description" content="Actualités de l'ABB Cornebarrieu : news du club, résumés de matchs et annonces.">
+  <title>Nos équipes · ABB Cornebarrieu</title>
+  <meta name="description" content="Toutes les équipes de l'ABB Cornebarrieu : seniors féminines et masculines, U18 et U15. Niveaux, entraîneurs et classements en temps réel.">
   <meta name="theme-color" content="#226321">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Actualités · ABB Cornebarrieu">
-  <meta property="og:description" content="Toute l'actualité du club ABBC.">
+  <meta property="og:title" content="Nos équipes · ABB Cornebarrieu">
+  <meta property="og:description" content="Découvrez les équipes de l'ABBC, des U15 aux Seniors.">
   <meta property="og:image" content="assets/images/Baniere.jpg">
   <meta property="og:locale" content="fr_FR">
 
@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
 </head>
-<body data-page="actualites">
+<body data-page="equipes">
 
   <a href="#main" class="skip-link">Aller au contenu principal</a>
   <div data-partial="navbar"></div>
@@ -44,18 +44,18 @@
         <nav aria-label="Fil d'Ariane" class="breadcrumb">
           <a href="index.html">Accueil</a>
           <span aria-hidden="true">/</span>
-          <span aria-current="page">Actualités</span>
+          <span aria-current="page">Équipes</span>
         </nav>
-        <h1 class="page-head__title">Actualités</h1>
-        <p class="page-head__lede">La vie du club, match après match.</p>
+        <h1 class="page-head__title">Nos équipes</h1>
+        <p class="page-head__lede">Des U15 aux Seniors, neuf collectifs portent les couleurs du club chaque week-end.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container">
-        <!-- Rempli par content/news.js depuis assets/data/news.json -->
-        <div id="news-list" class="grid grid--3">
-          <p>Chargement des actualités…</p>
+        <!-- Cartes générées par content/teams.js depuis assets/data/teams.json -->
+        <div id="teams-grid">
+          <p>Chargement des équipes…</p>
         </div>
       </div>
     </section>
