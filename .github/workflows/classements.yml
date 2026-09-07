@@ -45,6 +45,12 @@ on:
           reporter dans teams.json. Ne met rien à jour.
         required: false
         type: string
+      rencontre:
+        description: >-
+          Identifiant de poule dont on veut inspecter une rencontre brute, pour
+          voir quels champs l'API remplit réellement. Ne met rien à jour.
+        required: false
+        type: string
 
 # Un seul déploiement à la fois, pour éviter deux commits concurrents.
 concurrency:
@@ -84,6 +90,10 @@ jobs:
         if: inputs.poules != ''
         run: python scripts/decouvrir_poules.py "${{ inputs.poules }}"
 
+      - name: Inspecter une rencontre brute
+        if: inputs.rencontre != ''
+        run: python scripts/fetch_standings.py --rencontre-brute "${{ inputs.rencontre }}"
+
       - name: Sonder l'API du classement
         if: inputs.sonder != ''
         timeout-minutes: 8
@@ -93,7 +103,7 @@ jobs:
           node scripts/decouvrir_api.mjs "${{ inputs.sonder }}"
 
       - name: Récupérer les classements
-        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == ''
+        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == '' && inputs.rencontre == ''
         id: fetch
         # Le script sort en code 1 si une équipe échoue. On ne veut pas faire
         # échouer tout le workflow pour un championnat momentanément
@@ -104,21 +114,25 @@ jobs:
           echo "code=$?" >> "$GITHUB_OUTPUT"
           set -e
 
-      - name: Commiter si le classement a changé
-        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == ''
+      - name: Commiter si les données ont changé
+        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == '' && inputs.rencontre == ''
         run: |
-          if git diff --quiet -- assets/data/standings.json; then
-            echo "Aucun changement de classement."
+          # Deux fichiers : les classements et le calendrier. Le second bouge
+          # plus souvent (l'horaire d'une rencontre peut changer sans que le
+          # classement bouge), d'où le test sur les deux.
+          fichiers="assets/data/standings.json assets/data/fixtures.json"
+          if git diff --quiet -- $fichiers; then
+            echo "Aucun changement."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/standings.json
-          git commit -m "Classements FFBB au $(date -u '+%d/%m/%Y')"
+          git add $fichiers
+          git commit -m "Classements et rencontres FFBB au $(date -u '+%d/%m/%Y')"
           git push
 
       - name: Signaler les échecs de récupération
-        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == '' && steps.fetch.outputs.code != '0'
+        if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == '' && inputs.rencontre == '' && steps.fetch.outputs.code != '0'
         run: |
           echo "::warning::Au moins un championnat n'a pas pu être récupéré."
           echo "Vérifiez les identifiants ffbb.championshipId dans assets/data/teams.json,"

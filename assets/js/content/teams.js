@@ -14,8 +14,9 @@
 import { escapeHTML } from '../core/dom.js';
 import { getTeams, url } from '../core/data.js';
 import { observe } from '../ui/reveal.js';
-import { widgetHTML } from './scorenco.js';
+// import { widgetHTML } from './scorenco.js';  // widgets Score'n'co : voir plus bas
 import { getStandings, standingsHTML } from './standings.js';
+import { getFixtures, fixturesPanelHTML } from './fixtures.js';
 
 /**
  * Couleur d'accent par équipe, exposée en variable CSS.
@@ -45,16 +46,41 @@ const panel = (icon, title, body) => `
   </div>`;
 
 /**
- * Bloc classement : tableau maison si `standings.json` couvre l'équipe,
- * widget Score'n'co sinon. Cela permet de basculer équipe par équipe, en
- * renseignant `ffbb.championshipId` dans teams.json, sans rien casser.
+ * Bloc classement : tableau maison si `standings.json` couvre l'équipe, encart
+ * d'attente sinon. Renseigner `ffbb.pouleId` dans teams.json suffit à basculer
+ * une équipe.
+ *
+ * Les widgets Score'n'co sont conservés en commentaire le temps que les quatre
+ * équipes jeunes soient branchées sur la FFBB — elles sont engagées en CTC et
+ * n'apparaissent pas encore sous le nom du club.
+ *
+ *   return `<div class="widget-frame">${widgetHTML('ranking', team.widgets?.ranking,
+ *             'Classement bientôt disponible.')}</div>`;
  */
 function rankingHTML(team, standing) {
   if (standing?.rows?.length) return standingsHTML(standing);
-  return `<div class="widget-frame">${widgetHTML('ranking', team.widgets?.ranking, 'Classement bientôt disponible.')}</div>`;
+  return `
+    <div class="widget-pending">
+      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+      <p>Classement bientôt disponible.</p>
+      <p class="widget-pending__help">
+        Identifiant de poule à renseigner dans <code>assets/data/teams.json</code>
+        (<code>ffbb.pouleId</code>), voir <code>scripts/decouvrir_poules.py</code>.
+      </p>
+    </div>`;
 }
 
-function teamPageHTML(team, standing) {
+/**
+ * Fiche complète d'une équipe.
+ *
+ * L'effectif n'a pas d'équivalent côté API FFBB : le widget Score'n'co en
+ * était la seule source, il est neutralisé en attendant une liste tenue dans
+ * teams.json. Pour le rétablir, réactiver l'import de `widgetHTML` et
+ * remplacer l'encart d'attente par :
+ *
+ *   widgetHTML('players', team.widgets?.players, 'Effectif bientôt publié.')
+ */
+function teamPageHTML(team, standing, fixtures) {
   const name = escapeHTML(team.displayName || team.name);
   const short = escapeHTML(team.shortName);
   const accent = accentOf(team);
@@ -94,14 +120,12 @@ function teamPageHTML(team, standing) {
             ${infoRow('Niveau', escapeHTML(team.level || 'À définir'))}
           </dl>`)}
 
-        ${panel('calendar-days', 'Rencontres', `
-          <div class="widget-frame">
-            ${widgetHTML('previous-next', team.widgets?.nextGames, 'Calendrier bientôt disponible.')}
-          </div>`)}
+        ${panel('calendar-days', 'Rencontres', fixturesPanelHTML(fixtures))}
 
         ${panel('users', 'Effectif', `
-          <div class="widget-frame">
-            ${widgetHTML('players', team.widgets?.players, 'Effectif bientôt publié.')}
+          <div class="widget-pending">
+            <i class="fas fa-user-group" aria-hidden="true"></i>
+            <p>Effectif bientôt publié.</p>
           </div>`)}
       </div>
     </section>
@@ -143,10 +167,12 @@ async function renderTeamPage(container) {
   const slug = document.body.dataset.team;
   let teams;
   let standings;
+  let fixtures;
   try {
-    // Les deux fichiers sont indépendants : un classement manquant ne doit pas
-    // empêcher la fiche de s'afficher.
-    [teams, standings] = await Promise.all([getTeams(), getStandings()]);
+    // Les trois fichiers sont indépendants : un classement ou un calendrier
+    // manquant ne doit pas empêcher la fiche de s'afficher. Seul teams.json
+    // est indispensable, d'où le try/catch autour du lot.
+    [teams, standings, fixtures] = await Promise.all([getTeams(), getStandings(), getFixtures()]);
   } catch (error) {
     console.warn('[ABBC] teams.json indisponible :', error);
     container.innerHTML = notFoundHTML(slug);
@@ -155,7 +181,7 @@ async function renderTeamPage(container) {
 
   const team = teams.find((entry) => entry.slug === slug);
   container.innerHTML = team
-    ? teamPageHTML(team, standings?.[slug])
+    ? teamPageHTML(team, standings?.[slug], fixtures?.[slug])
     : notFoundHTML(slug);
   observe(container);
 }

@@ -202,6 +202,7 @@ données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
 | Mise en forme | imposée | **à la charte du site** |
 | Bloqueur de contenu | peut le masquer | insensible |
 | Source indisponible | bloc vide | **dernier classement connu reste affiché** |
+| Rencontres | widget tiers | **carte maison, salle et horaire compris** |
 | Historique | aucun | **versionné dans git** |
 
 ### Comment ça marche
@@ -210,13 +211,16 @@ données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
 .github/workflows/classements.yml   (mer. et sam. 23h55, dim. 18h)
         │
         ▼
-scripts/fetch_standings.py          interroge l'API FFBB (poule → classement)
-        │
-        ▼
-assets/data/standings.json          commité si le classement a changé
-        │
-        ▼
-assets/js/content/standings.js      rend le tableau sur la fiche d'équipe
+scripts/fetch_standings.py          interroge l'API FFBB (poule → classement
+        │                               + calendrier des rencontres)
+        ├──────────────────────┐
+        ▼                      ▼
+assets/data/standings.json    assets/data/fixtures.json
+        │                      │        (commités s'ils ont changé)
+        ▼                      ▼
+content/standings.js          content/fixtures.js
+  tableau sur la fiche          prochaine rencontre sur la fiche,
+  d'équipe                      vue d'ensemble sur l'accueil
 ```
 
 Le site étant statique, il ne peut pas appeler la FFBB depuis le navigateur
@@ -298,6 +302,29 @@ Une équipe engagée en **CTC** (entente entre clubs) n'apparaît pas sous le no
 du club : la chercher sous le nom de l'entente.
 
 Branchées à ce jour : **SF1** et **SG1**.
+
+### Les rencontres
+
+Le même `pouleId` sert au calendrier : `list_rencontres_by_poule` renvoie les
+rencontres de la poule, filtrées sur le club. Le site en publie deux — la
+**prochaine à venir** et le **dernier résultat connu** — dans
+`assets/data/fixtures.json`.
+
+Trois points que l'API impose :
+
+- **Les noms portent le numéro d'équipe** (`LONS BASKET - 1`) là où le
+  classement donne le nom seul. Le numéro est retiré pour l'équipe 1, gardé
+  sous une forme lisible sinon : `OUEST TOULOUSAIN BASKET 3` dit qu'on affronte
+  leur troisième équipe.
+- **La salle n'est qu'un identifiant** (`"7321"`). `get_salle` la résout, mais
+  seulement pour les deux rencontres publiées, et le résultat est mémorisé :
+  plusieurs équipes du club jouent dans le même gymnase.
+- **Une rencontre passée sans score saisi** — report, feuille en attente — ne
+  doit pas être annoncée comme prochaine. Le filtre porte sur la date *et* sur
+  l'absence de résultat.
+
+Le calendrier est un bonus : son échec est signalé mais ne prive pas le site du
+classement, déjà récupéré à ce stade.
 
 ### Comment le classement est extrait
 

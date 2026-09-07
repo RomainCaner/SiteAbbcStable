@@ -2,16 +2,17 @@
  * content/standings.js — Classement rendu par le site.
  *
  * Les données viennent de `assets/data/standings.json`, produit par
- * `scripts/fetch_standings.py` depuis resultats.ffbb.com et commité par le
- * workflow `.github/workflows/classements.yml`.
+ * `scripts/fetch_standings.py` depuis l'API FFBB et commité par le workflow
+ * `.github/workflows/classements.yml`.
  *
- * Avantages par rapport au widget Score'n'co : aucun script tiers sur la page,
- * le tableau suit la charte du site, et les données restent servies même si la
- * source tombe (c'est le dernier JSON commité qui s'affiche).
+ * Avantages par rapport au widget Score'n'co, qu'il remplace : aucun script
+ * tiers sur la page, le tableau suit la charte du site, et les données restent
+ * servies même si la FFBB est indisponible (c'est le dernier JSON commité qui
+ * s'affiche).
  *
- * Migration en douceur : tant qu'une équipe n'a pas de classement dans le JSON,
- * `content/teams.js` continue d'afficher son widget Score'n'co. Renseigner
- * `ffbb.championshipId` dans teams.json suffit à basculer.
+ * Tant qu'une équipe n'a pas de classement dans le JSON, `content/teams.js`
+ * affiche un encart d'attente. Renseigner `ffbb.pouleId` dans teams.json suffit
+ * à la brancher — voir `scripts/decouvrir_poules.py` pour trouver l'identifiant.
  */
 
 import { escapeHTML } from '../core/dom.js';
@@ -46,6 +47,18 @@ const formatDate = (iso) => {
   if (Number.isNaN(date.getTime())) return '';
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 };
+
+/**
+ * Mention de la source. Elle n'est cliquable que si c'en est une : les
+ * classements venus de l'API sont décrits par « API FFBB, poule <id> », qui
+ * ferait un href cassé.
+ */
+function sourceHTML(source) {
+  if (!source) return '';
+  const isURL = /^https?:\/\//i.test(source);
+  if (!isURL) return ' · Source FFBB';
+  return ` · <a href="${escapeHTML(source)}" target="_blank" rel="noopener">Source FFBB</a>`;
+}
 
 /** Cellule : les colonnes absentes de la source affichent un tiret. */
 function cell(row, column) {
@@ -104,7 +117,7 @@ export function standingsHTML(standing) {
       </div>
       <p class="standings__footer">
         ${standing.updatedAt ? `Mis à jour le ${escapeHTML(formatDate(standing.updatedAt))}` : ''}
-        ${standing.source ? ` · <a href="${escapeHTML(standing.source)}" target="_blank" rel="noopener">Source FFBB</a>` : ''}
+        ${sourceHTML(standing.source)}
       </p>
     </div>`;
 }
