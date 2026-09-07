@@ -24,6 +24,12 @@ on:
           de championnat où le club apparaît, à reporter dans teams.json.
         required: false
         type: string
+      sonder:
+        description: >-
+          URL d'une page de compétition à ouvrir dans un vrai navigateur, pour
+          relever l'adresse de l'API qui sert le classement. Ne met rien à jour.
+        required: false
+        type: string
 
 # Un seul déploiement à la fois, pour éviter deux commits concurrents.
 concurrency:
@@ -54,8 +60,18 @@ jobs:
         if: inputs.decouvrir != ''
         run: python scripts/fetch_standings.py --discover "${{ inputs.decouvrir }}"
 
+      # competitions.ffbb.com charge son classement après l'affichage de la
+      # page : une requête HTTP simple ne le voit pas. Ce sondage ouvre la page
+      # dans Chromium et note quelle adresse le site interroge réellement.
+      - name: Sonder l'API du classement
+        if: inputs.sonder != ''
+        run: |
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+          node scripts/decouvrir_api.mjs "${{ inputs.sonder }}"
+
       - name: Récupérer les classements
-        if: inputs.decouvrir == ''
+        if: inputs.decouvrir == '' && inputs.sonder == ''
         id: fetch
         # Le script sort en code 1 si une équipe échoue. On ne veut pas faire
         # échouer tout le workflow pour un championnat momentanément
@@ -67,7 +83,7 @@ jobs:
           set -e
 
       - name: Commiter si le classement a changé
-        if: inputs.decouvrir == ''
+        if: inputs.decouvrir == '' && inputs.sonder == ''
         run: |
           if git diff --quiet -- assets/data/standings.json; then
             echo "Aucun changement de classement."
@@ -80,7 +96,7 @@ jobs:
           git push
 
       - name: Signaler les échecs de récupération
-        if: inputs.decouvrir == '' && steps.fetch.outputs.code != '0'
+        if: inputs.decouvrir == '' && inputs.sonder == '' && steps.fetch.outputs.code != '0'
         run: |
           echo "::warning::Au moins un championnat n'a pas pu être récupéré."
           echo "Vérifiez les identifiants ffbb.championshipId dans assets/data/teams.json,"
