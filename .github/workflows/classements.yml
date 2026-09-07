@@ -11,10 +11,18 @@ name: Classements FFBB
 
 on:
   schedule:
-    # Tous les jours à 6h00 UTC (8h en heure d'été française).
-    # Les championnats amateurs se jouent le week-end : une fois par jour suffit
-    # largement, et on reste courtois avec la FFBB.
-    - cron: '0 6 * * *'
+    # Trois passages par semaine, calés sur le rythme réel des rencontres :
+    # samedi soir et dimanche en fin d'après-midi, une fois les matchs joués,
+    # plus un rattrapage en milieu de semaine pour les résultats saisis en
+    # retard. Inutile d'interroger la FFBB tous les jours — et moins on tape,
+    # mieux on est reçu.
+    #
+    # Les heures sont en UTC. 21h55 UTC = 23h55 en heure d'été, 22h55 en heure
+    # d'hiver : le créneau reste dans la soirée du même jour toute l'année.
+    # L'inverse (fixer 22h55 UTC pour l'hiver) ferait basculer le passage du
+    # samedi au dimanche pendant les mois d'été.
+    - cron: '55 21 * * 3,6'   # mercredi et samedi, 23h55 heure française
+    - cron: '0 16 * * 0'      # dimanche, 18h00 heure française
   workflow_dispatch:  # bouton « Run workflow » dans l'onglet Actions
     inputs:
       decouvrir:

@@ -738,6 +738,7 @@ def standings_documents(url: str):
     """
     errors = []
     served = 0
+    asked = 0
 
     for candidate in url_variants(url):
         forms = [(REQUEST_HEADERS, "HTML")]
@@ -745,6 +746,12 @@ def standings_documents(url: str):
             forms.insert(0, (RSC_HEADERS, "flux RSC"))
 
         for headers, shape in forms:
+            # Même délai entre deux formes qu'entre deux équipes : quatre appels
+            # coup sur coup sur la même URL, c'est précisément ce qui fait
+            # basculer la FFBB vers une page vide.
+            if asked:
+                time.sleep(DELAY_BETWEEN_REQUESTS)
+            asked += 1
             try:
                 document = fetch_url(candidate, headers)
             except Exception as error:

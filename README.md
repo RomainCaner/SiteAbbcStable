@@ -207,7 +207,7 @@ données publiques de la FFBB, au lieu de dépendre des widgets Score'n'co.
 ### Comment ça marche
 
 ```
-.github/workflows/classements.yml   (tous les jours à 6h UTC)
+.github/workflows/classements.yml   (mer. et sam. 23h55, dim. 18h)
         │
         ▼
 scripts/fetch_standings.py          récupère + parse resultats.ffbb.com
