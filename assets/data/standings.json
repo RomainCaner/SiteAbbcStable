@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis resultats.ffbb.com. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-07T14:27:46+00:00",
+  "updatedAt": "2026-09-07T14:31:45+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-07T14:27:46+00:00"
+      "updatedAt": "2026-09-07T14:31:45+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-09-07T14:27:46+00:00"
+      "updatedAt": "2026-09-07T14:31:45+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-09-07T14:27:46+00:00"
+      "updatedAt": "2026-09-07T14:31:45+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-07T14:27:46+00:00"
+      "updatedAt": "2026-09-07T14:31:45+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-09-07T14:27:46+00:00"
+      "updatedAt": "2026-09-07T14:31:45+00:00"
     }
   }
 }
