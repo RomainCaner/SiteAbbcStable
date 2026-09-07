@@ -1,23 +1,35 @@
 {
   "_comment": "Configuration centrale du site ABBC. Modifiez ici la saison, les chiffres cles, les coordonnees et les liens reseaux : ils se propagent sur tout le site via les attributs data-config / data-social. Remplacez chaque valeur marquee TODO par la vraie donnee du club.",
-
   "season": "2026-2027",
   "licencies": "180",
   "equipesCount": "17",
-
   "email": "bureau.abbc@gmail.com",
   "city": "Cornebarrieu, Haute-Garonne (31)",
-
   "social": {
     "facebook": "TODO-url-facebook-abbc",
     "instagram": "TODO-url-instagram-abbc",
     "tiktok": "TODO-url-tiktok-abbc",
     "youtube": "TODO-url-youtube-abbc"
   },
-
   "_scorenco": "Widgets Score'n'co au niveau du club (les widgets par equipe sont dans teams.json). 'weekEvents' = tableau des rencontres de la semaine affiche sur l'accueil.",
   "scorenco": {
     "clubUrl": "https://www.scorenco.com/",
     "weekEvents": "139743"
+  },
+  "_ffbb": "Reperes FFBB du club, verifies sur les pages officielles. Servent de point de depart pour retrouver les identifiants de championnat a renseigner dans teams.json (champ ffbb.championshipId). Non lus par le site.",
+  "ffbb": {
+    "clubCode": "OCC0031019",
+    "ligue": "occ",
+    "comite": "0031",
+    "clubUrl": "https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019",
+    "_equipes": "Identifiants d'equipe releves sur le site FFBB (nouvelle plateforme).",
+    "equipes": {
+      "sg1": {
+        "competition": "RM2 — Regionale Masculine Seniors Division 2, Occitanie",
+        "teamId": "200000005142728",
+        "competitionUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2",
+        "_poule": "TODO — RM2 Occitanie compte les poules PYR-A, PYR-B, MED-A et MED-B. Cornebarrieu etant en Haute-Garonne, c'est une poule PYR, reste a confirmer laquelle."
+      }
+    }
   }
 }

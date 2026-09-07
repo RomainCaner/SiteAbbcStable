@@ -223,17 +223,51 @@ Le site étant statique, il ne peut pas appeler la FFBB depuis le navigateur
 (CORS). C'est donc GitHub Actions qui récupère les données en amont et les
 dépose dans un JSON servi par le site — aucune infrastructure à héberger.
 
+### Repères FFBB du club
+
+Vérifiés sur les pages officielles, et conservés dans `config.json` (section
+`ffbb`) pour ne pas avoir à les rechercher :
+
+| | |
+|---|---|
+| Code club | **OCC0031019** |
+| Ligue / comité | Occitanie (`occ`) / Haute-Garonne (`0031`) |
+| Page du club | [competitions.ffbb.com/…/clubs/occ0031019](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019) |
+| SG1 | RM2 Occitanie — équipe `200000005142728`, poules PYR-A, PYR-B, MED-A, MED-B |
+
+### Deux plateformes FFBB : laquelle viser
+
+La FFBB expose ses compétitions à deux endroits, avec des schémas d'URL
+différents :
+
+| | `resultats.ffbb.com` | `competitions.ffbb.com` |
+|---|---|---|
+| URL | `/championnat/<hex>.html` | `/ligues/occ/competitions/rm2?poule=<id>&phase=<id>` |
+| Rendu | HTML côté serveur | application web (probablement une API JSON derrière) |
+| Statut | ancienne plateforme, encore utilisée par des outils tiers | plateforme actuelle |
+
+**Le script cible aujourd'hui `resultats.ffbb.com`**, parce que son HTML est
+rendu côté serveur et se parse sans navigateur. C'est le choix pragmatique,
+mais l'ancienne plateforme peut disparaître : si c'est le cas, il faudra
+regarder l'API derrière `competitions.ffbb.com` (l'identifiant d'équipe
+`200000005142728` ci-dessus est un bon point d'entrée pour l'explorer).
+
 ### Brancher une équipe
 
-1. Sur [resultats.ffbb.com](https://resultats.ffbb.com), ouvrir la page du
-   championnat de l'équipe. L'URL a la forme
-   `resultats.ffbb.com/championnat/`**`b5e6211fe70a`**`.html`.
-2. Copier l'identifiant (la partie en gras) dans `assets/data/teams.json` :
+1. Depuis la [page du club](https://competitions.ffbb.com/ligues/occ/comites/0031/clubs/occ0031019),
+   ouvrir l'équipe voulue pour identifier sa compétition et sa poule.
+2. Retrouver la même poule sur [resultats.ffbb.com](https://resultats.ffbb.com) :
+   l'URL a la forme `resultats.ffbb.com/championnat/`**`b5e6211fe70a`**`.html`.
+3. Copier l'identifiant (la partie en gras) dans `assets/data/teams.json` :
    ```json
    "ffbb": { "championshipId": "b5e6211fe70a" }
    ```
-3. Lancer le workflow à la main (onglet *Actions* → *Classements FFBB* →
+4. Lancer le workflow à la main (onglet *Actions* → *Classements FFBB* →
    *Run workflow*), ou attendre la prochaine exécution planifiée.
+
+> Vérifiez que la page ouverte est bien **la poule où joue l'équipe** : RM2
+> Occitanie en compte quatre, et un identifiant voisin donnerait le classement
+> d'un autre groupe sans que rien ne signale l'erreur.
 
 Tant qu'un `championshipId` est vide, l'équipe **continue d'afficher son widget
 Score'n'co**. La bascule se fait donc équipe par équipe, sans rien casser.
