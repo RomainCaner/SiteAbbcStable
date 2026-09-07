@@ -27,12 +27,23 @@ if (!url) {
   process.exit(2);
 }
 
+// Garde-fou : un sondage qui n'aboutit pas doit rendre la main avec ce qu'il a
+// deja affiche, pas immobiliser le workflow. Une premiere version s'est
+// bloquee sur un clic qui n'a jamais rendu la main.
+const MINUTES = 3;
+const chronometre = setTimeout(() => {
+  console.log(`\nSondage interrompu apres ${MINUTES} min — voir ci-dessus ce qui a ete releve.`);
+  process.exit(0);
+}, MINUTES * 60_000);
+
 const browser = await chromium.launch();
 const page = await browser.newPage({
   locale: 'fr-FR',
   userAgent:
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36',
 });
+// Sans cela, une action sur un element jamais actionnable attend indefiniment.
+page.setDefaultTimeout(15_000);
 
 /** Une entrée par réponse retenue : on garde le corps pour l'analyser après. */
 const reponses = [];
@@ -207,4 +218,5 @@ if (await commande.count()) {
   console.log('\nAucune commande « Classement » dans la page.');
 }
 
+clearTimeout(chronometre);
 await browser.close();

@@ -65,6 +65,7 @@ jobs:
       # dans Chromium et note quelle adresse le site interroge réellement.
       - name: Sonder l'API du classement
         if: inputs.sonder != ''
+        timeout-minutes: 8
         run: |
           npm install --no-save playwright@1.49.1
           npx playwright install --with-deps chromium
