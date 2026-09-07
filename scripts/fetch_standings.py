@@ -260,6 +260,62 @@ def fetch_html(championship_id: str) -> str:
 
 CHAMPIONSHIP_LINK = re.compile(r"championnat/([0-9a-f]{6,})\.html", re.I)
 
+# Identifiants de la plateforme competitions.ffbb.com (poule, phase, équipe) :
+# de longs entiers, aussi bien dans les URL que dans les données d'hydratation.
+# On les capte sans contexte, la longueur suffit à les distinguer.
+FFBB_NUMERIC_ID = re.compile(r"\b(\d{12,18})\b")
+
+# Blocs JSON déposés par les frameworks web dans la page. S'ils sont présents,
+# ils contiennent en général les données affichées, ce qui évite de parser du
+# HTML : c'est la piste à privilégier sur la plateforme moderne.
+HYDRATION_BLOCKS = (
+    ("__NEXT_DATA__", re.compile(r'id="__NEXT_DATA__"[^>]*>(.*?)</script>', re.S)),
+    ("__NUXT__", re.compile(r"window\.__NUXT__\s*=\s*(.*?)</script>", re.S)),
+    ("__INITIAL_STATE__", re.compile(r"window\.__INITIAL_STATE__\s*=\s*(.*?)</script>", re.S)),
+)
+
+
+def report_page(url: str, html: str) -> None:
+    """Décrit ce que contient une page FFBB, pour comprendre à quoi on a affaire.
+
+    Utile quand la page de départ ne donne aucun résultat : selon qu'elle est
+    rendue côté serveur, qu'elle expose ses données dans un bloc JSON ou
+    qu'elle charge tout en JavaScript, la marche à suivre n'est pas la même.
+    """
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    title = soup.title.get_text().strip() if soup.title else "(sans titre)"
+    links = soup.select("a[href]")
+
+    print("\n--- Diagnostic de la page ---")
+    print(f"  Titre        : {title}")
+    print(f"  Taille       : {len(html)} caractères")
+    print(f"  Liens <a>    : {len(links)}")
+
+    for name, pattern in HYDRATION_BLOCKS:
+        found = pattern.search(html)
+        if found:
+            print(f"  Bloc {name} : PRÉSENT ({len(found.group(1))} caractères)")
+            print("               → les données sont dans la page, exploitables sans HTML")
+
+    numeric = sorted(set(FFBB_NUMERIC_ID.findall(html)))
+    if numeric:
+        print(f"  Identifiants numériques trouvés ({len(numeric)}) : {', '.join(numeric[:12])}")
+
+    api_hints = sorted(set(re.findall(r"https?://[\w.-]*ffbb\.com/[\w/.-]*api[\w/.-]*", html, re.I)))
+    if api_hints:
+        print(f"  URL d'API repérées : {', '.join(api_hints[:5])}")
+
+    if links and not numeric:
+        sample = [a.get("href", "") for a in links[:14]]
+        print(f"  Exemples de liens : {', '.join(h[:52] for h in sample if h)}")
+
+    if len(links) < 5 and not any(p.search(html) for _, p in HYDRATION_BLOCKS):
+        print("  ⚠ Page quasiment vide côté serveur : contenu chargé en JavaScript.")
+        print("    Il faudra viser l'API plutôt que le HTML.")
+    print("--- fin du diagnostic ---\n")
+
 
 def discover(start_url: str) -> list[tuple[str, str, int]]:
     """Trouve les championnats où le club apparaît, à partir d'une page FFBB.
@@ -268,6 +324,9 @@ def discover(start_url: str) -> list[tuple[str, str, int]]:
     on relève tous les liens vers /championnat/<id>.html qu'elle contient, puis
     on ouvre chaque candidat et on ne garde que ceux dont le classement
     mentionne le club. Le contrôle de présence sert donc de validateur.
+
+    Si la page ne mène nulle part, un diagnostic décrit ce qu'elle contient
+    réellement, afin de savoir vers quoi se tourner.
 
     À lancer depuis un environnement ayant accès à la FFBB — typiquement le
     runner GitHub Actions (onglet Actions → Classements FFBB → Run workflow,
@@ -282,6 +341,7 @@ def discover(start_url: str) -> list[tuple[str, str, int]]:
 
     print(f"Page de départ : {start_url}")
     html = fetch_url(start_url)
+    report_page(start_url, html)
 
     ids = []
     for href in {a.get("href", "") for a in BeautifulSoup(html, "html.parser").select("a[href]")}:
@@ -296,7 +356,7 @@ def discover(start_url: str) -> list[tuple[str, str, int]]:
 
     if not ids:
         print("Aucun lien vers /championnat/<id>.html sur cette page.", file=sys.stderr)
-        print("Essayez la page du club ou celle d'une de ses équipes.", file=sys.stderr)
+        print("Le diagnostic ci-dessus indique vers quoi se tourner.", file=sys.stderr)
         return []
 
     print(f"{len(ids)} championnat(s) à tester…\n")
