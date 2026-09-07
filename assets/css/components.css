@@ -890,6 +890,11 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 }
 .info-row dd { margin: 0; font-weight: 600; text-align: right; }
 
+@media (max-width: 559px) {
+  .info-row { flex-direction: column; align-items: flex-start; gap: var(--space-1); }
+  .info-row dd { text-align: left; }
+}
+
 .panel { display: flex; flex-direction: column; gap: var(--space-4); }
 .panel__title {
   display: flex;
