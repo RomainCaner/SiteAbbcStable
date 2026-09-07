@@ -445,6 +445,74 @@ def parse_standings(html: str) -> dict:
     )
 
 
+# -------------------------------------------------------------- API officielle
+
+def api_row(team) -> dict:
+    """Ramène une ligne de classement de l'API FFBB à notre schéma."""
+    # `id_engagement` porte le nom tel qu'il est engagé en compétition, qui est
+    # celui affiché sur les feuilles de match. Les variantes `organisme_*`
+    # servent de repli quand l'engagement n'est pas détaillé.
+    engagement = getattr(team, "id_engagement", None)
+    name = ""
+    for candidate in (
+        getattr(engagement, "nom", None) if not isinstance(engagement, str) else None,
+        team.organisme_nom_simple,
+        team.organisme_nom,
+    ):
+        if candidate:
+            name = clean(candidate)
+            break
+
+    return {
+        "rank": team.position,
+        "team": name,
+        "points": team.points,
+        "played": team.match_joues,
+        "won": team.gagnes,
+        "lost": team.perdus,
+        "scored": team.paniers_marques,
+        "conceded": team.paniers_encaisses,
+        "diff": team.difference,
+        "isClub": is_club_row(name),
+    }
+
+
+def fetch_from_api(poule_id: str) -> dict:
+    """Classement d'une poule via l'API FFBB, à travers `ffbb-data-client`.
+
+    C'est la voie à privilégier : un seul appel, des champs nommés, et aucune
+    interprétation de page web. Les stratégies d'analyse HTML restent en place
+    pour les équipes dont on n'a que l'URL de classement.
+    """
+    try:
+        from ffbb_data_client import FFBBDataClient
+    except ImportError:  # pragma: no cover
+        sys.exit("ffbb-data-client manquant : pip install -r scripts/requirements.txt")
+
+    client = FFBBDataClient.create()
+    ranking = client.get_classement(int(poule_id))
+    if not ranking:
+        raise ParsingError(f"l'API ne renvoie aucun classement pour la poule {poule_id}")
+
+    rows = [api_row(team) for team in ranking]
+    rows = [row for row in rows if row["team"]]
+    if not rows:
+        raise ParsingError(
+            f"classement de la poule {poule_id} reçu, mais sans nom d'équipe lisible"
+        )
+
+    # Même garde-fou que sur les pages web : un classement sans le club est un
+    # classement d'une autre poule, et le publier passerait inaperçu.
+    if not any(row["isClub"] for row in rows):
+        raise ParsingError(
+            "le club n'apparaît pas dans ce classement "
+            f"({len(rows)} équipes : {', '.join(r['team'] for r in rows[:4])}…). "
+            f"L'identifiant de poule {poule_id} vise probablement une autre poule."
+        )
+
+    return {"competition": "", "rows": rows, "extraction": "API FFBB"}
+
+
 # ---------------------------------------------------------------- récupération
 
 def fetch_url(url: str, headers: dict | None = None) -> str:
@@ -799,12 +867,37 @@ def main() -> int:
     for team in teams:
         slug = team["slug"]
         ffbb = team.get("ffbb") or {}
-        # `classementUrl` : URL de la page de classement, copiée depuis le
-        # navigateur. `championshipId` : ancienne plateforme, conservé pour
-        # compatibilité.
+        # Trois façons de désigner un classement, de la meilleure à la plus
+        # ancienne. `pouleId` : identifiant de poule, interrogé via l'API.
+        # `classementUrl` : URL de la page, copiée depuis le navigateur.
+        # `championshipId` : ancienne plateforme, conservé pour compatibilité.
+        poule_id = ffbb.get("pouleId", "")
         source_url = ffbb.get("classementUrl", "")
         if not source_url and ffbb.get("championshipId"):
             source_url = BASE_URL.format(id=ffbb["championshipId"])
+
+        if poule_id and not args.html_file:
+            if not first:
+                time.sleep(DELAY_BETWEEN_REQUESTS)
+            first = False
+            try:
+                standings = fetch_from_api(poule_id)
+            except ParsingError as error:
+                failures.append(f"{slug} : API FFBB : {error}")
+                continue
+            except Exception as error:  # réseau, jeton, API indisponible
+                failures.append(f"{slug} : API FFBB injoignable ({error})")
+                continue
+
+            # L'API renvoie le classement, pas l'intitulé de la compétition.
+            standings["competition"] = team.get("level", "")
+            standings["source"] = f"API FFBB, poule {poule_id}"
+            standings["updatedAt"] = now
+            result["teams"][slug] = standings
+            print(f"  {slug:6s} {len(standings['rows']):2d} équipes — "
+                  f"{standings['competition'] or '(sans titre)'} "
+                  f"[via {standings.pop('extraction', '?')}]")
+            continue
 
         if args.html_file:
             documents = [(Path(args.html_file).read_text(encoding="utf-8", errors="replace"),
