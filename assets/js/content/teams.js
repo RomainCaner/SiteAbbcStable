@@ -75,14 +75,14 @@ function rankingHTML(team, standing) {
 }
 
 /**
- * Fiche complète d'une équipe.
+ * Fiche complète d'une équipe : informations, prochaine rencontre, classement.
  *
- * L'effectif n'a pas d'équivalent côté API FFBB : le widget Score'n'co en
- * était la seule source, il est neutralisé en attendant une liste tenue dans
- * teams.json. Pour le rétablir, réactiver l'import de `widgetHTML` et
- * remplacer l'encart d'attente par :
- *
- *   widgetHTML('players', team.widgets?.players, 'Effectif bientôt publié.')
+ * Un panneau « Effectif » a existé ici. Il n'affichait qu'un encart d'attente :
+ * l'API FFBB ne donne pas les compositions, et le widget Score'n'co qui en
+ * était la seule source est neutralisé. Un tiers de la rangée pour « bientôt
+ * publié » coûtait plus qu'il ne rapportait. Pour le rétablir le jour où une
+ * liste existe (dans teams.json, ou par l'API), rajouter un `panel('users',
+ * 'Effectif', …)` ici et repasser la grille en `grid--3`.
  */
 function teamPageHTML(team, standing, fixtures) {
   const name = escapeHTML(team.displayName || team.name);
@@ -115,7 +115,7 @@ function teamPageHTML(team, standing, fixtures) {
     </header>
 
     <section class="section">
-      <div class="container grid grid--3">
+      <div class="container grid grid--2">
         ${panel('circle-info', 'Informations', `
           <dl class="info-list">
             ${infoRow('Catégorie', name)}
@@ -125,12 +125,6 @@ function teamPageHTML(team, standing, fixtures) {
           </dl>`)}
 
         ${panel('calendar-days', 'Rencontres', fixturesPanelHTML(fixtures))}
-
-        ${panel('users', 'Effectif', `
-          <div class="widget-pending">
-            <i class="fas fa-user-group" aria-hidden="true"></i>
-            <p>Effectif bientôt publié.</p>
-          </div>`)}
       </div>
     </section>
 
