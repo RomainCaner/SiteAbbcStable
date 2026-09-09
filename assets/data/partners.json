@@ -1,0 +1,4 @@
+{
+  "_comment": "Partenaires du club, affiches sur partenaires.html. Chaque entree : 'name' (obligatoire, sert aussi de texte alternatif), 'logo' (chemin depuis la racine, ex: assets/images/partenaires/xxx.png), 'url' (site du partenaire, facultatif). Sans 'logo', le nom s'affiche en toutes lettres — utile en attendant le fichier. Tant que la liste est vide, la page affiche une invitation a devenir partenaire plutot que des blocs d'exemple.",
+  "partners": []
+}

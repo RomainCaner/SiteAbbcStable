@@ -27,7 +27,13 @@ function reveal(element) {
  */
 export function observe(root = document) {
   if (!root) return;
-  const targets = root.querySelectorAll(REVEAL_SELECTOR);
+  // `root` lui-même compte : un conteneur porteur de `.reveal` qu'on vient de
+  // remplir doit être révélé comme son contenu. Sans cela, un module qui
+  // réinitialise les classes de son conteneur le laisse invisible pour de bon,
+  // l'observateur ayant déjà cessé de le suivre.
+  const targets = new Set(root.querySelectorAll(REVEAL_SELECTOR));
+  if (root.matches?.(REVEAL_SELECTOR)) targets.add(root);
+
   if (reducedMotion || !revealObserver) {
     targets.forEach(reveal);
     return;
