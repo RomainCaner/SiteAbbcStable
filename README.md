@@ -87,7 +87,7 @@ mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
 `.section--dark` / `.section--brand` d'adapter automatiquement tout leur
 contenu.
 
-### JavaScript — 17 modules ES
+### JavaScript — 18 modules ES
 
 ```
 assets/js/
@@ -103,7 +103,8 @@ assets/js/
 │   ├── navigation.js     En-tête collant, menu mobile, mega-menu, pied de page
 │   ├── chrome.js         Barre de progression, bouton retour en haut
 │   ├── reveal.js         Apparitions au scroll, compteurs animés
-│   └── hero3d.js         Scène 3D du bandeau d'accueil
+│   ├── hero3d.js         Scène 3D du bandeau d'accueil
+│   └── balltravel.js     Le ballon descend la page au défilement
 │
 └── content/              Rendu des données du club
     ├── config.js         Applique config.json ([data-config], [data-social])
@@ -525,6 +526,32 @@ incurvées, grain du cuir). Aucun fichier de modèle à héberger.
 
 Le conteneur porte un état lisible dans l'inspecteur :
 `data-hero3d-state="ready" | "unsupported" | "failed"`.
+
+### Le ballon descend la page (`assets/js/ui/balltravel.js`)
+
+Une fois le hero dépassé, le ballon quitte son cadre, rétrécit et rebondit le
+long de la marge droite au rythme du défilement. Arrivé en bas, il se pose à la
+place du bouton « retour en haut » et en prend le rôle.
+
+Trois décisions qui expliquent le code :
+
+- **Le canvas déménage, pas le conteneur.** Rendre `.hero-3d` `position: fixed`
+  ferait s'effondrer la mise en page du hero, et la page sauterait sous le
+  curseur. `BasketballScene.attachTo()` déplace le canvas dans une couche fixe —
+  Three.js se moque de l'endroit où vit son canvas, et c'est moins cher qu'une
+  seconde scène.
+- **Le mouvement est piloté par le défilement, pas par le temps.** La hauteur
+  suit `|sin|`, symétrique : remonter défait exactement la descente. Une courbe
+  amortie, plus réaliste pour une vraie chute, se lirait à l'envers en remontant.
+- **Un rebond par section**, borné entre 3 et 6 : le rythme suit la structure de
+  la page au lieu d'être arbitraire.
+
+Réglages en tête de fichier (`SETTINGS`) : largeur minimale de fenêtre, nombre
+de rebonds, amplitude de l'arc horizontal, rotation par pixel défilé.
+
+Le déplacement ne s'applique pas si `prefers-reduced-motion` est demandé, ni en
+dessous de 640 px de large — le ballon passerait sur le texte au lieu de longer
+la marge. Le ballon du hero, lui, reste dans les deux cas.
 
 Pour changer de version, modifier `THREE_URL` en haut du fichier (version
 épinglée volontairement). Pour héberger la bibliothèque soi-même :

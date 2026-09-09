@@ -23,6 +23,7 @@ import { initNavigation } from './ui/navigation.js';
 import { initChrome } from './ui/chrome.js';
 import { initReveal } from './ui/reveal.js';
 import { initHero3D } from './ui/hero3d.js';
+import { initBallTravel } from './ui/balltravel.js';
 import { applyConfig } from './content/config.js';
 import { renderEvents } from './content/events.js';
 import { renderNews, renderArticle } from './content/news.js';
@@ -69,7 +70,11 @@ async function bootstrap() {
   //      loadScorenco();
   await applyConfig();
 
-  await hero3d;
+  // 7. Le ballon suit le visiteur une fois le hero dépassé. Il a besoin de la
+  //    scène — donc de son chargement — et du bouton « retour en haut », déjà
+  //    en place depuis l'étape 1.
+  const scene = await hero3d;
+  if (scene) initBallTravel(scene);
 }
 
 bootstrap().catch((error) => {

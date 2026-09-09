@@ -128,6 +128,13 @@ h3 { font-size: var(--text-xl); }
   .grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
+/* L'attribut `hidden` doit gagner contre les composants.
+   Il ne vaut que `display: none` dans la feuille du navigateur, donc la
+   moindre regle d'auteur — `.social { display: grid }` par exemple — le
+   remet a l'ecran. C'est le seul !important du projet, et il est la pour
+   qu'un `element.hidden = true` en JavaScript veuille dire ce qu'il dit. */
+[hidden] { display: none !important; }
+
 .stack > * + * { margin-top: var(--flow, var(--space-4)); }
 .cluster { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
 

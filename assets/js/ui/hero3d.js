@@ -153,18 +153,61 @@ class BasketballScene {
     this.frameId = null;
     this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // L'hôte est l'élément qui porte le canvas. C'est le conteneur du hero au
+    // départ, mais la scène peut être déplacée ailleurs — voir attachTo().
+    this.host = container;
+
     this.buildScene();
     this.attachEvents();
   }
 
+  /**
+   * Déplace le canvas dans un autre élément.
+   *
+   * Three.js se moque de l'endroit où vit son canvas : le déplacer coûte moins
+   * cher qu'une seconde scène, et évite de rendre le conteneur du hero
+   * `position: fixed` — ce qui ferait s'effondrer la mise en page derrière lui.
+   *
+   * Les deux observateurs suivent le nouvel hôte : celui de taille pour ajuster
+   * le rendu, celui de visibilité pour ne pas peindre hors écran.
+   */
+  attachTo(host) {
+    if (!host || host === this.host) return;
+
+    this.resizeObserver?.unobserve(this.host);
+    this.intersectionObserver?.unobserve(this.host);
+
+    this.host = host;
+    host.appendChild(this.renderer.domElement);
+
+    this.resizeObserver?.observe(host);
+    this.intersectionObserver?.observe(host);
+    this.resize();
+  }
+
+  /**
+   * Écrase le ballon à l'impact. `k` va de 0 (forme ronde) à 1 (impact franc).
+   * Le volume est conservé à l'œil : ce qui est perdu en hauteur est repris en
+   * largeur, sans quoi le ballon a l'air de rétrécir plutôt que de rebondir.
+   */
+  setSquash(k) {
+    const amount = Math.max(0, Math.min(1, k));
+    this.ball.scale.set(1 + amount * 0.18, 1 - amount * 0.26, 1 + amount * 0.18);
+  }
+
+  /** Ajoute de la rotation, par exemple proportionnelle à la vitesse de défilement. */
+  addSpin(velocity) {
+    this.spinVelocity += velocity;
+  }
+
   buildScene() {
-    const { THREE, container } = this;
-    const { clientWidth: width, clientHeight: height } = container;
+    const { THREE, host } = this;
+    const { clientWidth: width, clientHeight: height } = host;
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setSize(width, height);
-    container.appendChild(this.renderer.domElement);
+    host.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
 
@@ -235,7 +278,7 @@ class BasketballScene {
     canvas.addEventListener('pointercancel', this.onPointerUp);
 
     this.resizeObserver = new ResizeObserver(() => this.resize());
-    this.resizeObserver.observe(this.container);
+    this.resizeObserver.observe(this.host);
 
     // Ne pas dépenser de GPU pour une scène hors écran ou un onglet en arrière-plan.
     this.intersectionObserver = new IntersectionObserver(([entry]) => {
@@ -243,7 +286,7 @@ class BasketballScene {
       if (this.visible) this.start();
       else this.stop();
     }, { threshold: 0.01 });
-    this.intersectionObserver.observe(this.container);
+    this.intersectionObserver.observe(this.host);
 
     this.onVisibilityChange = () => {
       if (document.hidden) this.stop();
@@ -253,7 +296,7 @@ class BasketballScene {
   }
 
   resize() {
-    const { clientWidth: width, clientHeight: height } = this.container;
+    const { clientWidth: width, clientHeight: height } = this.host;
     if (!width || !height) return;
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
