@@ -1040,6 +1040,30 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   color: var(--text-muted);
 }
 
+/* Aucun partenaire encore publié : une invitation plutôt qu'une grille vide
+   ou, pire, des blocs d'exemple laissés en ligne. Bordure discontinue : le
+   bloc se lit comme un emplacement à pourvoir, pas comme un encart définitif. */
+.partners-empty {
+  display: grid;
+  place-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5);
+  text-align: center;
+  background: var(--bg-raised);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+.partners-empty i { font-size: 2rem; color: var(--accent); opacity: .8; }
+.partners-empty__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+.partners-empty__text { margin: 0; color: var(--text-muted); max-width: 40ch; }
+.partners-empty .btn { margin-top: var(--space-2); }
+
 
 /* ============================================================================
    14. Contenu d'article

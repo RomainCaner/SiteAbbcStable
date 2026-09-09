@@ -60,16 +60,13 @@
           </div>
         </div>
 
-        <!-- TODO : remplacer chaque bloc par le logo du partenaire
-             (<img src="assets/images/partenaires/xxx.png" alt="Nom">). -->
-        <div class="partners reveal">
-          <div class="partner"><p class="partner__name">Partenaire 1</p></div>
-          <div class="partner"><p class="partner__name">Partenaire 2</p></div>
-          <div class="partner"><p class="partner__name">Partenaire 3</p></div>
-          <div class="partner"><p class="partner__name">Partenaire 4</p></div>
-          <div class="partner"><p class="partner__name">Partenaire 5</p></div>
-          <div class="partner"><p class="partner__name">Votre logo ?</p></div>
-        </div>
+        <!--
+          Rempli par content/partners.js depuis assets/data/partners.json.
+          Ajouter un partenaire : déposer son logo dans
+          assets/images/partenaires/ puis ajouter une entrée au JSON.
+          Tant que la liste est vide, une invitation s'affiche ici.
+        -->
+        <div id="partners-grid" class="reveal"></div>
       </div>
     </section>
 

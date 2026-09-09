@@ -87,7 +87,7 @@ mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
 `.section--dark` / `.section--brand` d'adapter automatiquement tout leur
 contenu.
 
-### JavaScript — 16 modules ES
+### JavaScript — 17 modules ES
 
 ```
 assets/js/
@@ -112,6 +112,7 @@ assets/js/
     ├── teams.js          Fiches d'équipe + annuaire
     ├── standings.js      Classement rendu par le site (données FFBB)
     ├── fixtures.js       Prochaine rencontre + dernier résultat (données FFBB)
+    ├── partners.js       Partenaires du club
     └── scorenco.js       Widgets Score'n'co — neutralisé, conservé
 ```
 
@@ -182,6 +183,15 @@ Champs : `title`, `category`, `color` (`red`, `orange`, `yellow`, `green`,
 Le **premier événement à venir** alimente automatiquement le bandeau orange
 sous le bandeau d'accueil. Les événements passés sont masqués sur l'accueil
 mais restent visibles sur `agenda.html`.
+
+### `partners.json` — partenaires
+Liste affichée sur `partenaires.html`. Chaque entrée : `name` (obligatoire, sert
+aussi de texte alternatif), `logo` (chemin depuis la racine, par exemple
+`assets/images/partenaires/xxx.png`) et `url` (site du partenaire, facultatif).
+
+Sans `logo`, le nom s'affiche en toutes lettres — utile en attendant le fichier.
+Tant que la liste est **vide**, la page montre une invitation à devenir
+partenaire, jamais des blocs d'exemple.
 
 ### `news.json` — actualités
 Le plus récent en premier. Champs : `slug` (sans espace ni accent), `title`,
