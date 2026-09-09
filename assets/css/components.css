@@ -1228,7 +1228,38 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   touch-action: pan-y;
 }
 .hero-3d.is-grabbing { cursor: grabbing; }
-.hero-3d canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
+/* --- Ballon en déplacement (ui/balltravel.js) ---
+   Couche fixe qui accueille le canvas une fois le hero dépassé. Sous le bouton
+   « retour en haut » (90) et sous l'en-tête, pour ne jamais passer devant la
+   navigation. Transparent aux clics tant qu'il n'est pas posé : le ballon
+   traverse la page, il ne doit pas intercepter ce qu'il survole. */
+.ball-travel {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 80;
+  width: clamp(4.5rem, 6vw, 6.5rem);
+  aspect-ratio: 1;
+  display: none;
+  pointer-events: none;
+  will-change: translate;
+}
+.ball-travel.is-travelling { display: block; }
+
+/* Posé : il prend le rôle du bouton, qui s'efface. La transition n'habille que
+   l'atterrissage — pendant le trajet, `translate` est piloté image par image
+   et toute transition le ferait traîner derrière le défilement. */
+.ball-travel.is-landed {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: translate var(--duration) var(--ease);
+}
+body.has-landed-ball .to-top { opacity: 0; visibility: hidden; }
+
+/* Le repli logo appartient au hero : il ne doit pas suivre le canvas. */
+.ball-travel .hero-3d__fallback { display: none; }
+.hero-3d canvas,
+.ball-travel canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
 
 .hero-3d__fallback {
   position: absolute;
@@ -1254,7 +1285,10 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   pointer-events: none;
 }
 .hero-3d[data-hero3d-state="ready"] .hero-3d__hint { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .hero-3d__hint { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d__hint { display: none; }
+  .ball-travel { display: none !important; }
+}
 
 
 /* ============================================================================
