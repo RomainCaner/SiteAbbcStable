@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Chaque evenement : date au format ISO AAAA-MM-JJ. 'color' = couleur Tailwind (red, yellow, green, blue, purple, orange). 'icon' = nom d'icone Font Awesome (sans le prefixe fa-). Les evenements passes sont masques sur l'accueil mais restent visibles sur agenda.html. Remplacez les valeurs TODO par les vraies infos.",
+    "_comment": "Chaque evenement : 'date' au format ISO AAAA-MM-JJ. 'color' parmi red, orange, yellow, green, forest, blue, purple — elle teinte le bloc date et l'etiquette. 'icon' = nom d'icone Font Awesome, sans le prefixe fa-. 'dateToConfirm': true affiche une mention « date a confirmer » sur la carte, quand la date n'est pas encore arretee. Les evenements passes sont masques sur l'accueil mais restent visibles sur agenda.html.",
     "title": "Repas de Noël du Club",
     "category": "Traditionnel",
     "color": "red",
@@ -18,7 +18,8 @@
     "date": "2027-02-06",
     "time": "20h00",
     "location": "Salle des fêtes de Cornebarrieu",
-    "description": "Lots à gagner et ambiance garantie ! (date TODO à confirmer)"
+    "description": "Lots à gagner et ambiance garantie !",
+    "dateToConfirm": true
   },
   {
     "title": "Tournoi de fin de saison",
@@ -28,6 +29,7 @@
     "date": "2027-06-19",
     "time": "Toute la journée",
     "location": "Gymnase municipal de Cornebarrieu",
-    "description": "Clôture festive de la saison. (date TODO à confirmer)"
+    "description": "Clôture festive de la saison.",
+    "dateToConfirm": true
   }
 ]
