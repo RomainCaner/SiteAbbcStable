@@ -9,6 +9,7 @@
 
 import { escapeHTML, formatDateFR, todayISO } from '../core/dom.js';
 import { getEvents, url } from '../core/data.js';
+import { nextClubFixture } from './fixtures.js';
 import { observe } from '../ui/reveal.js';
 
 const HOME_EVENTS_COUNT = 3;
@@ -52,6 +53,7 @@ function eventCard(event, { past = false, extraClass = '', delay = null } = {}) 
         <div class="event__meta">
           ${event.time ? `<span><i class="fas fa-clock" aria-hidden="true"></i>${escapeHTML(event.time)}</span>` : ''}
           ${event.location ? `<span><i class="fas fa-location-dot" aria-hidden="true"></i>${escapeHTML(event.location)}</span>` : ''}
+          ${event.dateToConfirm ? '<span class="event__tentative"><i class="fas fa-circle-question" aria-hidden="true"></i>Date à confirmer</span>' : ''}
         </div>
         ${event.description ? `<p class="event__text">${escapeHTML(event.description)}</p>` : ''}
       </div>
@@ -63,6 +65,31 @@ const emptyState = (message) => `
     <i class="fas fa-calendar-xmark" aria-hidden="true"></i>
     <p>${escapeHTML(message)}</p>
   </div>`;
+
+/** Ramène un événement de l'agenda à la forme commune du bandeau. */
+const asDeadline = (event) => !event ? null : {
+  kind: 'event',
+  date: event.date,
+  time: event.time,
+  title: event.title,
+  location: event.location,
+  href: url('agenda.html'),
+  cta: "Tout l'agenda",
+};
+
+/**
+ * La prochaine échéance du club : match ou événement, le plus proche des deux.
+ *
+ * À date égale le match passe devant — c'est l'échéance la plus contrainte,
+ * et c'est ce qu'un visiteur de site de club vient chercher.
+ */
+function soonest(match, event) {
+  const candidats = [match, event].filter((d) => d?.date);
+  if (!candidats.length) return null;
+  candidats.sort((a, b) =>
+    a.date.localeCompare(b.date) || (a.kind === 'match' ? -1 : 1));
+  return candidats[0];
+}
 
 /**
  * Bandeau du prochain rendez-vous, sous le hero.
@@ -82,9 +109,11 @@ function renderNextUp(container, next) {
   }
 
   const { day, month } = dateParts(next.date);
+  const match = next.kind === 'match';
+  container.className = `nextup${match ? ' nextup--match' : ''}`;
   container.innerHTML = `
     <div class="container nextup__inner">
-      <p class="nextup__label">Prochain<br>rendez-vous</p>
+      <p class="nextup__label">${match ? 'Prochain<br>match' : 'Prochain<br>rendez-vous'}</p>
       <p class="nextup__date">${day} ${escapeHTML(month)}</p>
       <div>
         <p class="nextup__title">${escapeHTML(next.title)}</p>
@@ -93,7 +122,7 @@ function renderNextUp(container, next) {
           ${next.location ? `<span><i class="fas fa-location-dot" aria-hidden="true"></i>${escapeHTML(next.location)}</span>` : ''}
         </p>
       </div>
-      <a href="${url('agenda.html')}" class="btn btn--light btn--sm nextup__cta">Tout l'agenda</a>
+      <a href="${escapeHTML(next.href)}" class="btn btn--light btn--sm nextup__cta">${escapeHTML(next.cta)}</a>
     </div>`;
 }
 
@@ -122,7 +151,11 @@ export async function renderEvents() {
     const message = emptyState('Impossible de charger les événements.');
     if (grid) grid.innerHTML = message;
     if (list) list.innerHTML = message;
-    if (nextup) renderNextUp(nextup, null);
+    // L'agenda est indisponible, mais un match à venir reste une information
+    // valable : le bandeau ne doit pas tomber avec lui.
+    if (nextup) {
+      renderNextUp(nextup, await nextClubFixture().catch(() => null));
+    }
     return;
   }
 
@@ -134,7 +167,10 @@ export async function renderEvents() {
   const upcoming = events.filter((event) => event.date >= today);
   const past = events.filter((event) => event.date < today).reverse();
 
-  if (nextup) renderNextUp(nextup, upcoming[0]);
+  if (nextup) {
+    const match = await nextClubFixture().catch(() => null);
+    renderNextUp(nextup, soonest(match, asDeadline(upcoming[0])));
+  }
 
   if (grid) {
     const next = upcoming.slice(0, HOME_EVENTS_COUNT);

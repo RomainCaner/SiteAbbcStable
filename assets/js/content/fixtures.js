@@ -178,6 +178,36 @@ function clubTileHTML(team, entry, delay) {
 }
 
 /**
+ * La rencontre la plus proche, toutes équipes confondues, sous une forme
+ * comparable aux événements de l'agenda.
+ *
+ * Sert au bandeau « prochain rendez-vous » de l'accueil, qui doit arbitrer
+ * entre un match et un événement du club — sans quoi il annonce le repas de
+ * Noël alors qu'il y a un match dans quatre jours.
+ *
+ * @returns {Promise<object|null>} { kind, date, time, title, location, href, cta }
+ */
+export async function nextClubFixture() {
+  const [teams, fixtures] = await Promise.all([getTeams(), getFixtures()]);
+
+  const candidats = (teams || [])
+    .map((team) => ({ team, next: fixtures?.[team.slug]?.next }))
+    .filter(({ next }) => next?.date);
+  if (!candidats.length) return null;
+
+  const { team, next } = candidats.reduce((a, b) => (a.next.date <= b.next.date ? a : b));
+  return {
+    kind: 'match',
+    date: next.date.slice(0, 10),
+    time: formatTime(next.date),
+    title: `${team.shortName} ${next.isHome ? 'reçoit' : 'se déplace à'} ${next.opponent}`,
+    location: next.venue,
+    href: url(`equipes/${team.page}`),
+    cta: 'Voir l\'équipe',
+  };
+}
+
+/**
  * Vue d'ensemble sur l'accueil : la prochaine rencontre de chaque équipe,
  * la plus proche en premier. Ne fait rien hors de la page d'accueil.
  */

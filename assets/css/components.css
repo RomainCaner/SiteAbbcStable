@@ -632,6 +632,10 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   color: color-mix(in srgb, var(--team-accent, var(--brand)) 45%, white);
 }
 
+/* Date pas encore arrêtée : dit au visiteur de ne pas la noter au stylo,
+   sans crier plus fort que la date elle-même. */
+.event__tentative { color: var(--accent); font-weight: 600; }
+
 /* --- Carte événement : bloc date à gauche --- */
 .event {
   display: grid;
