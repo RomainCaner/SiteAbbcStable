@@ -540,14 +540,26 @@ Trois décisions qui expliquent le code :
   curseur. `BasketballScene.attachTo()` déplace le canvas dans une couche fixe —
   Three.js se moque de l'endroit où vit son canvas, et c'est moins cher qu'une
   seconde scène.
-- **Le mouvement est piloté par le défilement, pas par le temps.** La hauteur
-  suit `|sin|`, symétrique : remonter défait exactement la descente. Une courbe
-  amortie, plus réaliste pour une vraie chute, se lirait à l'envers en remontant.
-- **Un rebond par section**, borné entre 3 et 6 : le rythme suit la structure de
-  la page au lieu d'être arbitraire.
+- **Le ballon est un objet physique, pas une courbe.** Une première version
+  calait sa hauteur sur une fonction du défilement. C'était réversible, mais dès
+  qu'on arrêtait de défiler le ballon restait figé en plein vol — et un ballon
+  suspendu en l'air ne trompe personne. Désormais le défilement **donne de
+  l'énergie** (chaque cran de molette est une impulsion vers le haut, comme un
+  dribble) et la gravité fait le reste : il retombe, rebondit de moins en moins
+  haut, et se pose.
+- **La boucle s'arrête d'elle-même** une fois le ballon immobile : rien ne tourne
+  tant qu'on ne défile pas.
+- **Seule la position horizontale suit la progression** dans la page, où
+  l'immobilité est naturelle.
 
-Réglages en tête de fichier (`SETTINGS`) : largeur minimale de fenêtre, nombre
-de rebonds, amplitude de l'arc horizontal, rotation par pixel défilé.
+Réglages en tête de fichier (`SETTINGS`), en pixels et en secondes : gravité,
+coefficient de restitution, impulsion par pixel défilé, plafond de vitesse,
+amplitude de l'arc horizontal, largeur minimale de fenêtre.
+
+Le plafond de vitesse compte : sans lui, plusieurs crans de molette d'affilée
+s'additionnent et le ballon se colle en haut de l'écran. À 1500 px/s il culmine
+à environ 430 px et se pose après sept rebonds, en un peu plus de trois
+secondes.
 
 Le déplacement ne s'applique pas si `prefers-reduced-motion` est demandé, ni en
 dessous de 640 px de large — le ballon passerait sur le texte au lieu de longer
