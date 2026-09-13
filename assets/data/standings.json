@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-12T23:27:39+00:00",
+  "updatedAt": "2026-09-13T18:23:16+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -8,121 +8,121 @@
         {
           "rank": 1,
           "team": "ALBI BASKET 81",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 115,
+          "conceded": 71,
+          "diff": 44,
           "isClub": false
         },
         {
           "rank": 2,
-          "team": "FEYTIAT BASKET 87",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "CA BEGLES",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 74,
+          "conceded": 50,
+          "diff": 24,
           "isClub": false
         },
         {
           "rank": 3,
-          "team": "LONS BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "COTEAUX DU LUY BASKET",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 76,
+          "conceded": 58,
+          "diff": 18,
           "isClub": false
         },
         {
           "rank": 4,
-          "team": "ABB CORNEBARRIEU",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "LONS BASKET",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": true
+          "scored": 73,
+          "conceded": 59,
+          "diff": 14,
+          "isClub": false
         },
         {
           "rank": 5,
-          "team": "AYTRE BASKET BALL",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "ELAN CHALOSSAIS",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 67,
+          "conceded": 65,
+          "diff": 2,
           "isClub": false
         },
         {
           "rank": 6,
-          "team": "ELAN CHALOSSAIS",
-          "points": 0,
-          "played": 0,
+          "team": "AYTRE BASKET BALL",
+          "points": 1,
+          "played": 1,
           "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "lost": 1,
+          "scored": 65,
+          "conceded": 67,
+          "diff": -2,
           "isClub": false
         },
         {
           "rank": 7,
-          "team": "CA BEGLES",
-          "points": 0,
-          "played": 0,
+          "team": "ABB CORNEBARRIEU",
+          "points": 1,
+          "played": 1,
           "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
+          "lost": 1,
+          "scored": 59,
+          "conceded": 73,
+          "diff": -14,
+          "isClub": true
         },
         {
           "rank": 8,
-          "team": "IE - CTC CAUSSADE-GIMBELET",
-          "points": 0,
-          "played": 0,
+          "team": "IE - AUCH BASKET CLUB",
+          "points": 1,
+          "played": 1,
           "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "lost": 1,
+          "scored": 58,
+          "conceded": 76,
+          "diff": -18,
           "isClub": false
         },
         {
           "rank": 9,
-          "team": "COTEAUX DU LUY BASKET",
-          "points": 0,
-          "played": 0,
+          "team": "IE - CTC CAUSSADE-GIMBELET",
+          "points": 1,
+          "played": 1,
           "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "lost": 1,
+          "scored": 50,
+          "conceded": 74,
+          "diff": -24,
           "isClub": false
         },
         {
           "rank": 10,
-          "team": "IE - AUCH BASKET CLUB",
-          "points": 0,
-          "played": 0,
+          "team": "FEYTIAT BASKET 87",
+          "points": 1,
+          "played": 1,
           "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "lost": 1,
+          "scored": 71,
+          "conceded": 115,
+          "diff": -44,
           "isClub": false
         },
         {
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-12T23:27:39+00:00"
+      "updatedAt": "2026-09-13T18:23:16+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-09-12T23:27:39+00:00"
+      "updatedAt": "2026-09-13T18:23:16+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-09-12T23:27:39+00:00"
+      "updatedAt": "2026-09-13T18:23:16+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-12T23:27:39+00:00"
+      "updatedAt": "2026-09-13T18:23:16+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-09-12T23:27:39+00:00"
+      "updatedAt": "2026-09-13T18:23:16+00:00"
     }
   }
 }
