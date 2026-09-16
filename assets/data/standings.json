@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-13T18:23:16+00:00",
+  "updatedAt": "2026-09-16T23:55:05+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -55,6 +55,18 @@
         },
         {
           "rank": 5,
+          "team": "HAGETMAU MOMUY CASTAIGNOS BASKET",
+          "points": 2,
+          "played": 1,
+          "won": 1,
+          "lost": 0,
+          "scored": 61,
+          "conceded": 54,
+          "diff": 7,
+          "isClub": false
+        },
+        {
+          "rank": 6,
           "team": "ELAN CHALOSSAIS",
           "points": 2,
           "played": 1,
@@ -66,7 +78,7 @@
           "isClub": false
         },
         {
-          "rank": 6,
+          "rank": 7,
           "team": "AYTRE BASKET BALL",
           "points": 1,
           "played": 1,
@@ -78,7 +90,19 @@
           "isClub": false
         },
         {
-          "rank": 7,
+          "rank": 8,
+          "team": "LE TAILLAN BASKET",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 54,
+          "conceded": 61,
+          "diff": -7,
+          "isClub": false
+        },
+        {
+          "rank": 9,
           "team": "ABB CORNEBARRIEU",
           "points": 1,
           "played": 1,
@@ -90,7 +114,7 @@
           "isClub": true
         },
         {
-          "rank": 8,
+          "rank": 10,
           "team": "IE - AUCH BASKET CLUB",
           "points": 1,
           "played": 1,
@@ -102,7 +126,7 @@
           "isClub": false
         },
         {
-          "rank": 9,
+          "rank": 11,
           "team": "IE - CTC CAUSSADE-GIMBELET",
           "points": 1,
           "played": 1,
@@ -114,7 +138,7 @@
           "isClub": false
         },
         {
-          "rank": 10,
+          "rank": 12,
           "team": "FEYTIAT BASKET 87",
           "points": 1,
           "played": 1,
@@ -124,34 +148,10 @@
           "conceded": 115,
           "diff": -44,
           "isClub": false
-        },
-        {
-          "rank": 11,
-          "team": "HAGETMAU MOMUY CASTAIGNOS BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 12,
-          "team": "LE TAILLAN BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     }
   }
 }

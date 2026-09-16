@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-13T18:23:16+00:00",
+  "updatedAt": "2026-09-16T23:55:05+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 59
       },
       "count": 22,
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sf2": {
       "next": {
@@ -51,7 +51,7 @@
       },
       "last": null,
       "count": 18,
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sf3": {
       "next": {
@@ -70,7 +70,7 @@
       },
       "last": null,
       "count": 22,
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sg1": {
       "next": {
@@ -89,7 +89,7 @@
       },
       "last": null,
       "count": 22,
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     },
     "sg2": {
       "next": {
@@ -108,7 +108,7 @@
       },
       "last": null,
       "count": 22,
-      "updatedAt": "2026-09-13T18:23:16+00:00"
+      "updatedAt": "2026-09-16T23:55:05+00:00"
     }
   }
 }
