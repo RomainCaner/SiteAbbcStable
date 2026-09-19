@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-16T23:55:05+00:00",
+  "updatedAt": "2026-09-19T23:39:51+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,13 +278,37 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
       "rows": [
         {
           "rank": 1,
+          "team": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
+          "points": 2,
+          "played": 1,
+          "won": 1,
+          "lost": 0,
+          "scored": 51,
+          "conceded": 49,
+          "diff": 2,
+          "isClub": false
+        },
+        {
+          "rank": 2,
+          "team": "EN-GRATENTOUR-BRUGUIERES",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 49,
+          "conceded": 51,
+          "diff": -2,
+          "isClub": false
+        },
+        {
+          "rank": 3,
           "team": "BASKET CLUB QUINT FONSEGRIVES",
           "points": 0,
           "played": 0,
@@ -296,7 +320,7 @@
           "isClub": false
         },
         {
-          "rank": 2,
+          "rank": 4,
           "team": "BASKET CLUB LEGUEVINOIS",
           "points": 0,
           "played": 0,
@@ -308,7 +332,7 @@
           "isClub": false
         },
         {
-          "rank": 3,
+          "rank": 5,
           "team": "ASTRO BASKET CLUB",
           "points": 0,
           "played": 0,
@@ -320,7 +344,7 @@
           "isClub": false
         },
         {
-          "rank": 4,
+          "rank": 6,
           "team": "UNION SPORTIVE PIBRACAISE",
           "points": 0,
           "played": 0,
@@ -332,7 +356,7 @@
           "isClub": false
         },
         {
-          "rank": 5,
+          "rank": 7,
           "team": "ABB CORNEBARRIEU",
           "points": 0,
           "played": 0,
@@ -344,7 +368,7 @@
           "isClub": true
         },
         {
-          "rank": 6,
+          "rank": 8,
           "team": "IE - BASKET CLUB VERFEILLOIS",
           "points": 0,
           "played": 0,
@@ -356,7 +380,7 @@
           "isClub": false
         },
         {
-          "rank": 7,
+          "rank": 9,
           "team": "FROUZINS ATHLETIC CLUB",
           "points": 0,
           "played": 0,
@@ -368,32 +392,8 @@
           "isClub": false
         },
         {
-          "rank": 8,
-          "team": "IE - NOE CARBONNE BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 9,
-          "team": "EN-GRATENTOUR-BRUGUIERES",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
           "rank": 10,
-          "team": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
+          "team": "IE - NOE CARBONNE BASKET",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -429,61 +429,109 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
       "rows": [
         {
           "rank": 1,
-          "team": "BASKET CLUB DE ROQUETTES",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "B. LABEGE AUZEVILLE CLUB",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 90,
+          "conceded": 78,
+          "diff": 12,
           "isClub": false
         },
         {
           "rank": 2,
-          "team": "B. LABEGE AUZEVILLE CLUB",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "FROUZINS ATHLETIC CLUB",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 89,
+          "conceded": 79,
+          "diff": 10,
           "isClub": false
         },
         {
           "rank": 3,
           "team": "J.S.C BASKET",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 79,
+          "conceded": 73,
+          "diff": 6,
           "isClub": false
         },
         {
           "rank": 4,
-          "team": "BASKET CLUB OSSUNOIS",
-          "points": 0,
-          "played": 0,
-          "won": 0,
+          "team": "E.S. TOULOUSE CASSELARDIT",
+          "points": 2,
+          "played": 1,
+          "won": 1,
           "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
+          "scored": 74,
+          "conceded": 73,
+          "diff": 1,
           "isClub": false
         },
         {
           "rank": 5,
+          "team": "ABB CORNEBARRIEU",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 73,
+          "conceded": 74,
+          "diff": -1,
+          "isClub": true
+        },
+        {
+          "rank": 6,
+          "team": "BASKET CLUB OSSUNOIS",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 73,
+          "conceded": 79,
+          "diff": -6,
+          "isClub": false
+        },
+        {
+          "rank": 7,
+          "team": "IE - AUCH BASKET CLUB",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 79,
+          "conceded": 89,
+          "diff": -10,
+          "isClub": false
+        },
+        {
+          "rank": 8,
+          "team": "BASKET CLUB DE ROQUETTES",
+          "points": 1,
+          "played": 1,
+          "won": 0,
+          "lost": 1,
+          "scored": 78,
+          "conceded": 90,
+          "diff": -12,
+          "isClub": false
+        },
+        {
+          "rank": 9,
           "team": "STADE TOULOUSAIN BASKETBALL",
           "points": 0,
           "played": 0,
@@ -495,7 +543,7 @@
           "isClub": false
         },
         {
-          "rank": 6,
+          "rank": 10,
           "team": "BASKET CLUB LEGUEVINOIS",
           "points": 0,
           "played": 0,
@@ -507,56 +555,8 @@
           "isClub": false
         },
         {
-          "rank": 7,
-          "team": "ABB CORNEBARRIEU",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": true
-        },
-        {
-          "rank": 8,
-          "team": "E.S. TOULOUSE CASSELARDIT",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 9,
-          "team": "FROUZINS ATHLETIC CLUB",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
-          "rank": 10,
-          "team": "IE - AUCH BASKET CLUB",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
-          "isClub": false
-        },
-        {
           "rank": 11,
-          "team": "IE - AVENIR MURETAIN",
+          "team": "SEMEAC OLYMPIQUE",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -568,7 +568,7 @@
         },
         {
           "rank": 12,
-          "team": "SEMEAC OLYMPIQUE",
+          "team": "IE - AVENIR MURETAIN",
           "points": 0,
           "played": 0,
           "won": 0,
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     }
   }
 }

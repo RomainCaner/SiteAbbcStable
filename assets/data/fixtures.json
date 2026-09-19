@@ -1,9 +1,23 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-16T23:55:05+00:00",
+  "updatedAt": "2026-09-19T23:39:51+00:00",
   "teams": {
     "sf1": {
       "next": {
+        "date": "2026-09-27T15:30:00",
+        "journee": "3",
+        "home": "ABB CORNEBARRIEU",
+        "away": "IE - CTC CAUSSADE-GIMBELET",
+        "isHome": true,
+        "opponent": "IE - CTC CAUSSADE-GIMBELET",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-09-19T20:15:00",
         "journee": "2",
         "home": "ELAN CHALOSSAIS",
@@ -12,27 +26,13 @@
         "opponent": "ELAN CHALOSSAIS",
         "venue": "SALLE DE SORT EN CHALOSSE",
         "address": "Route du Moulin",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-09-13T15:30:00",
-        "journee": "1",
-        "home": "LONS BASKET",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "LONS BASKET",
-        "venue": "SALLE SP. J.R.BELLOCQ",
-        "address": "Avenue de PAU",
         "played": true,
         "postponed": false,
-        "scoreHome": 73,
-        "scoreAway": 59
+        "scoreHome": 69,
+        "scoreAway": 74
       },
       "count": 22,
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sf2": {
       "next": {
@@ -51,7 +51,7 @@
       },
       "last": null,
       "count": 18,
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sf3": {
       "next": {
@@ -70,10 +70,24 @@
       },
       "last": null,
       "count": 22,
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sg1": {
       "next": {
+        "date": "2026-09-26T20:00:00",
+        "journee": "2",
+        "home": "IE - AUCH BASKET CLUB 2",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "IE - AUCH BASKET CLUB 2",
+        "venue": "SALLE MATHALIN",
+        "address": "19 Rue du 11 Novembre",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-09-19T20:00:00",
         "journee": "1",
         "home": "ABB CORNEBARRIEU",
@@ -82,14 +96,13 @@
         "opponent": "E.S. TOULOUSE CASSELARDIT",
         "venue": "ESPACE SPORTIF P. de COUBERTIN",
         "address": "Chemin des Ambrits",
-        "played": false,
+        "played": true,
         "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
+        "scoreHome": 73,
+        "scoreAway": 74
       },
-      "last": null,
       "count": 22,
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     },
     "sg2": {
       "next": {
@@ -108,7 +121,7 @@
       },
       "last": null,
       "count": 22,
-      "updatedAt": "2026-09-16T23:55:05+00:00"
+      "updatedAt": "2026-09-19T23:39:51+00:00"
     }
   }
 }
