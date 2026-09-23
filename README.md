@@ -87,7 +87,7 @@ mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
 `.section--dark` / `.section--brand` d'adapter automatiquement tout leur
 contenu.
 
-### JavaScript — 18 modules ES
+### JavaScript — 19 modules ES
 
 ```
 assets/js/
@@ -104,7 +104,8 @@ assets/js/
 │   ├── chrome.js         Barre de progression, bouton retour en haut
 │   ├── reveal.js         Apparitions au scroll, compteurs animés
 │   ├── hero3d.js         Scène 3D du bandeau d'accueil
-│   └── balltravel.js     Le ballon descend la page au défilement
+│   ├── balltravel.js     Le ballon descend la page au défilement
+│   └── parallax.js       Parallaxe au défilement, pilotée par transform
 │
 └── content/              Rendu des données du club
     ├── config.js         Applique config.json ([data-config], [data-social])
@@ -569,6 +570,46 @@ Pour changer de version, modifier `THREE_URL` en haut du fichier (version
 épinglée volontairement). Pour héberger la bibliothèque soi-même :
 `npm i three`, copier `three.module.min.js` et `three.core.min.js` dans
 `assets/vendor/`, puis pointer `THREE_URL` dessus.
+
+---
+
+## Parallaxe (`assets/js/ui/parallax.js`)
+
+Un élément participe en portant `data-parallax="<facteur>"`. Le facteur est la
+fraction du déplacement de l'élément dans la fenêtre qui lui est rendue en sens
+inverse : positif il traîne derrière le défilement et paraît loin, négatif il le
+devance et paraît proche.
+
+Le hero en compte trois :
+
+| Couche | Facteur | Effet |
+|---|---|---|
+| `.hero__media` | `0.22` | le fond traîne, il paraît lointain |
+| texte du hero | `0.06` | suit de peu |
+| `.hero__visual` | `-0.08` | devance le défilement, il paraît proche |
+
+Trois partis pris : **`transform` seulement** (jamais `top` ni
+`background-position`, le navigateur compose sans recalculer la mise en page) ;
+**rien n'est calculé hors écran** (un observateur d'intersection tient la liste
+des éléments visibles) ; **`prefers-reduced-motion` désactive tout** et remet
+les éléments à zéro.
+
+L'effet fonctionne sur mobile avec une amplitude réduite de moitié : sur un
+écran étroit, un même décalage se voit deux fois plus. La couche de fond déborde
+de 12 % en haut et en bas (`.has-parallax .hero__media`), sans quoi la déplacer
+découvrirait un bord.
+
+---
+
+## Référencement
+
+Chaque page porte ses balises Open Graph, son `og:url` et son `<link
+rel="canonical">`, tous en **URL absolue**. C'est une exigence des réseaux
+sociaux, pas un détail : `og:image` était en chemin relatif, et l'aperçu de
+partage s'affichait donc sans image sur Facebook, LinkedIn et WhatsApp.
+
+L'URL de base est `https://romaincaner.github.io/SiteAbbcStable/` — à changer
+dans les balises si le site déménage sur un nom de domaine propre.
 
 ---
 
