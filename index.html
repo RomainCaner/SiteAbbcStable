@@ -10,10 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="ABBC · Association Basket-Ball Cornebarrieu">
   <meta property="og:description" content="Le club de basket de Cornebarrieu — 180+ licenciés, 17 équipes des U7 aux Seniors.">
-  <meta property="og:image" content="assets/images/Baniere.jpg">
+  <meta property="og:image" content="https://romaincaner.github.io/SiteAbbcStable/assets/images/Baniere.jpg">
+  <meta property="og:url" content="https://romaincaner.github.io/SiteAbbcStable/">
   <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
 
+  <link rel="canonical" href="https://romaincaner.github.io/SiteAbbcStable/">
   <link rel="icon" type="image/jpeg" href="assets/images/Logo.jpg">
 
   <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
@@ -43,12 +45,16 @@
 
     <!-- ================= Bandeau d'accueil ================= -->
     <section class="hero">
-      <div class="hero__media">
+      <!--
+        Trois profondeurs de parallaxe (ui/parallax.js) : le fond traîne
+        derrière le défilement, le texte suit de peu, le ballon le devance.
+      -->
+      <div class="hero__media" data-parallax="0.22">
         <img src="assets/images/Baniere.jpg" alt="" width="1920" height="1080" fetchpriority="high">
       </div>
 
       <div class="container hero__inner">
-        <div>
+        <div data-parallax="0.06">
           <p class="eyebrow hero__eyebrow">Saison <span data-config="season">2026-2027</span></p>
           <h1 class="hero__title">
             <span>Association</span>
@@ -75,7 +81,7 @@
           Le repli ci-dessous reste visible tant que la 3D n'a pas démarré, et
           définitivement si le navigateur ne gère pas WebGL.
         -->
-        <div class="hero__visual">
+        <div class="hero__visual" data-parallax="-0.08">
           <div data-hero3d class="hero-3d" role="img" aria-label="Ballon de basket en 3D aux couleurs du club">
             <div class="hero-3d__fallback">
               <img src="assets/images/Logo.jpg" alt="" width="320" height="320">

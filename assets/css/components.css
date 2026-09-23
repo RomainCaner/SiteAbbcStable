@@ -393,6 +393,11 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 .hero__media { position: absolute; inset: 0; }
 .hero__media img { width: 100%; height: 100%; object-fit: cover; }
 
+/* Parallaxe active : la couche de fond déborde en haut et en bas, sinon la
+   déplacer découvrirait un bord. `will-change` prévient le compositeur. */
+.has-parallax .hero__media { inset: -12% 0; }
+.has-parallax [data-parallax] { will-change: transform; }
+
 /* Deux couches : un voile vert pour ancrer la marque, un dégradé sombre en
    bas à gauche pour garantir le contraste du texte. */
 .hero__media::after {

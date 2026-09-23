@@ -24,6 +24,7 @@ import { initChrome } from './ui/chrome.js';
 import { initReveal } from './ui/reveal.js';
 import { initHero3D } from './ui/hero3d.js';
 import { initBallTravel } from './ui/balltravel.js';
+import { initParallax } from './ui/parallax.js';
 import { applyConfig } from './content/config.js';
 import { renderEvents } from './content/events.js';
 import { renderNews, renderArticle } from './content/news.js';
@@ -42,6 +43,10 @@ async function bootstrap() {
   // 2. Animations : l'observateur doit être en place avant l'injection du
   //    contenu, sinon les cartes générées apparaissent sans transition.
   initReveal();
+
+  //    La parallaxe ne porte que sur le HTML statique du hero : elle peut
+  //    partir tout de suite, sans attendre le contenu.
+  initParallax();
 
   // 3. La 3D est au-dessus de la ligne de flottaison : on lance son
   //    téléchargement sans attendre le reste de la page.
