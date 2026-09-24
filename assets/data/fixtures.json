@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-20T18:20:46+00:00",
+  "updatedAt": "2026-09-24T00:02:03+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 74
       },
       "count": 22,
-      "updatedAt": "2026-09-20T18:20:46+00:00"
+      "updatedAt": "2026-09-24T00:02:03+00:00"
     },
     "sf2": {
       "next": {
@@ -51,7 +51,7 @@
       },
       "last": null,
       "count": 18,
-      "updatedAt": "2026-09-20T18:20:46+00:00"
+      "updatedAt": "2026-09-24T00:02:03+00:00"
     },
     "sf3": {
       "next": {
@@ -61,16 +61,29 @@
         "away": "ABB CORNEBARRIEU 3",
         "isHome": false,
         "opponent": "IE - NOE CARBONNE BASKET",
-        "venue": "SALLE POLYVALENTE",
-        "address": "156 Route de TOULOUSE",
+        "venue": "GYMNASE ANDRE ABBAL",
+        "address": "15 route de MARQUEFAVE",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
-      "last": null,
+      "last": {
+        "date": "2026-09-20T15:30:00",
+        "journee": "1",
+        "home": "ABB CORNEBARRIEU 3",
+        "away": "IE - BASKET CLUB VERFEILLOIS 2",
+        "isHome": true,
+        "opponent": "IE - BASKET CLUB VERFEILLOIS 2",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 27,
+        "scoreAway": 84
+      },
       "count": 22,
-      "updatedAt": "2026-09-20T18:20:46+00:00"
+      "updatedAt": "2026-09-24T00:02:03+00:00"
     },
     "sg1": {
       "next": {
@@ -102,7 +115,7 @@
         "scoreAway": 74
       },
       "count": 22,
-      "updatedAt": "2026-09-20T18:20:46+00:00"
+      "updatedAt": "2026-09-24T00:02:03+00:00"
     },
     "sg2": {
       "next": {
@@ -119,9 +132,22 @@
         "scoreHome": null,
         "scoreAway": null
       },
-      "last": null,
+      "last": {
+        "date": "2026-09-20T13:00:00",
+        "journee": "1",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "OUEST TOULOUSAIN BASKET 3",
+        "isHome": true,
+        "opponent": "OUEST TOULOUSAIN BASKET 3",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 96,
+        "scoreAway": 65
+      },
       "count": 22,
-      "updatedAt": "2026-09-20T18:20:46+00:00"
+      "updatedAt": "2026-09-24T00:02:03+00:00"
     }
   }
 }
