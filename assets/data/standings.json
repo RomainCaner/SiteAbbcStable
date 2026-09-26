@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-24T00:02:03+00:00",
+  "updatedAt": "2026-09-26T23:56:56+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-09-24T00:02:03+00:00"
+      "updatedAt": "2026-09-26T23:56:56+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-09-24T00:02:03+00:00"
+      "updatedAt": "2026-09-26T23:56:56+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,25 +429,85 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-09-24T00:02:03+00:00"
+      "updatedAt": "2026-09-26T23:56:56+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
       "rows": [
         {
           "rank": 1,
-          "team": "STADE TOULOUSAIN BASKETBALL",
-          "points": 2,
-          "played": 1,
-          "won": 1,
+          "team": "E.S. TOULOUSE CASSELARDIT",
+          "points": 4,
+          "played": 2,
+          "won": 2,
           "lost": 0,
-          "scored": 72,
-          "conceded": 53,
+          "scored": 159,
+          "conceded": 140,
           "diff": 19,
           "isClub": false
         },
         {
           "rank": 2,
+          "team": "STADE TOULOUSAIN BASKETBALL",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 139,
+          "conceded": 138,
+          "diff": 1,
+          "isClub": false
+        },
+        {
+          "rank": 3,
+          "team": "IE - AUCH BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 162,
+          "conceded": 163,
+          "diff": -1,
+          "isClub": false
+        },
+        {
+          "rank": 4,
+          "team": "BASKET CLUB DE ROQUETTES",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 148,
+          "conceded": 153,
+          "diff": -5,
+          "isClub": false
+        },
+        {
+          "rank": 5,
+          "team": "FROUZINS ATHLETIC CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 156,
+          "conceded": 167,
+          "diff": -11,
+          "isClub": false
+        },
+        {
+          "rank": 6,
+          "team": "SEMEAC OLYMPIQUE",
+          "points": 2,
+          "played": 1,
+          "won": 1,
+          "lost": 0,
+          "scored": 88,
+          "conceded": 67,
+          "diff": 21,
+          "isClub": false
+        },
+        {
+          "rank": 7,
           "team": "B. LABEGE AUZEVILLE CLUB",
           "points": 2,
           "played": 1,
@@ -459,19 +519,7 @@
           "isClub": false
         },
         {
-          "rank": 3,
-          "team": "FROUZINS ATHLETIC CLUB",
-          "points": 2,
-          "played": 1,
-          "won": 1,
-          "lost": 0,
-          "scored": 89,
-          "conceded": 79,
-          "diff": 10,
-          "isClub": false
-        },
-        {
-          "rank": 4,
+          "rank": 8,
           "team": "J.S.C BASKET",
           "points": 2,
           "played": 1,
@@ -483,67 +531,31 @@
           "isClub": false
         },
         {
-          "rank": 5,
-          "team": "E.S. TOULOUSE CASSELARDIT",
-          "points": 2,
-          "played": 1,
-          "won": 1,
-          "lost": 0,
-          "scored": 74,
-          "conceded": 73,
-          "diff": 1,
-          "isClub": false
-        },
-        {
-          "rank": 6,
+          "rank": 9,
           "team": "ABB CORNEBARRIEU",
-          "points": 1,
-          "played": 1,
+          "points": 2,
+          "played": 2,
           "won": 0,
-          "lost": 1,
-          "scored": 73,
-          "conceded": 74,
-          "diff": -1,
+          "lost": 2,
+          "scored": 147,
+          "conceded": 157,
+          "diff": -10,
           "isClub": true
         },
         {
-          "rank": 7,
-          "team": "BASKET CLUB OSSUNOIS",
-          "points": 1,
-          "played": 1,
-          "won": 0,
-          "lost": 1,
-          "scored": 73,
-          "conceded": 79,
-          "diff": -6,
-          "isClub": false
-        },
-        {
-          "rank": 8,
-          "team": "IE - AUCH BASKET CLUB",
-          "points": 1,
-          "played": 1,
-          "won": 0,
-          "lost": 1,
-          "scored": 79,
-          "conceded": 89,
-          "diff": -10,
-          "isClub": false
-        },
-        {
-          "rank": 9,
-          "team": "BASKET CLUB DE ROQUETTES",
-          "points": 1,
-          "played": 1,
-          "won": 0,
-          "lost": 1,
-          "scored": 78,
-          "conceded": 90,
-          "diff": -12,
-          "isClub": false
-        },
-        {
           "rank": 10,
+          "team": "BASKET CLUB OSSUNOIS",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 136,
+          "conceded": 149,
+          "diff": -13,
+          "isClub": false
+        },
+        {
+          "rank": 11,
           "team": "BASKET CLUB LEGUEVINOIS",
           "points": 1,
           "played": 1,
@@ -552,18 +564,6 @@
           "scored": 53,
           "conceded": 72,
           "diff": -19,
-          "isClub": false
-        },
-        {
-          "rank": 11,
-          "team": "SEMEAC OLYMPIQUE",
-          "points": 0,
-          "played": 0,
-          "won": 0,
-          "lost": 0,
-          "scored": 0,
-          "conceded": 0,
-          "diff": 0,
           "isClub": false
         },
         {
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-09-24T00:02:03+00:00"
+      "updatedAt": "2026-09-26T23:56:56+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-09-24T00:02:03+00:00"
+      "updatedAt": "2026-09-26T23:56:56+00:00"
     }
   }
 }
