@@ -1,9 +1,23 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-09-26T23:56:56+00:00",
+  "updatedAt": "2026-09-27T19:21:35+00:00",
   "teams": {
     "sf1": {
       "next": {
+        "date": "2026-10-04T15:30:00",
+        "journee": "4",
+        "home": "IE - AUCH BASKET CLUB",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "IE - AUCH BASKET CLUB",
+        "venue": "SALLE MATHALIN",
+        "address": "19 Rue du 11 Novembre",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-09-27T15:30:00",
         "journee": "3",
         "home": "ABB CORNEBARRIEU",
@@ -12,30 +26,30 @@
         "opponent": "IE - CTC CAUSSADE-GIMBELET",
         "venue": "ESPACE SPORTIF P. de COUBERTIN",
         "address": "Chemin des Ambrits",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 74,
+        "scoreAway": 72
+      },
+      "count": 22,
+      "updatedAt": "2026-09-27T19:21:35+00:00"
+    },
+    "sf2": {
+      "next": {
+        "date": "2026-10-04T15:30:00",
+        "journee": "2",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "TLSE CHEMINOTS MARENGO SP 2",
+        "isHome": true,
+        "opponent": "TLSE CHEMINOTS MARENGO SP 2",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-09-19T20:15:00",
-        "journee": "2",
-        "home": "ELAN CHALOSSAIS",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "ELAN CHALOSSAIS",
-        "venue": "SALLE DE SORT EN CHALOSSE",
-        "address": "Route du Moulin",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 69,
-        "scoreAway": 74
-      },
-      "count": 22,
-      "updatedAt": "2026-09-26T23:56:56+00:00"
-    },
-    "sf2": {
-      "next": {
         "date": "2026-09-27T15:30:00",
         "journee": "1",
         "home": "OUEST TOULOUSAIN BASKET",
@@ -44,17 +58,30 @@
         "opponent": "OUEST TOULOUSAIN BASKET",
         "venue": "GYMNASE JULES VERNE",
         "address": "6 Avenue Montaigne",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 55,
+        "scoreAway": 77
+      },
+      "count": 18,
+      "updatedAt": "2026-09-27T19:21:35+00:00"
+    },
+    "sf3": {
+      "next": {
+        "date": "2026-10-04T13:00:00",
+        "journee": "3",
+        "home": "ABB CORNEBARRIEU 3",
+        "away": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
+        "isHome": true,
+        "opponent": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
-      "last": null,
-      "count": 18,
-      "updatedAt": "2026-09-26T23:56:56+00:00"
-    },
-    "sf3": {
-      "next": {
+      "last": {
         "date": "2026-09-27T15:30:00",
         "journee": "2",
         "home": "IE - NOE CARBONNE BASKET",
@@ -63,27 +90,13 @@
         "opponent": "IE - NOE CARBONNE BASKET",
         "venue": "GYMNASE ANDRE ABBAL",
         "address": "15 route de MARQUEFAVE",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-09-20T15:30:00",
-        "journee": "1",
-        "home": "ABB CORNEBARRIEU 3",
-        "away": "IE - BASKET CLUB VERFEILLOIS 2",
-        "isHome": true,
-        "opponent": "IE - BASKET CLUB VERFEILLOIS 2",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
         "played": true,
         "postponed": false,
-        "scoreHome": 27,
-        "scoreAway": 84
+        "scoreHome": 51,
+        "scoreAway": 67
       },
       "count": 22,
-      "updatedAt": "2026-09-26T23:56:56+00:00"
+      "updatedAt": "2026-09-27T19:21:35+00:00"
     },
     "sg1": {
       "next": {
@@ -115,10 +128,24 @@
         "scoreAway": 74
       },
       "count": 22,
-      "updatedAt": "2026-09-26T23:56:56+00:00"
+      "updatedAt": "2026-09-27T19:21:35+00:00"
     },
     "sg2": {
       "next": {
+        "date": "2026-10-02T21:00:00",
+        "journee": "3",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "U.S. COLOMIERS BASKET 3",
+        "isHome": true,
+        "opponent": "U.S. COLOMIERS BASKET 3",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-09-27T15:30:00",
         "journee": "2",
         "home": "E.S. TOULOUSE CASSELARDIT 2",
@@ -127,27 +154,13 @@
         "opponent": "E.S. TOULOUSE CASSELARDIT 2",
         "venue": "GYMNASE MARCEL CERDAN",
         "address": "7 Chemin de la Cépière",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-09-20T13:00:00",
-        "journee": "1",
-        "home": "ABB CORNEBARRIEU 2",
-        "away": "OUEST TOULOUSAIN BASKET 3",
-        "isHome": true,
-        "opponent": "OUEST TOULOUSAIN BASKET 3",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
         "played": true,
         "postponed": false,
-        "scoreHome": 96,
-        "scoreAway": 65
+        "scoreHome": 73,
+        "scoreAway": 56
       },
       "count": 22,
-      "updatedAt": "2026-09-26T23:56:56+00:00"
+      "updatedAt": "2026-09-27T19:21:35+00:00"
     }
   }
 }
