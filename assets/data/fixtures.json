@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-10-01T00:52:04+00:00",
+  "updatedAt": "2026-10-04T00:08:57+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 72
       },
       "count": 22,
-      "updatedAt": "2026-10-01T00:52:04+00:00"
+      "updatedAt": "2026-10-04T00:08:57+00:00"
     },
     "sf2": {
       "next": {
@@ -64,7 +64,7 @@
         "scoreAway": 77
       },
       "count": 18,
-      "updatedAt": "2026-10-01T00:52:04+00:00"
+      "updatedAt": "2026-10-04T00:08:57+00:00"
     },
     "sf3": {
       "next": {
@@ -96,10 +96,24 @@
         "scoreAway": 67
       },
       "count": 22,
-      "updatedAt": "2026-10-01T00:52:04+00:00"
+      "updatedAt": "2026-10-04T00:08:57+00:00"
     },
     "sg1": {
       "next": {
+        "date": "2026-10-10T20:30:00",
+        "journee": "4",
+        "home": "B. LABEGE AUZEVILLE CLUB",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "B. LABEGE AUZEVILLE CLUB",
+        "venue": "GYMNASE L'EUROPE",
+        "address": "Rue des ECOLES",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-10-03T20:00:00",
         "journee": "3",
         "home": "SEMEAC OLYMPIQUE",
@@ -108,30 +122,30 @@
         "opponent": "SEMEAC OLYMPIQUE",
         "venue": "GYMNASE MULTISPORTS",
         "address": "IMPASSE DES DERNIERS FRANCS",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 72,
+        "scoreAway": 83
+      },
+      "count": 22,
+      "updatedAt": "2026-10-04T00:08:57+00:00"
+    },
+    "sg2": {
+      "next": {
+        "date": "2026-10-11T13:00:00",
+        "journee": "4",
+        "home": "UNION SPORTIVE PIBRACAISE",
+        "away": "ABB CORNEBARRIEU 2",
+        "isHome": false,
+        "opponent": "UNION SPORTIVE PIBRACAISE",
+        "venue": "GYMNASE BEAUREGARD",
+        "address": "6 RUE MAURICE FONVIEILLE",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-09-26T20:00:00",
-        "journee": "2",
-        "home": "IE - AUCH BASKET CLUB 2",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "IE - AUCH BASKET CLUB 2",
-        "venue": "SALLE MATHALIN",
-        "address": "19 Rue du 11 Novembre",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 83,
-        "scoreAway": 74
-      },
-      "count": 22,
-      "updatedAt": "2026-10-01T00:52:04+00:00"
-    },
-    "sg2": {
-      "next": {
         "date": "2026-10-02T21:00:00",
         "journee": "3",
         "home": "ABB CORNEBARRIEU 2",
@@ -140,27 +154,13 @@
         "opponent": "U.S. COLOMIERS BASKET 3",
         "venue": "ESPACE SPORTIF P. de COUBERTIN",
         "address": "Chemin des Ambrits",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-09-27T15:30:00",
-        "journee": "2",
-        "home": "E.S. TOULOUSE CASSELARDIT 2",
-        "away": "ABB CORNEBARRIEU 2",
-        "isHome": false,
-        "opponent": "E.S. TOULOUSE CASSELARDIT 2",
-        "venue": "GYMNASE MARCEL CERDAN",
-        "address": "7 Chemin de la Cépière",
         "played": true,
         "postponed": false,
-        "scoreHome": 73,
-        "scoreAway": 56
+        "scoreHome": 91,
+        "scoreAway": 58
       },
       "count": 22,
-      "updatedAt": "2026-10-01T00:52:04+00:00"
+      "updatedAt": "2026-10-04T00:08:57+00:00"
     }
   }
 }
