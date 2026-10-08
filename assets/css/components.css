@@ -72,6 +72,21 @@
 
 .btn--sm { padding: 0.6rem 1.1rem; font-size: var(--text-base); }
 
+/* Bouton seul dans sa colonne, au libellé long (adresse e-mail, « Accéder à la
+   boutique ») : il ne dépasse jamais la colonne et passe à la ligne s'il le
+   faut, au lieu de pousser la page de côté. Réservé à ces cas — dans une rangée
+   de boutons, un libellé sur deux lignes serait pire qu'utile. */
+.btn--wrap {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.btn--wrap > span { min-width: 0; }
+@media (max-width: 400px) {
+  .btn--wrap { padding-inline: var(--space-4); }
+}
+
 /* Lien fléché, utilisé en fin de section et dans les cartes. */
 .link-arrow {
   display: inline-flex;
@@ -599,8 +614,12 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   color: var(--white);
   padding: var(--space-6);
 }
+/* Le texte se tient en bas, là où le voile est le plus dense. La marge
+   automatique des cartes ordinaires renvoyait titre et résumé en haut, sur la
+   partie claire de l'image. */
+.card--feature .card__foot { margin-top: 0; }
 .card--feature .card__title { font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem); }
-.card--feature .card__text { color: rgba(255, 255, 255, .8); }
+.card--feature .card__text { color: rgba(255, 255, 255, .8); max-width: 60ch; }
 .card--feature .card__date { color: rgba(255, 255, 255, .7); }
 
 @media (max-width: 899px) {
@@ -644,7 +663,7 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 /* --- Carte événement : bloc date à gauche --- */
 .event {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-5);
   align-items: start;
   padding: var(--space-5);
@@ -673,7 +692,7 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 .event__month { font-size: var(--text-sm); letter-spacing: var(--tracking-wide); }
 .event__year { font-size: var(--text-xs); opacity: .75; margin-top: 2px; }
 
-.event__title { font-size: 1.4rem; margin-bottom: var(--space-2); }
+.event__title { font-size: 1.4rem; margin-bottom: var(--space-2); overflow-wrap: break-word; }
 .event__meta {
   display: flex;
   flex-wrap: wrap;
@@ -700,6 +719,9 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 
 /* Ligne d'étiquettes sous le nom d'une équipe. */
 .team-hero__tags { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+/* Liseré clair : l'accent « forest » des seniors masculins est le vert même de
+   l'en-tête, et la puce de niveau s'y fondait. */
+.team-hero__tags .chip:not(.chip--outline) { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
 
 /* État vide générique */
 .empty {

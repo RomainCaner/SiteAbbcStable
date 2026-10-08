@@ -1,11 +1,12 @@
-# Met à jour les classements du club depuis resultats.ffbb.com.
+# Met à jour les classements et les rencontres du club depuis l'API FFBB.
 #
-# Le script écrit assets/data/standings.json ; s'il a changé, le workflow le
-# commite sur main, ce qui déclenche automatiquement le redéploiement Pages.
+# Le script écrit assets/data/standings.json et assets/data/fixtures.json ;
+# s'ils ont changé, le workflow les commite sur main, ce qui déclenche
+# automatiquement le redéploiement Pages.
 #
-# Rien n'est commité tant qu'aucune équipe n'a d'identifiant `ffbb.championshipId`
-# renseigné dans assets/data/teams.json : le site reste alors sur les widgets
-# Score'n'co.
+# Seules les équipes désignées dans assets/data/teams.json — par `ffbb.pouleId`,
+# à défaut par une URL de classement — sont interrogées ; les autres gardent sur
+# le site un encart « classement bientôt disponible ».
 
 name: Classements FFBB
 
@@ -135,5 +136,5 @@ jobs:
         if: inputs.decouvrir == '' && inputs.sonder == '' && inputs.poules == '' && inputs.rencontre == '' && steps.fetch.outputs.code != '0'
         run: |
           echo "::warning::Au moins un championnat n'a pas pu être récupéré."
-          echo "Vérifiez les identifiants ffbb.championshipId dans assets/data/teams.json,"
+          echo "Vérifiez les identifiants ffbb.pouleId dans assets/data/teams.json,"
           echo "ou la structure de la page si la FFBB a changé son site."

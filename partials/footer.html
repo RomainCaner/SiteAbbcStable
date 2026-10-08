@@ -1,7 +1,8 @@
 <!--
   partials/footer.html — Pied de page, injecté par core/partials.js.
-  Les liens sociaux (data-social) et les coordonnées (data-config) sont
-  renseignés depuis assets/data/config.json par content/config.js.
+  Les liens sociaux (data-social), les coordonnées (data-config) et le
+  formulaire de newsletter sont renseignés depuis assets/data/config.json par
+  content/config.js.
 -->
 
 <footer class="site-footer">
@@ -66,12 +67,14 @@
         </ul>
       </div>
 
-      <div>
+      <!-- Masqué tant que config.json ne désigne pas de service d'emailing
+           (clé `newsletter`) : voir content/config.js. -->
+      <div id="newsletter" hidden>
         <h3>Newsletter</h3>
         <p class="text-sm">Toute l'actualité du club, une fois par mois.</p>
-        <form id="newsletter-form" class="newsletter" novalidate>
+        <form id="newsletter-form" class="newsletter" method="post" target="_blank" novalidate>
           <label for="newsletter-email" class="visually-hidden">Adresse email</label>
-          <input type="email" id="newsletter-email" required placeholder="votre@email.fr" autocomplete="email">
+          <input type="email" id="newsletter-email" name="EMAIL" required placeholder="votre@email.fr" autocomplete="email">
           <button type="submit" class="btn btn--accent btn--sm">OK</button>
         </form>
         <p id="newsletter-feedback" class="form-feedback" role="status" aria-live="polite"></p>

@@ -31,7 +31,7 @@ import { renderNews, renderArticle } from './content/news.js';
 import { renderTeams } from './content/teams.js';
 import { renderClubFixtures } from './content/fixtures.js';
 import { renderPartners } from './content/partners.js';
-// Widgets Score'n'co, remplacés par les données FFBB (voir l'étape 6 plus bas).
+// Widgets Score'n'co, remplacés par les données FFBB (voir l'étape 5 plus bas).
 // import { loadScorenco, renderClubWidgets } from './content/scorenco.js';
 
 async function bootstrap() {
@@ -75,7 +75,7 @@ async function bootstrap() {
   //      loadScorenco();
   await applyConfig();
 
-  // 7. Le ballon suit le visiteur une fois le hero dépassé. Il a besoin de la
+  // 6. Le ballon suit le visiteur une fois le hero dépassé. Il a besoin de la
   //    scène — donc de son chargement — et du bouton « retour en haut », déjà
   //    en place depuis l'étape 1.
   const scene = await hero3d;

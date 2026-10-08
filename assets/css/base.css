@@ -117,8 +117,12 @@ h3 { font-size: var(--text-xl); }
 
 /* Paliers explicites : `auto-fit` produisait des rangees orphelines (5 cartes
    reparties en 4 + 1). Une colonne sur mobile, deux sur tablette, puis la
-   valeur nominale. */
-.grid { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
+   valeur nominale.
+   `minmax(0, 1fr)` et non `1fr` : ce dernier vaut `minmax(auto, 1fr)`, et la
+   colonne s'elargit alors jusqu'au plus long mot ou bouton insecable qu'elle
+   contient, quitte a pousser la page hors de l'ecran — ce qui arrivait avec la
+   police de repli, plus large, tant que Barlow Condensed n'est pas chargee. */
+.grid { display: grid; gap: var(--space-6); grid-template-columns: minmax(0, 1fr); }
 
 @media (min-width: 640px) {
   .grid--2, .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

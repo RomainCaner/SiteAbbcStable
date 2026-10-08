@@ -1,6 +1,6 @@
 [
   {
-    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = identifiants Score'n'co (menu Partager > Widget sur scorenco.com). 'ffbb.pouleId' = identifiant de poule FFBB, interroge via l'API : c'est la voie a privilegier, obtenue avec scripts/decouvrir_poules.py. 'ffbb.classementUrl' = URL de la page de classement, copiee depuis le navigateur, utilisee a defaut. Tant qu'aucune des deux n'est renseignee, l'equipe reste sur son widget Score'n'co.",
+    "_comment": "Source unique des equipes du club. Chaque entree alimente : le mega-menu de la navbar, la page equipes.html et la page equipes/<page>. 'widgets' = anciens identifiants Score'n'co (menu Partager > Widget sur scorenco.com), conserves mais plus lus. 'ffbb.pouleId' = identifiant de poule FFBB, interroge via l'API : c'est la voie a privilegier, obtenue avec scripts/decouvrir_poules.py. 'ffbb.classementUrl' = URL de la page de classement, copiee depuis le navigateur, utilisee a defaut. Tant qu'aucune des deux n'est renseignee, la fiche affiche un encart 'classement bientot disponible'.",
     "slug": "sf1",
     "page": "sf1.html",
     "group": "seniors",

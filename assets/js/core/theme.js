@@ -1,9 +1,9 @@
 /**
  * core/theme.js — Thème clair / sombre.
  *
- * Le thème est appliqué très tôt par un script inline dans le `<head>` de
- * chaque page (voir `partials/head-theme`), afin d'éviter le flash de contenu
- * clair avant l'exécution des modules. Ce fichier ne gère que la suite :
+ * Le thème est appliqué très tôt par un court script inline, recopié dans le
+ * `<head>` de chaque page, afin d'éviter le flash de contenu clair avant
+ * l'exécution des modules. Ce fichier ne gère que la suite :
  * lecture de l'état courant, bascule, persistance et icônes.
  */
 

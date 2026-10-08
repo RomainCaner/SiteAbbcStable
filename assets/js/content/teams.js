@@ -52,11 +52,12 @@ const panel = (icon, title, body) => `
 /**
  * Bloc classement : tableau maison si `standings.json` couvre l'équipe, encart
  * d'attente sinon. Renseigner `ffbb.pouleId` dans teams.json suffit à basculer
- * une équipe.
+ * une équipe — `scripts/decouvrir_poules.py` trouve l'identifiant. L'encart
+ * s'adresse aux visiteurs : la marche à suivre reste ici, pas sur la page.
  *
  * Les widgets Score'n'co sont conservés en commentaire le temps que les quatre
- * équipes jeunes soient branchées sur la FFBB — elles sont engagées en CTC et
- * n'apparaissent pas encore sous le nom du club.
+ * équipes jeunes soient branchées sur la FFBB : leur engagement en championnat
+ * n'y apparaît pas encore.
  *
  *   return `<div class="widget-frame">${widgetHTML('ranking', team.widgets?.ranking,
  *             'Classement bientôt disponible.')}</div>`;
@@ -67,10 +68,7 @@ function rankingHTML(team, standing) {
     <div class="widget-pending">
       <i class="fas fa-hourglass-half" aria-hidden="true"></i>
       <p>Classement bientôt disponible.</p>
-      <p class="widget-pending__help">
-        Identifiant de poule à renseigner dans <code>assets/data/teams.json</code>
-        (<code>ffbb.pouleId</code>), voir <code>scripts/decouvrir_poules.py</code>.
-      </p>
+      <p class="widget-pending__help">Il s'affichera ici dès la publication de la poule par la FFBB.</p>
     </div>`;
 }
 
