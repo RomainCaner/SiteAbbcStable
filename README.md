@@ -150,7 +150,13 @@ rafraîchissez la page. Les valeurs à compléter sont marquées **`TODO`**.
 ### `config.json` — réglages globaux
 Saison, chiffres clés, coordonnées et liens réseaux. Ces valeurs alimentent
 tous les `<span data-config="…">` et les liens `data-social`. Un réseau laissé à `TODO`
-voit son icône masquée. La section `scorenco` y subsiste sans être lue. Un lien social laissé à `TODO` conserve celui écrit dans le HTML.
+voit son icône masquée. La section `scorenco` y subsiste sans être lue.
+
+`newsletter` reçoit l'adresse d'envoi du formulaire d'inscription — l'attribut
+`action` du formulaire intégré que fournit le service d'emailing (Brevo,
+Mailchimp : le champ s'y appelle `EMAIL`, comme dans le pied de page). Tant
+qu'elle reste à `TODO`, le bloc Newsletter est **masqué** : il répondait
+« merci » sans rien envoyer, et un visiteur inscrit n'aurait jamais rien reçu.
 
 ### `teams.json` — les équipes **(source unique)**
 Ce fichier alimente à lui seul :
@@ -180,11 +186,14 @@ encart « bientôt disponible » — jamais un chargement infini.
 ### `events.json` — agenda
 Champs : `title`, `category`, `color` (`red`, `orange`, `yellow`, `green`,
 `forest`, `blue`, `purple`), `icon` (nom Font Awesome sans `fa-`), `date`
-(`AAAA-MM-JJ`), `time`, `location`, `description`.
+(`AAAA-MM-JJ`), `time`, `location`, `description`. `dateToConfirm: true` ajoute
+la mention « Date à confirmer » sur la carte.
 
-Le **premier événement à venir** alimente automatiquement le bandeau orange
-sous le bandeau d'accueil. Les événements passés sont masqués sur l'accueil
-mais restent visibles sur `agenda.html`.
+Le bandeau orange sous le bandeau d'accueil annonce la **prochaine échéance du
+club** : le premier événement à venir ou la prochaine rencontre d'une équipe
+(`fixtures.json`), la plus proche des deux — à date égale, le match passe
+devant. Les événements passés sont masqués sur l'accueil mais restent visibles
+sur `agenda.html`.
 
 ### `partners.json` — partenaires
 Liste affichée sur `partenaires.html`. Chaque entrée : `name` (obligatoire, sert
@@ -315,7 +324,8 @@ donc vérifier le numéro d'équipe que supposer.
 Une équipe engagée en **CTC** (entente entre clubs) n'apparaît pas sous le nom
 du club : la chercher sous le nom de l'entente.
 
-Branchées à ce jour : **SF1** et **SG1**.
+Branchées à ce jour : les **cinq équipes seniors** (SF1, SF2, SF3, SG1, SG2).
+Les quatre équipes jeunes attendent que leur engagement apparaisse côté FFBB.
 
 ### Les rencontres
 

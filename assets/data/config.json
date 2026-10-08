@@ -11,12 +11,14 @@
     "tiktok": "https://www.tiktok.com/@abbcornebarrieu",
     "youtube": "TODO-url-youtube-abbc"
   },
+  "_newsletter": "Adresse d'envoi du formulaire d'inscription a la newsletter : l'attribut action du formulaire integre que fournit le service d'emailing du club (Brevo, Mailchimp ; le champ s'y appelle EMAIL). Tant qu'elle reste en TODO, le bloc Newsletter du pied de page est masque : sans service, l'adresse saisie n'arriverait nulle part.",
+  "newsletter": "TODO-url-formulaire-newsletter",
   "_scorenco": "Widgets Score'n'co au niveau du club (les widgets par equipe sont dans teams.json). 'weekEvents' = tableau des rencontres de la semaine affiche sur l'accueil.",
   "scorenco": {
     "clubUrl": "https://www.scorenco.com/",
     "weekEvents": "139743"
   },
-  "_ffbb": "Reperes FFBB du club, verifies sur les pages officielles. Servent de point de depart pour retrouver les identifiants de championnat a renseigner dans teams.json (champ ffbb.championshipId). Non lus par le site.",
+  "_ffbb": "Reperes FFBB du club, verifies sur les pages officielles. Servent de point de depart pour retrouver les identifiants de poule a renseigner dans teams.json (champ ffbb.pouleId, voir scripts/decouvrir_poules.py). Non lus par le site.",
   "ffbb": {
     "clubCode": "OCC0031019",
     "ligue": "occ",
@@ -32,7 +34,7 @@
         "pouleId": "200000002990280",
         "classementUrl": "https://competitions.ffbb.com/ligues/occ/competitions/rm2/classement?phase=200000002857729&poule=200000002990280",
         "_adversaires": "PYR-B : ES Toulouse Casselardit, Toulouse Lardenne Basket, Avenir Muretain, ABB Cornebarrieu.",
-        "_note": "Identifiants de la plateforme competitions.ffbb.com. Le script cible aujourd'hui resultats.ffbb.com, dont l'identifiant hexadecimal de cette poule reste inconnu."
+        "_note": "Releve d'exploration sur competitions.ffbb.com, conserve pour memoire. L'identifiant que le site utilise reellement est celui de teams.json (ffbb.pouleId), interroge via l'API FFBB."
       }
     }
   }

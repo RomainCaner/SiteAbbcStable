@@ -127,7 +127,7 @@ function markActivePage() {
   });
 }
 
-/** Année courante + retour visuel du formulaire newsletter. */
+/** Année courante + contrôle du formulaire newsletter avant envoi. */
 function initFooter() {
   const year = document.getElementById('current-year');
   if (year) year.textContent = String(new Date().getFullYear());
@@ -135,20 +135,28 @@ function initFooter() {
   const form = document.getElementById('newsletter-form');
   if (!form) return;
 
+  // Le formulaire poste vers le service d'emailing désigné dans config.json
+  // (voir content/config.js) ; sans service, son bloc reste masqué. On ne
+  // vérifie ici que le format, pour éviter un aller-retour inutile.
   form.addEventListener('submit', (event) => {
-    event.preventDefault();
     const input = document.getElementById('newsletter-email');
     const feedback = document.getElementById('newsletter-feedback');
-    if (!input || !feedback) return;
+    if (!input || !feedback || !form.getAttribute('action')) {
+      event.preventDefault();
+      return;
+    }
 
-    // TODO : brancher un vrai service (Brevo, Mailchimp…). Pour l'instant,
-    // seule la validité du format est vérifiée côté client.
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
     feedback.className = `form-feedback ${valid ? 'is-success' : 'is-error'}`;
-    feedback.textContent = valid
-      ? 'Merci ! Votre inscription a bien été prise en compte.'
-      : 'Veuillez saisir une adresse email valide.';
-    if (valid) input.value = '';
+    if (!valid) {
+      event.preventDefault();
+      feedback.textContent = 'Veuillez saisir une adresse email valide.';
+      return;
+    }
+    feedback.textContent = "Demande envoyée : suivez les instructions dans l'onglet qui vient de s'ouvrir.";
+    // Vidé après coup : le vider ici enverrait un champ vide, le formulaire
+    // n'étant lu qu'une fois ce gestionnaire terminé.
+    setTimeout(() => { input.value = ''; }, 0);
   });
 }
 

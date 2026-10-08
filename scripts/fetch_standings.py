@@ -1185,7 +1185,7 @@ def main() -> int:
 
     if not result["teams"]:
         print(
-            "\nAucun classement récupéré. Renseignez 'ffbb.championshipId' dans "
+            "\nAucun classement récupéré. Renseignez 'ffbb.pouleId' dans "
             "assets/data/teams.json (voir le README).",
             file=sys.stderr,
         )
