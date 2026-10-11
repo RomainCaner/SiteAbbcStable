@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-10-08T01:22:01+00:00",
+  "updatedAt": "2026-10-11T00:32:49+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 48
       },
       "count": 22,
-      "updatedAt": "2026-10-08T01:22:01+00:00"
+      "updatedAt": "2026-10-11T00:32:49+00:00"
     },
     "sf2": {
       "next": {
@@ -64,7 +64,7 @@
         "scoreAway": 57
       },
       "count": 18,
-      "updatedAt": "2026-10-08T01:22:01+00:00"
+      "updatedAt": "2026-10-11T00:32:49+00:00"
     },
     "sf3": {
       "next": {
@@ -96,10 +96,24 @@
         "scoreAway": 63
       },
       "count": 22,
-      "updatedAt": "2026-10-08T01:22:01+00:00"
+      "updatedAt": "2026-10-11T00:32:49+00:00"
     },
     "sg1": {
       "next": {
+        "date": "2026-10-31T20:00:00",
+        "journee": "5",
+        "home": "ABB CORNEBARRIEU",
+        "away": "BASKET CLUB OSSUNOIS 2",
+        "isHome": true,
+        "opponent": "BASKET CLUB OSSUNOIS 2",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-10-10T20:30:00",
         "journee": "4",
         "home": "B. LABEGE AUZEVILLE CLUB",
@@ -108,27 +122,13 @@
         "opponent": "B. LABEGE AUZEVILLE CLUB",
         "venue": "GYMNASE L'EUROPE",
         "address": "Rue des ECOLES",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-10-03T20:00:00",
-        "journee": "3",
-        "home": "SEMEAC OLYMPIQUE",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "SEMEAC OLYMPIQUE",
-        "venue": "GYMNASE MULTISPORTS",
-        "address": "IMPASSE DES DERNIERS FRANCS",
         "played": true,
         "postponed": false,
-        "scoreHome": 72,
-        "scoreAway": 83
+        "scoreHome": 77,
+        "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-10-08T01:22:01+00:00"
+      "updatedAt": "2026-10-11T00:32:49+00:00"
     },
     "sg2": {
       "next": {
@@ -160,7 +160,7 @@
         "scoreAway": 58
       },
       "count": 22,
-      "updatedAt": "2026-10-08T01:22:01+00:00"
+      "updatedAt": "2026-10-11T00:32:49+00:00"
     }
   }
 }
