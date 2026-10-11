@@ -1,9 +1,23 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-10-11T00:32:49+00:00",
+  "updatedAt": "2026-10-11T19:46:36+00:00",
   "teams": {
     "sf1": {
       "next": {
+        "date": "2026-10-25T15:30:00",
+        "journee": "6",
+        "home": "FEYTIAT BASKET 87 2",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "FEYTIAT BASKET 87 2",
+        "venue": "SALLE ROGER COUDERC",
+        "address": "Rue du Manege",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-10-11T15:30:00",
         "journee": "5",
         "home": "ABB CORNEBARRIEU",
@@ -12,30 +26,30 @@
         "opponent": "LE TAILLAN BASKET",
         "venue": "ESPACE SPORTIF P. de COUBERTIN",
         "address": "Chemin des Ambrits",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 61,
+        "scoreAway": 64
+      },
+      "count": 22,
+      "updatedAt": "2026-10-11T19:46:36+00:00"
+    },
+    "sf2": {
+      "next": {
+        "date": "2026-11-08T13:00:00",
+        "journee": "4",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "IE - ETOILE SPORTIVE GIMONTOISE BB 2",
+        "isHome": true,
+        "opponent": "IE - ETOILE SPORTIVE GIMONTOISE BB 2",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-10-04T15:30:00",
-        "journee": "4",
-        "home": "IE - AUCH BASKET CLUB",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "IE - AUCH BASKET CLUB",
-        "venue": "SALLE MATHALIN",
-        "address": "19 Rue du 11 Novembre",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 53,
-        "scoreAway": 48
-      },
-      "count": 22,
-      "updatedAt": "2026-10-11T00:32:49+00:00"
-    },
-    "sf2": {
-      "next": {
         "date": "2026-10-11T15:30:00",
         "journee": "3",
         "home": "IE - AVENIR CASTERA REJAUMONT",
@@ -44,30 +58,30 @@
         "opponent": "IE - AVENIR CASTERA REJAUMONT",
         "venue": "SALLE OMNISPORTS",
         "address": "Rue de la Guinguette",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 67,
+        "scoreAway": 60
+      },
+      "count": 18,
+      "updatedAt": "2026-10-11T19:46:36+00:00"
+    },
+    "sf3": {
+      "next": {
+        "date": "2026-10-18T15:30:00",
+        "journee": "5",
+        "home": "ABB CORNEBARRIEU 3",
+        "away": "BASKET CLUB LEGUEVINOIS 2",
+        "isHome": true,
+        "opponent": "BASKET CLUB LEGUEVINOIS 2",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-10-04T15:30:00",
-        "journee": "2",
-        "home": "ABB CORNEBARRIEU 2",
-        "away": "TLSE CHEMINOTS MARENGO SP 2",
-        "isHome": true,
-        "opponent": "TLSE CHEMINOTS MARENGO SP 2",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 71,
-        "scoreAway": 57
-      },
-      "count": 18,
-      "updatedAt": "2026-10-11T00:32:49+00:00"
-    },
-    "sf3": {
-      "next": {
         "date": "2026-10-11T13:00:00",
         "journee": "4",
         "home": "ABB CORNEBARRIEU 3",
@@ -76,27 +90,13 @@
         "opponent": "BASKET CLUB DE ROQUETTES",
         "venue": "ESPACE SPORTIF P. de COUBERTIN",
         "address": "Chemin des Ambrits",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-10-04T13:00:00",
-        "journee": "3",
-        "home": "ABB CORNEBARRIEU 3",
-        "away": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
-        "isHome": true,
-        "opponent": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
         "played": true,
         "postponed": false,
-        "scoreHome": 51,
-        "scoreAway": 63
+        "scoreHome": 41,
+        "scoreAway": 75
       },
       "count": 22,
-      "updatedAt": "2026-10-11T00:32:49+00:00"
+      "updatedAt": "2026-10-11T19:46:36+00:00"
     },
     "sg1": {
       "next": {
@@ -128,18 +128,18 @@
         "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-10-11T00:32:49+00:00"
+      "updatedAt": "2026-10-11T19:46:36+00:00"
     },
     "sg2": {
       "next": {
-        "date": "2026-10-11T13:00:00",
-        "journee": "4",
-        "home": "UNION SPORTIVE PIBRACAISE",
-        "away": "ABB CORNEBARRIEU 2",
-        "isHome": false,
-        "opponent": "UNION SPORTIVE PIBRACAISE",
-        "venue": "GYMNASE BEAUREGARD",
-        "address": "6 RUE MAURICE FONVIEILLE",
+        "date": "2026-10-18T13:00:00",
+        "journee": "5",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "ASSOCIATION TOULOUSERIE",
+        "isHome": true,
+        "opponent": "ASSOCIATION TOULOUSERIE",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
         "played": false,
         "postponed": false,
         "scoreHome": null,
@@ -160,7 +160,7 @@
         "scoreAway": 58
       },
       "count": 22,
-      "updatedAt": "2026-10-11T00:32:49+00:00"
+      "updatedAt": "2026-10-11T19:46:36+00:00"
     }
   }
 }
