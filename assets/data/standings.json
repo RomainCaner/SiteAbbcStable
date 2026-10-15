@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-10-11T19:46:36+00:00",
+  "updatedAt": "2026-10-15T00:09:13+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-10-11T19:46:36+00:00"
+      "updatedAt": "2026-10-15T00:09:13+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -175,9 +175,9 @@
           "played": 3,
           "won": 3,
           "lost": 0,
-          "scored": 178,
-          "conceded": 164,
-          "diff": 14,
+          "scored": 121,
+          "conceded": 116,
+          "diff": 5,
           "isClub": false
         },
         {
@@ -254,18 +254,6 @@
         },
         {
           "rank": 9,
-          "team": "TLSE CHEMINOTS MARENGO SP",
-          "points": 3,
-          "played": 3,
-          "won": 0,
-          "lost": 3,
-          "scored": 160,
-          "conceded": 192,
-          "diff": -32,
-          "isClub": false
-        },
-        {
-          "rank": 10,
           "team": "IE - J.A. CONDOMOISE",
           "points": 3,
           "played": 3,
@@ -275,10 +263,22 @@
           "conceded": 265,
           "diff": -129,
           "isClub": false
+        },
+        {
+          "rank": 10,
+          "team": "TLSE CHEMINOTS MARENGO SP",
+          "points": 2,
+          "played": 3,
+          "won": 0,
+          "lost": 2,
+          "scored": 112,
+          "conceded": 135,
+          "diff": -23,
+          "isClub": false
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-10-11T19:46:36+00:00"
+      "updatedAt": "2026-10-15T00:09:13+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-10-11T19:46:36+00:00"
+      "updatedAt": "2026-10-15T00:09:13+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-10-11T19:46:36+00:00"
+      "updatedAt": "2026-10-15T00:09:13+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-10-11T19:46:36+00:00"
+      "updatedAt": "2026-10-15T00:09:13+00:00"
     }
   }
 }
