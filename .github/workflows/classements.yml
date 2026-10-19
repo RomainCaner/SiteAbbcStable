@@ -64,6 +64,15 @@ jobs:
     permissions:
       contents: write   # nécessaire pour commiter le JSON
 
+    # Jetons de l'API FFBB. Sans eux, ffbb-data-client va les chercher sur
+    # bo.ffbb.com/items/configuration — adresse que le pare-feu de la FFBB
+    # refuse aux machines de GitHub depuis le 19/10/2026. Fournis en secrets du
+    # dépôt, ils évitent cet appel. Absents ou vides, le client retombe sur la
+    # récupération automatique. Les obtenir : voir « Jetons FFBB » dans le README.
+    env:
+      API_FFBB_APP_BEARER_TOKEN: ${{ secrets.API_FFBB_APP_BEARER_TOKEN }}
+      MEILISEARCH_BEARER_TOKEN: ${{ secrets.MEILISEARCH_BEARER_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 

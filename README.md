@@ -503,6 +503,34 @@ Autres garde-fous :
 - une structure devenue illisible provoque un **échec explicite** (code de
   sortie 1) au lieu d'écrire un JSON vide qui écraserait de bonnes données.
 
+### Jetons FFBB
+
+`ffbb-data-client` a besoin de deux jetons, ceux que l'application publique de
+la FFBB distribue à tout visiteur. Il les récupère seul sur
+`bo.ffbb.com/items/configuration`… sauf que, depuis le **19/10/2026**, le
+pare-feu de la FFBB (BunnyCDN) refuse cette adresse aux machines de GitHub.
+Symptôme dans les logs : `Blocked by BunnyCDN WAF`, puis « API FFBB
+injoignable » pour chaque équipe. Le garde-fou empêche alors toute écriture :
+le site garde les derniers classements connus.
+
+Le client lit d'abord deux variables d'environnement, et n'appelle plus
+l'adresse bloquée si elles sont présentes. Le workflow les prend dans les
+secrets du dépôt :
+
+1. Sur un ordinateur à la maison (connexion non bloquée) :
+   ```bash
+   pip install -r scripts/requirements.txt
+   python scripts/jetons_ffbb.py
+   ```
+2. Sur GitHub, *Settings* → *Secrets and variables* → *Actions* → *New
+   repository secret*, créer `API_FFBB_APP_BEARER_TOKEN` et
+   `MEILISEARCH_BEARER_TOKEN` avec les valeurs affichées.
+3. Relancer le workflow.
+
+Sans ces secrets, le client retombe sur la récupération automatique. Si les
+jetons changent un jour, la mise à jour échoue de la même façon : relancer le
+script et remplacer les secrets.
+
 ### Bon voisinage
 
 Le script s'identifie par un `User-Agent` explicite avec un contact, attend
