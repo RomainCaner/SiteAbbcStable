@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="../">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mise à jour FFBB · ABB Cornebarrieu</title>
+  <!-- Outil interne : pas de référencement, pas de lien dans le menu. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#226321">
+  <link rel="icon" type="image/jpeg" href="../assets/images/Logo.jpg">
+
+  <script>
+    (function () {
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
+      } catch (_) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    /* Styles propres à l'outil : il n'a pas sa place dans components.css. */
+    .tool { display: grid; gap: var(--space-7); max-width: 60rem; }
+    .tool-step { display: grid; gap: var(--space-4); padding: var(--space-6); background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius); }
+    .tool-step h2 { font-size: var(--text-xl); }
+    .tool-step[hidden] { display: none; }
+    .tool-log { display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+    .tool-log li { display: flex; gap: var(--space-3); align-items: baseline; }
+    .tool-log .ok { color: var(--brand); }
+    .tool-log .ko { color: var(--accent); }
+    .tool-map { display: grid; gap: var(--space-3); }
+    .tool-map label { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-4); align-items: center; font-weight: 600; }
+    .tool select, .tool input[type="password"], .tool input[type="text"] {
+      width: 100%; padding: 0.6rem var(--space-3); font: inherit; font-weight: 400;
+      color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    }
+    .tool-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .tool-note { font-size: var(--text-sm); color: var(--text-muted); max-width: 65ch; }
+    .tool code { font-size: 0.9em; padding: 0.1rem 0.35rem; background: var(--bg); border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+    .tool-check { display: flex; gap: var(--space-2); align-items: center; font-size: var(--text-sm); }
+  </style>
+</head>
+<body data-page="outils">
+
+  <main id="main">
+    <header class="page-head">
+      <div class="container">
+        <nav aria-label="Fil d'Ariane" class="breadcrumb">
+          <a href="../index.html">Accueil</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Mise à jour FFBB</span>
+        </nav>
+        <h1 class="page-head__title">Mise à jour FFBB</h1>
+        <p class="page-head__lede">Classements et rencontres récupérés depuis votre navigateur, puis publiés sur le site.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container tool">
+
+        <p class="tool-note">
+          La FFBB bloque désormais les serveurs de GitHub : la mise à jour automatique
+          n'aboutit plus. Cette page fait les mêmes requêtes depuis votre connexion, que la
+          FFBB accepte. Rien n'est publié sans votre clic à l'étape 3.
+        </p>
+
+        <div class="tool-step" id="step-1">
+          <h2>1. Interroger la FFBB</h2>
+          <p class="tool-note">Récupère les engagements du club et propose la poule de chaque équipe.</p>
+          <div class="tool-actions">
+            <button type="button" class="btn btn--accent" id="btn-search">
+              <i class="fas fa-magnifying-glass" aria-hidden="true"></i> Lancer
+            </button>
+          </div>
+          <ul class="tool-log" id="log-1" aria-live="polite"></ul>
+        </div>
+
+        <div class="tool-step" id="step-2" hidden>
+          <h2>2. Vérifier les poules, puis récupérer</h2>
+          <p class="tool-note">
+            Le numéro d'équipe distingue SF1, SF2 et SF3 : vérifiez-le avant de valider. « Aucune »
+            laisse l'équipe sur son encart « classement bientôt disponible ».
+          </p>
+          <div class="tool-map" id="map"></div>
+          <div class="tool-actions">
+            <button type="button" class="btn btn--accent" id="btn-fetch">
+              <i class="fas fa-download" aria-hidden="true"></i> Récupérer classements et rencontres
+            </button>
+          </div>
+          <ul class="tool-log" id="log-2" aria-live="polite"></ul>
+        </div>
+
+        <div class="tool-step" id="step-3" hidden>
+          <h2>3. Publier</h2>
+          <p class="tool-note">
+            Un seul commit sur <code>main</code> avec <code>standings.json</code>,
+            <code>fixtures.json</code> et <code>teams.json</code> ; le site se met à jour dans la
+            minute. Il faut un jeton GitHub à accès fin, limité au dépôt
+            <code>SiteAbbcStable</code>, permission <em>Contents : Read and write</em>
+            (GitHub → Settings → Developer settings → Fine-grained tokens).
+          </p>
+          <label class="tool-map">
+            <span class="visually-hidden">Jeton GitHub</span>
+            <input type="password" id="gh-token" autocomplete="off" placeholder="github_pat_…">
+          </label>
+          <p class="tool-note">Le jeton ne sert qu'à cet envoi : il n'est ni enregistré ni transmis ailleurs qu'à GitHub.</p>
+          <div class="tool-actions">
+            <button type="button" class="btn btn--accent" id="btn-publish">
+              <i class="fas fa-cloud-arrow-up" aria-hidden="true"></i> Publier sur le site
+            </button>
+            <button type="button" class="btn btn--primary btn--sm" id="btn-files">
+              <i class="fas fa-file-arrow-down" aria-hidden="true"></i> Télécharger les fichiers
+            </button>
+          </div>
+          <ul class="tool-log" id="log-3" aria-live="polite"></ul>
+        </div>
+
+        <details class="tool-step" id="tokens-box" hidden>
+          <summary><strong>Jetons FFBB pour la mise à jour automatique</strong></summary>
+          <p class="tool-note">
+            À copier dans GitHub → Settings → Secrets and variables → Actions → Repository secrets.
+            Le workflow les utilisera — utile seulement si la FFBB laisse passer les données
+            elles-mêmes depuis GitHub.
+          </p>
+          <p><code>API_FFBB_APP_BEARER_TOKEN</code> = <code id="tok-api"></code></p>
+          <p><code>MEILISEARCH_BEARER_TOKEN</code> = <code id="tok-meili"></code></p>
+        </details>
+
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="../assets/js/tools/ffbb-page.js"></script>
+</body>
+</html>

@@ -61,6 +61,7 @@ SiteAbbcStable/
 │
 ├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
 ├── partials/             navbar.html · footer.html (fragments injectés)
+├── outils/ffbb.html      mise à jour FFBB depuis le navigateur (outil interne)
 ├── scripts/              récupération FFBB : classements, rencontres, découverte
 ├── .github/workflows/    mise à jour automatique (3× par semaine)
 │
@@ -530,6 +531,27 @@ secrets du dépôt :
 Sans ces secrets, le client retombe sur la récupération automatique. Si les
 jetons changent un jour, la mise à jour échoue de la même façon : relancer le
 script et remplacer les secrets.
+
+### Mise à jour depuis le navigateur (`outils/ffbb.html`)
+
+Quand GitHub est bloqué, la page `outils/ffbb.html` fait le travail depuis le
+navigateur de celui qui l'ouvre — une connexion ordinaire, que la FFBB laisse
+passer. Elle n'est ni dans le menu ni référencée (`noindex`).
+
+1. **Interroger la FFBB** : jetons, puis engagements du club ; chaque équipe du
+   site se voit proposer sa poule (poule connue, sinon sexe, catégorie d'âge et
+   numéro d'équipe). C'est ici qu'arrivent les poules des jeunes après brassage.
+2. **Vérifier et récupérer** : classement et calendrier de chaque poule, avec
+   le même garde-fou que le script (un classement sans le club est refusé).
+3. **Publier** : un seul commit sur `main` (`standings.json`, `fixtures.json`,
+   `teams.json`) via l'API GitHub, avec un jeton à accès fin limité au dépôt
+   (*Contents : Read and write*), gardé en mémoire le temps de l'envoi
+   seulement. Ou télécharger les trois fichiers.
+
+Les fichiers produits ont exactement le format du script Python
+(`assets/js/tools/ffbb-core.js` reprend ses règles). Inconnue à la première
+utilisation : que les serveurs de la FFBB acceptent les appels venant d'un
+autre site (CORS). Si ce n'est pas le cas, la page le dit en clair à l'étape 1.
 
 ### Bon voisinage
 
