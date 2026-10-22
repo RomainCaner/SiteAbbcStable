@@ -105,7 +105,7 @@ assets/js/
 │   ├── chrome.js         Barre de progression, bouton retour en haut
 │   ├── reveal.js         Apparitions au scroll, compteurs animés
 │   ├── hero3d.js         Scène 3D du bandeau d'accueil
-│   ├── balltravel.js     Le ballon descend la page au défilement
+│   ├── balltravel.js     Le ballon se balade dans la page, et se lance
 │   └── parallax.js       Parallaxe au défilement, pilotée par transform
 │
 └── content/              Rendu des données du club
@@ -607,37 +607,38 @@ Le conteneur porte un état lisible dans l'inspecteur :
 
 ### Le ballon descend la page (`assets/js/ui/balltravel.js`)
 
-Une fois le hero dépassé, le ballon quitte son cadre, rétrécit et rebondit le
-long de la marge droite au rythme du défilement. Arrivé en bas, il se pose à la
-place du bouton « retour en haut » et en prend le rôle.
+Une fois le hero dépassé, le ballon quitte son cadre, rétrécit et se balade
+dans toute la fenêtre au rythme du défilement. On peut l'attraper et le lancer.
+Arrivé en bas, il se pose à la place du bouton « retour en haut » et en prend
+le rôle.
 
-Trois décisions qui expliquent le code :
+Les décisions qui expliquent le code :
 
 - **Le canvas déménage, pas le conteneur.** Rendre `.hero-3d` `position: fixed`
   ferait s'effondrer la mise en page du hero, et la page sauterait sous le
   curseur. `BasketballScene.attachTo()` déplace le canvas dans une couche fixe —
   Three.js se moque de l'endroit où vit son canvas, et c'est moins cher qu'une
   seconde scène.
-- **Le ballon est un objet physique, pas une courbe.** Une première version
-  calait sa hauteur sur une fonction du défilement. C'était réversible, mais dès
-  qu'on arrêtait de défiler le ballon restait figé en plein vol — et un ballon
-  suspendu en l'air ne trompe personne. Désormais le défilement **donne de
-  l'énergie** (chaque cran de molette est une impulsion vers le haut, comme un
-  dribble) et la gravité fait le reste : il retombe, rebondit de moins en moins
-  haut, et se pose.
+- **Le ballon est un objet physique en deux dimensions, pas une courbe.** Une
+  première version calait sa hauteur sur le défilement : dès qu'on s'arrêtait,
+  il restait figé en plein vol. Désormais chaque cran de molette est une
+  impulsion vers le haut **et sur le côté** (au hasard, avec une préférence pour
+  le côté le plus dégagé), et la gravité fait le reste : il rebondit sur le sol
+  et sur les bords de la fenêtre, roule et ralentit.
+- **On l'attrape et on le lance** à la souris ou au doigt : la vitesse du geste
+  au lâcher devient la sienne (plafonnée). Un simple clic le fait sauter ; posé
+  en bas de page, il remonte en haut.
+- **Il ne s'installe pas sur le texte.** Au sol, un rappel le ramène vers sa
+  place de repos, comme un sol en pente : juste à gauche du bouton « retour en
+  haut » (posé dessus, il le masquerait), ou sur le bouton lui-même en bas de
+  page. En l'air, rien ne le retient.
 - **La boucle s'arrête d'elle-même** une fois le ballon immobile : rien ne tourne
-  tant qu'on ne défile pas.
-- **Seule la position horizontale suit la progression** dans la page, où
-  l'immobilité est naturelle.
+  tant qu'on ne défile pas ou qu'on n'y touche pas.
 
 Réglages en tête de fichier (`SETTINGS`), en pixels et en secondes : gravité,
-coefficient de restitution, impulsion par pixel défilé, plafond de vitesse,
-amplitude de l'arc horizontal, largeur minimale de fenêtre.
-
-Le plafond de vitesse compte : sans lui, plusieurs crans de molette d'affilée
-s'additionnent et le ballon se colle en haut de l'écran. À 1500 px/s il culmine
-à environ 430 px et se pose après sept rebonds, en un peu plus de trois
-secondes.
+restitution au sol et sur les bords, impulsion par pixel défilé et part envoyée
+sur le côté, plafonds de vitesse, freinage en l'air et au sol, force du rappel,
+vitesse maximale d'un lancer, largeur minimale de fenêtre.
 
 Le déplacement ne s'applique pas si `prefers-reduced-motion` est demandé, ni en
 dessous de 640 px de large — le ballon passerait sur le texte au lieu de longer
