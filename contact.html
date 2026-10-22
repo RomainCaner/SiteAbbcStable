@@ -55,41 +55,103 @@
 
     <section class="section">
       <div class="container">
-        <div class="grid grid--2 grid--airy">
+        <div class="contact-layout">
 
           <div class="stack reveal" style="--flow: var(--space-5)">
             <p class="eyebrow">Écrivez-nous</p>
-            <h2>Le bureau du club</h2>
+            <h2>Envoyer un message au club</h2>
             <p class="lede">
-              Pour toute question sur les inscriptions, les créneaux d'entraînement ou la
-              vie du club, un seul point de contact.
+              Inscriptions, créneaux d'entraînement, partenariat : un membre du bureau vous
+              répond dans les plus brefs délais.
             </p>
+
+            <!-- Envoi par le service désigné dans config.json (`contactForm`) :
+                 voir content/contact.js. Sans JavaScript, le lien e-mail ci-contre
+                 reste disponible. -->
+            <form id="contact-form" class="contact-form" novalidate>
+              <div class="contact-form__row">
+                <div class="field">
+                  <label for="cf-name">Nom et prénom</label>
+                  <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120">
+                </div>
+                <div class="field">
+                  <label for="cf-phone">Téléphone <span class="field__optional">(facultatif)</span></label>
+                  <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="30">
+                </div>
+              </div>
+              <div class="contact-form__row">
+                <div class="field">
+                  <label for="cf-email">Adresse e-mail</label>
+                  <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="160">
+                </div>
+                <div class="field">
+                  <label for="cf-topic">Objet</label>
+                  <select id="cf-topic" name="topic" required>
+                    <option value="">Choisir un objet</option>
+                    <option>Inscription et licence</option>
+                    <option>Entraînements et équipes</option>
+                    <option>Partenariat et sponsoring</option>
+                    <option>Bénévolat</option>
+                    <option>Boutique</option>
+                    <option>Autre demande</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="cf-message">Message</label>
+                <textarea id="cf-message" name="message" rows="7" required maxlength="5000"></textarea>
+              </div>
+              <!-- Piège à robots : invisible pour un visiteur, rempli par les robots. -->
+              <div class="contact-form__trap" aria-hidden="true">
+                <label for="cf-website">Ne pas remplir</label>
+                <input id="cf-website" name="_honey" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <label class="field-check">
+                <input id="cf-consent" name="consent" type="checkbox" required>
+                <span>J'accepte que ces informations soient utilisées par l'ABBC pour répondre à ma demande, et à rien d'autre.</span>
+              </label>
+              <div class="contact-form__actions">
+                <button type="submit" class="btn btn--accent">
+                  <i class="fas fa-paper-plane" aria-hidden="true"></i> Envoyer le message
+                </button>
+              </div>
+              <p id="contact-feedback" class="contact-form__feedback" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <aside class="stack reveal" data-delay="1" style="--flow: var(--space-5)">
+            <h3>Le bureau du club</h3>
             <p>
-              <a href="mailto:bureau.abbc@gmail.com" class="btn btn--accent btn--wrap">
-                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+              <a href="mailto:bureau.abbc@gmail.com" class="btn btn--primary btn--wrap">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
                 <span data-config="email">bureau.abbc@<wbr>gmail.com</span>
               </a>
             </p>
-          </div>
-
-          <dl class="info-list reveal" data-delay="1">
-            <div class="info-row">
-              <dt><i class="fas fa-location-dot" aria-hidden="true"></i> Adresse</dt>
-              <dd><span data-config="city">Cornebarrieu, Haute-Garonne (31)</span></dd>
-            </div>
-            <div class="info-row">
-              <dt><i class="fas fa-clock" aria-hidden="true"></i> Délai de réponse</dt>
-              <dd>Sous 48 h en moyenne</dd>
-            </div>
-            <div class="info-row">
-              <dt><i class="fas fa-calendar" aria-hidden="true"></i> Saison</dt>
-              <dd><span data-config="season">2026-2027</span></dd>
-            </div>
-            <div class="info-row">
-              <dt><i class="fas fa-basketball" aria-hidden="true"></i> Licenciés</dt>
-              <dd><span data-config="licencies">180</span>+</dd>
-            </div>
-          </dl>
+            <dl class="info-list">
+              <div class="info-row">
+                <dt><i class="fas fa-location-dot" aria-hidden="true"></i> Adresse</dt>
+                <dd><span data-config="city">Cornebarrieu, Haute-Garonne (31)</span></dd>
+              </div>
+              <div class="info-row">
+                <dt><i class="fas fa-clock" aria-hidden="true"></i> Délai de réponse</dt>
+                <dd>Sous 48 h en moyenne</dd>
+              </div>
+              <div class="info-row">
+                <dt><i class="fas fa-calendar" aria-hidden="true"></i> Saison</dt>
+                <dd><span data-config="season">2026-2027</span></dd>
+              </div>
+              <div class="info-row">
+                <dt><i class="fas fa-basketball" aria-hidden="true"></i> Licenciés</dt>
+                <dd><span data-config="licencies">180</span>+</dd>
+              </div>
+            </dl>
+            <p class="muted">
+              Pour ne rien rater de l'actualité du club, suivez-nous sur
+              <a href="https://www.instagram.com/" data-social="instagram" class="underline" target="_blank" rel="noopener noreferrer">Instagram</a>
+              et
+              <a href="https://www.facebook.com/" data-social="facebook" class="underline" target="_blank" rel="noopener noreferrer">Facebook</a>.
+            </p>
+          </aside>
 
         </div>
       </div>
