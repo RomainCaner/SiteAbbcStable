@@ -31,6 +31,7 @@ import { renderNews, renderArticle } from './content/news.js';
 import { renderTeams } from './content/teams.js';
 import { renderClubFixtures } from './content/fixtures.js';
 import { renderPartners } from './content/partners.js';
+import { initContactForm } from './content/contact.js';
 // Widgets Score'n'co, remplacés par les données FFBB (voir l'étape 5 plus bas).
 // import { loadScorenco, renderClubWidgets } from './content/scorenco.js';
 
@@ -60,6 +61,7 @@ async function bootstrap() {
     renderTeams(),
     renderClubFixtures(),
     renderPartners(),
+    initContactForm(),
   ]);
 
   // 5. `config.json` est appliqué après coup pour couvrir aussi les

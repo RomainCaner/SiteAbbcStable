@@ -88,7 +88,7 @@ mode sombre de fonctionner sans une seule règle `!important`, et aux bandes
 `.section--dark` / `.section--brand` d'adapter automatiquement tout leur
 contenu.
 
-### JavaScript — 19 modules ES
+### JavaScript — 20 modules ES
 
 ```
 assets/js/
@@ -116,6 +116,7 @@ assets/js/
     ├── standings.js      Classement rendu par le site (données FFBB)
     ├── fixtures.js       Prochaine rencontre + dernier résultat (données FFBB)
     ├── partners.js       Partenaires du club
+    ├── contact.js        Formulaire de contact (envoi par FormSubmit)
     └── scorenco.js       Widgets Score'n'co — neutralisé, conservé
 ```
 
@@ -158,6 +159,22 @@ voit son icône masquée. La section `scorenco` y subsiste sans être lue.
 Mailchimp : le champ s'y appelle `EMAIL`, comme dans le pied de page). Tant
 qu'elle reste à `TODO`, le bloc Newsletter est **masqué** : il répondait
 « merci » sans rien envoyer, et un visiteur inscrit n'aurait jamais rien reçu.
+
+### Formulaire de contact (`contact.html`)
+
+Le message part vers **FormSubmit**, un service gratuit et sans compte qui le
+retransmet par e-mail au bureau. L'adresse d'envoi est dans `config.json`
+(`contactForm.endpoint`, par défaut `https://formsubmit.co/ajax/bureau.abbc@gmail.com`) :
+changer de service ou d'adresse ne touche pas au code.
+
+- **Activation, une seule fois** : au tout premier message, FormSubmit envoie à
+  `bureau.abbc@gmail.com` un e-mail « Activate Form ». Tant qu'on n'a pas cliqué,
+  les messages ne sont pas transmis.
+- **Le bureau répond directement** : l'e-mail du visiteur est passé en
+  « répondre à ».
+- **Anti-spam** : un champ piège invisible, sans reCAPTCHA ni script tiers.
+- **Repli** : si l'envoi échoue, le visiteur se voit proposer sa messagerie
+  avec le message déjà rédigé ; il n'est jamais laissé sans issue.
 
 ### `teams.json` — les équipes **(source unique)**
 Ce fichier alimente à lui seul :

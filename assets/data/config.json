@@ -11,6 +11,10 @@
     "tiktok": "https://www.tiktok.com/@abbcornebarrieu",
     "youtube": "TODO-url-youtube-abbc"
   },
+  "_contactForm": "Formulaire de la page Contact. 'endpoint' = adresse ou le message est envoye ; par defaut FormSubmit, qui le retransmet par e-mail a l'adresse indiquee a la fin de l'URL. Au tout premier message, FormSubmit envoie a cette adresse un e-mail d'activation : il faut cliquer sur 'Activate Form', une seule fois. Les messages arrivent ensuite normalement.",
+  "contactForm": {
+    "endpoint": "https://formsubmit.co/ajax/bureau.abbc@gmail.com"
+  },
   "_newsletter": "Adresse d'envoi du formulaire d'inscription a la newsletter : l'attribut action du formulaire integre que fournit le service d'emailing du club (Brevo, Mailchimp ; le champ s'y appelle EMAIL). Tant qu'elle reste en TODO, le bloc Newsletter du pied de page est masque : sans service, l'adresse saisie n'arriverait nulle part.",
   "newsletter": "TODO-url-formulaire-newsletter",
   "_scorenco": "Widgets Score'n'co au niveau du club (les widgets par equipe sont dans teams.json). 'weekEvents' = tableau des rencontres de la semaine affiche sur l'accueil.",
