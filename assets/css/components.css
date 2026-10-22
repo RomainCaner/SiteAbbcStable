@@ -1271,13 +1271,14 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   pointer-events: none;
   will-change: translate;
 }
-.ball-travel.is-travelling { display: block; }
+/* En voyage, le ballon s'attrape : on peut le saisir et le lancer. */
+.ball-travel.is-travelling { display: block; pointer-events: auto; cursor: grab; touch-action: none; }
+.ball-travel.is-grabbed { cursor: grabbing; }
 
 /* Posé : il prend le rôle du bouton, qui s'efface. La transition n'habille que
    l'atterrissage — pendant le trajet, `translate` est piloté image par image
    et toute transition le ferait traîner derrière le défilement. */
 .ball-travel.is-landed {
-  pointer-events: auto;
   cursor: pointer;
   transition: translate var(--duration) var(--ease);
 }
