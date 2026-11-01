@@ -1,9 +1,23 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-01T00:30:08+00:00",
+  "updatedAt": "2026-11-01T19:55:57+00:00",
   "teams": {
     "sf1": {
       "next": {
+        "date": "2026-11-08T15:30:00",
+        "journee": "8",
+        "home": "ABB CORNEBARRIEU",
+        "away": "CA BEGLES",
+        "isHome": true,
+        "opponent": "CA BEGLES",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-11-01T15:30:00",
         "journee": "7",
         "home": "COTEAUX DU LUY BASKET",
@@ -12,27 +26,13 @@
         "opponent": "COTEAUX DU LUY BASKET",
         "venue": "SALLE DE MONSEGUR",
         "address": "35 Place de la Mairie",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-10-25T15:30:00",
-        "journee": "6",
-        "home": "FEYTIAT BASKET 87 2",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "FEYTIAT BASKET 87 2",
-        "venue": "SALLE ROGER COUDERC",
-        "address": "Rue du Manege",
         "played": true,
         "postponed": false,
-        "scoreHome": 46,
-        "scoreAway": 75
+        "scoreHome": 85,
+        "scoreAway": 43
       },
       "count": 22,
-      "updatedAt": "2026-11-01T00:30:08+00:00"
+      "updatedAt": "2026-11-01T19:55:57+00:00"
     },
     "sf2": {
       "next": {
@@ -64,7 +64,7 @@
         "scoreAway": 60
       },
       "count": 18,
-      "updatedAt": "2026-11-01T00:30:08+00:00"
+      "updatedAt": "2026-11-01T19:55:57+00:00"
     },
     "sf3": {
       "next": {
@@ -96,7 +96,7 @@
         "scoreAway": 73
       },
       "count": 22,
-      "updatedAt": "2026-11-01T00:30:08+00:00"
+      "updatedAt": "2026-11-01T19:55:57+00:00"
     },
     "sg1": {
       "next": {
@@ -128,7 +128,7 @@
         "scoreAway": 58
       },
       "count": 22,
-      "updatedAt": "2026-11-01T00:30:08+00:00"
+      "updatedAt": "2026-11-01T19:55:57+00:00"
     },
     "sg2": {
       "next": {
@@ -160,7 +160,7 @@
         "scoreAway": 71
       },
       "count": 22,
-      "updatedAt": "2026-11-01T00:30:08+00:00"
+      "updatedAt": "2026-11-01T19:55:57+00:00"
     }
   }
 }
