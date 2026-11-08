@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-05T01:51:32+00:00",
+  "updatedAt": "2026-11-08T00:56:30+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 43
       },
       "count": 22,
-      "updatedAt": "2026-11-05T01:51:32+00:00"
+      "updatedAt": "2026-11-08T00:56:30+00:00"
     },
     "sf2": {
       "next": {
@@ -64,10 +64,24 @@
         "scoreAway": 60
       },
       "count": 18,
-      "updatedAt": "2026-11-05T01:51:32+00:00"
+      "updatedAt": "2026-11-08T00:56:30+00:00"
     },
     "sf3": {
       "next": {
+        "date": "2026-11-15T15:30:00",
+        "journee": "7",
+        "home": "FROUZINS ATHLETIC CLUB",
+        "away": "ABB CORNEBARRIEU 3",
+        "isHome": false,
+        "opponent": "FROUZINS ATHLETIC CLUB",
+        "venue": "GYMNASE POLYVALENT",
+        "address": "Rue Guillaume Berdeil",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-11-07T20:30:00",
         "journee": "6",
         "home": "UNION SPORTIVE PIBRACAISE",
@@ -76,30 +90,30 @@
         "opponent": "UNION SPORTIVE PIBRACAISE",
         "venue": "GYMNASE BEAUREGARD",
         "address": "6 RUE MAURICE FONVIEILLE",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 49,
+        "scoreAway": 48
+      },
+      "count": 22,
+      "updatedAt": "2026-11-08T00:56:30+00:00"
+    },
+    "sg1": {
+      "next": {
+        "date": "2026-11-14T20:30:00",
+        "journee": "7",
+        "home": "ABB CORNEBARRIEU",
+        "away": "STADE TOULOUSAIN BASKETBALL 2",
+        "isHome": true,
+        "opponent": "STADE TOULOUSAIN BASKETBALL 2",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-10-18T15:30:00",
-        "journee": "5",
-        "home": "ABB CORNEBARRIEU 3",
-        "away": "BASKET CLUB LEGUEVINOIS 2",
-        "isHome": true,
-        "opponent": "BASKET CLUB LEGUEVINOIS 2",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 45,
-        "scoreAway": 73
-      },
-      "count": 22,
-      "updatedAt": "2026-11-05T01:51:32+00:00"
-    },
-    "sg1": {
-      "next": {
         "date": "2026-11-07T20:30:00",
         "journee": "6",
         "home": "BASKET CLUB LEGUEVINOIS",
@@ -108,27 +122,13 @@
         "opponent": "BASKET CLUB LEGUEVINOIS",
         "venue": "GYMNASE LES PINS VERTS",
         "address": "Route de la SALVETAT",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-10-31T20:00:00",
-        "journee": "5",
-        "home": "ABB CORNEBARRIEU",
-        "away": "BASKET CLUB OSSUNOIS 2",
-        "isHome": true,
-        "opponent": "BASKET CLUB OSSUNOIS 2",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
         "played": true,
         "postponed": false,
-        "scoreHome": 70,
-        "scoreAway": 58
+        "scoreHome": 67,
+        "scoreAway": 65
       },
       "count": 22,
-      "updatedAt": "2026-11-05T01:51:32+00:00"
+      "updatedAt": "2026-11-08T00:56:30+00:00"
     },
     "sg2": {
       "next": {
@@ -160,7 +160,7 @@
         "scoreAway": 71
       },
       "count": 22,
-      "updatedAt": "2026-11-05T01:51:32+00:00"
+      "updatedAt": "2026-11-08T00:56:30+00:00"
     }
   }
 }
