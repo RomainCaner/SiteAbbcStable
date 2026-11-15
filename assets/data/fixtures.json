@@ -1,9 +1,23 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-12T02:33:24+00:00",
+  "updatedAt": "2026-11-15T01:21:24+00:00",
   "teams": {
     "sf1": {
       "next": {
+        "date": "2026-11-29T15:30:00",
+        "journee": "10",
+        "home": "ABB CORNEBARRIEU",
+        "away": "HAGETMAU MOMUY CASTAIGNOS BASKET",
+        "isHome": true,
+        "opponent": "HAGETMAU MOMUY CASTAIGNOS BASKET",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-11-14T18:15:00",
         "journee": "9",
         "home": "AYTRE BASKET BALL",
@@ -12,27 +26,13 @@
         "opponent": "AYTRE BASKET BALL",
         "venue": "COMPLEXE SPORTIF DES GALERES",
         "address": "Rue des Paquerettes",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-11-08T15:30:00",
-        "journee": "8",
-        "home": "ABB CORNEBARRIEU",
-        "away": "CA BEGLES",
-        "isHome": true,
-        "opponent": "CA BEGLES",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
         "played": true,
         "postponed": false,
-        "scoreHome": 52,
-        "scoreAway": 43
+        "scoreHome": 58,
+        "scoreAway": 50
       },
       "count": 22,
-      "updatedAt": "2026-11-12T02:33:24+00:00"
+      "updatedAt": "2026-11-15T01:21:24+00:00"
     },
     "sf2": {
       "next": {
@@ -64,7 +64,7 @@
         "scoreAway": 66
       },
       "count": 18,
-      "updatedAt": "2026-11-12T02:33:24+00:00"
+      "updatedAt": "2026-11-15T01:21:24+00:00"
     },
     "sf3": {
       "next": {
@@ -96,39 +96,39 @@
         "scoreAway": 48
       },
       "count": 22,
-      "updatedAt": "2026-11-12T02:33:24+00:00"
+      "updatedAt": "2026-11-15T01:21:24+00:00"
     },
     "sg1": {
       "next": {
-        "date": "2026-11-14T20:30:00",
-        "journee": "7",
-        "home": "ABB CORNEBARRIEU",
-        "away": "STADE TOULOUSAIN BASKETBALL 2",
-        "isHome": true,
-        "opponent": "STADE TOULOUSAIN BASKETBALL 2",
-        "venue": "GYMNASE SAINT-EXUPERY",
-        "address": "Rue Georges SAND",
+        "date": "2026-11-28T18:30:00",
+        "journee": "8",
+        "home": "J.S.C BASKET 2",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "J.S.C BASKET 2",
+        "venue": "GYMNASE JEAN BOUIN",
+        "address": "Rue du STADE",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-11-07T20:30:00",
-        "journee": "6",
-        "home": "BASKET CLUB LEGUEVINOIS",
-        "away": "ABB CORNEBARRIEU",
-        "isHome": false,
-        "opponent": "BASKET CLUB LEGUEVINOIS",
-        "venue": "GYMNASE LES PINS VERTS",
-        "address": "Route de la SALVETAT",
+        "date": "2026-11-14T20:30:00",
+        "journee": "7",
+        "home": "ABB CORNEBARRIEU",
+        "away": "TOULOUSE BASKETBALL CLUB 2",
+        "isHome": true,
+        "opponent": "TOULOUSE BASKETBALL CLUB 2",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
         "played": true,
         "postponed": false,
-        "scoreHome": 67,
-        "scoreAway": 65
+        "scoreHome": 66,
+        "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-11-12T02:33:24+00:00"
+      "updatedAt": "2026-11-15T01:21:24+00:00"
     },
     "sg2": {
       "next": {
@@ -160,7 +160,7 @@
         "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-11-12T02:33:24+00:00"
+      "updatedAt": "2026-11-15T01:21:24+00:00"
     }
   }
 }
