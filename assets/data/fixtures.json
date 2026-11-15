@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-15T01:21:24+00:00",
+  "updatedAt": "2026-11-15T20:37:59+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,10 +32,24 @@
         "scoreAway": 50
       },
       "count": 22,
-      "updatedAt": "2026-11-15T01:21:24+00:00"
+      "updatedAt": "2026-11-15T20:37:59+00:00"
     },
     "sf2": {
       "next": {
+        "date": "2026-11-29T13:00:00",
+        "journee": "6",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "IE - CTC DU GRAND ARMAGNAC - UA VICOISE BASKETBALL",
+        "isHome": true,
+        "opponent": "IE - CTC DU GRAND ARMAGNAC - UA VICOISE BASKETBALL",
+        "venue": "ESPACE SPORTIF P. de COUBERTIN",
+        "address": "Chemin des Ambrits",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-11-15T15:30:00",
         "journee": "5",
         "home": "IE - J.A. CONDOMOISE",
@@ -44,30 +58,30 @@
         "opponent": "IE - J.A. CONDOMOISE",
         "venue": "SALLE OMNISPORTS",
         "address": "Boulevard Monplaisir",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 41,
+        "scoreAway": 82
+      },
+      "count": 18,
+      "updatedAt": "2026-11-15T20:37:59+00:00"
+    },
+    "sf3": {
+      "next": {
+        "date": "2026-11-22T15:30:00",
+        "journee": "8",
+        "home": "ABB CORNEBARRIEU 3",
+        "away": "B. LABEGE AUZEVILLE CLUB",
+        "isHome": true,
+        "opponent": "B. LABEGE AUZEVILLE CLUB",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
         "played": false,
         "postponed": false,
         "scoreHome": null,
         "scoreAway": null
       },
       "last": {
-        "date": "2026-11-08T13:00:00",
-        "journee": "4",
-        "home": "ABB CORNEBARRIEU 2",
-        "away": "IE - ETOILE SPORTIVE GIMONTOISE BB 2",
-        "isHome": true,
-        "opponent": "IE - ETOILE SPORTIVE GIMONTOISE BB 2",
-        "venue": "ESPACE SPORTIF P. de COUBERTIN",
-        "address": "Chemin des Ambrits",
-        "played": true,
-        "postponed": false,
-        "scoreHome": 58,
-        "scoreAway": 66
-      },
-      "count": 18,
-      "updatedAt": "2026-11-15T01:21:24+00:00"
-    },
-    "sf3": {
-      "next": {
         "date": "2026-11-15T15:30:00",
         "journee": "7",
         "home": "FROUZINS ATHLETIC CLUB",
@@ -76,27 +90,13 @@
         "opponent": "FROUZINS ATHLETIC CLUB",
         "venue": "GYMNASE POLYVALENT",
         "address": "Rue Guillaume Berdeil",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-11-07T20:30:00",
-        "journee": "6",
-        "home": "UNION SPORTIVE PIBRACAISE",
-        "away": "ABB CORNEBARRIEU 3",
-        "isHome": false,
-        "opponent": "UNION SPORTIVE PIBRACAISE",
-        "venue": "GYMNASE BEAUREGARD",
-        "address": "6 RUE MAURICE FONVIEILLE",
         "played": true,
         "postponed": false,
-        "scoreHome": 49,
-        "scoreAway": 48
+        "scoreHome": 68,
+        "scoreAway": 57
       },
       "count": 22,
-      "updatedAt": "2026-11-15T01:21:24+00:00"
+      "updatedAt": "2026-11-15T20:37:59+00:00"
     },
     "sg1": {
       "next": {
@@ -128,10 +128,24 @@
         "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-11-15T01:21:24+00:00"
+      "updatedAt": "2026-11-15T20:37:59+00:00"
     },
     "sg2": {
       "next": {
+        "date": "2026-11-22T15:30:00",
+        "journee": "8",
+        "home": "BLAGNAC OCCITANIE BASKET CLUB",
+        "away": "ABB CORNEBARRIEU 2",
+        "isHome": false,
+        "opponent": "BLAGNAC OCCITANIE BASKET CLUB",
+        "venue": "GYMNASE ANDROMEDE",
+        "address": "Chemin du FERRADOU",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
         "date": "2026-11-15T15:30:00",
         "journee": "7",
         "home": "ABB CORNEBARRIEU 2",
@@ -140,27 +154,13 @@
         "opponent": "BASKET CLUB QUINT FONSEGRIVES 2",
         "venue": "GYMNASE SAINT-EXUPERY",
         "address": "Rue Georges SAND",
-        "played": false,
-        "postponed": false,
-        "scoreHome": null,
-        "scoreAway": null
-      },
-      "last": {
-        "date": "2026-11-08T15:30:00",
-        "journee": "6",
-        "home": "IE - TOULOUSE LARDENNE BASKET 2",
-        "away": "ABB CORNEBARRIEU 2",
-        "isHome": false,
-        "opponent": "IE - TOULOUSE LARDENNE BASKET 2",
-        "venue": "GYMNASE DU PETIT CAPITOLE",
-        "address": "153 Avenue de Lardenne",
         "played": true,
         "postponed": false,
-        "scoreHome": 89,
-        "scoreAway": 69
+        "scoreHome": 61,
+        "scoreAway": 77
       },
       "count": 22,
-      "updatedAt": "2026-11-15T01:21:24+00:00"
+      "updatedAt": "2026-11-15T20:37:59+00:00"
     }
   }
 }
