@@ -1,6 +1,6 @@
 {
   "_comment": "Prochaine et derniere rencontre de chaque equipe, produites par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-18T20:34:34+00:00",
+  "updatedAt": "2026-11-18T20:40:33+00:00",
   "teams": {
     "sf1": {
       "next": {
@@ -32,7 +32,7 @@
         "scoreAway": 50
       },
       "count": 22,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "sf2": {
       "next": {
@@ -64,7 +64,7 @@
         "scoreAway": 82
       },
       "count": 18,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "sf3": {
       "next": {
@@ -96,7 +96,7 @@
         "scoreAway": 57
       },
       "count": 22,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "sg1": {
       "next": {
@@ -128,7 +128,7 @@
         "scoreAway": 69
       },
       "count": 22,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "sg2": {
       "next": {
@@ -160,7 +160,7 @@
         "scoreAway": 77
       },
       "count": 22,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "u18f": {
       "next": {
@@ -192,7 +192,7 @@
         "scoreAway": 75
       },
       "count": 14,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "u18g": {
       "next": {
@@ -224,7 +224,7 @@
         "scoreAway": 107
       },
       "count": 14,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "u15f": {
       "next": {
@@ -256,7 +256,7 @@
         "scoreAway": 48
       },
       "count": 14,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     },
     "u15g": {
       "next": {
@@ -288,7 +288,167 @@
         "scoreAway": 56
       },
       "count": 14,
-      "updatedAt": "2026-11-18T20:34:34+00:00"
+      "updatedAt": "2026-11-18T20:40:33+00:00"
+    },
+    "u13f": {
+      "next": {
+        "date": "2026-11-28T13:00:00",
+        "journee": "3",
+        "home": "IE - CTC GRISOLL CASTELBALL - CASTELBALL CITY 2",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "IE - CTC GRISOLL CASTELBALL - CASTELBALL CITY 2",
+        "venue": "COMPLEXE SPORTIF ESPACE FONDADA",
+        "address": "1423 route de VILLENEUVE-LES-BOULOC",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
+        "date": "2026-11-14T14:45:00",
+        "journee": "2",
+        "home": "B. LABEGE AUZEVILLE CLUB",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "B. LABEGE AUZEVILLE CLUB",
+        "venue": "GYMNASE L'EUROPE",
+        "address": "Rue des ECOLES",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 30,
+        "scoreAway": 34
+      },
+      "count": 14,
+      "updatedAt": "2026-11-18T20:40:33+00:00"
+    },
+    "u13g1": {
+      "next": {
+        "date": "2026-11-28T14:00:00",
+        "journee": "3",
+        "home": "E.S. TOULOUSE CASSELARDIT",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "E.S. TOULOUSE CASSELARDIT",
+        "venue": "GYMNASE DE LA CEPIERE",
+        "address": "RUE CHARLES MOULY",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
+        "date": "2026-11-14T15:00:00",
+        "journee": "2",
+        "home": "ABB CORNEBARRIEU",
+        "away": "IE - CTC GRISOLL CASTELBALL - CASTELBALL CITY 3",
+        "isHome": true,
+        "opponent": "IE - CTC GRISOLL CASTELBALL - CASTELBALL CITY 3",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 42,
+        "scoreAway": 12
+      },
+      "count": 14,
+      "updatedAt": "2026-11-18T20:40:33+00:00"
+    },
+    "u13g2": {
+      "next": {
+        "date": "2026-11-28T15:00:00",
+        "journee": "3",
+        "home": "U.S. COLOMIERS BASKET 3",
+        "away": "ABB CORNEBARRIEU 2",
+        "isHome": false,
+        "opponent": "U.S. COLOMIERS BASKET 3",
+        "venue": "GYMNASE RENE PIQUEMAL N1",
+        "address": "15 Rue Alfred de Vigny",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
+        "date": "2026-11-14T13:30:00",
+        "journee": "2",
+        "home": "ABB CORNEBARRIEU 2",
+        "away": "IE - TOULOUSE LARDENNE BASKET 3",
+        "isHome": true,
+        "opponent": "IE - TOULOUSE LARDENNE BASKET 3",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 33,
+        "scoreAway": 16
+      },
+      "count": 12,
+      "updatedAt": "2026-11-18T20:40:33+00:00"
+    },
+    "u11f": {
+      "next": {
+        "date": "2026-11-28T00:00:00",
+        "journee": "3",
+        "home": "BLAGNAC BASKET CLUB",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "BLAGNAC BASKET CLUB",
+        "venue": "GYMNASE MERMOZ",
+        "address": "99 CHEMIN D'AUSSONNE",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
+        "date": "2026-11-14T12:00:00",
+        "journee": "2",
+        "home": "ABB CORNEBARRIEU",
+        "away": "J.S.C BASKET 2",
+        "isHome": true,
+        "opponent": "J.S.C BASKET 2",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 16,
+        "scoreAway": 16
+      },
+      "count": 4,
+      "updatedAt": "2026-11-18T20:40:33+00:00"
+    },
+    "u11m": {
+      "next": {
+        "date": "2026-11-28T12:30:00",
+        "journee": "3",
+        "home": "ABB CORNEBARRIEU",
+        "away": "J.S.C BASKET",
+        "isHome": true,
+        "opponent": "J.S.C BASKET",
+        "venue": "GYMNASE SAINT-EXUPERY",
+        "address": "Rue Georges SAND",
+        "played": false,
+        "postponed": false,
+        "scoreHome": null,
+        "scoreAway": null
+      },
+      "last": {
+        "date": "2026-11-14T11:00:00",
+        "journee": "2",
+        "home": "BASKET CLUB LEGUEVINOIS",
+        "away": "ABB CORNEBARRIEU",
+        "isHome": false,
+        "opponent": "BASKET CLUB LEGUEVINOIS",
+        "venue": "SALLE OMNISPORTS CASTELNOUVEL",
+        "address": "14 avenue de CASTELNOUVEL",
+        "played": true,
+        "postponed": false,
+        "scoreHome": 17,
+        "scoreAway": 19
+      },
+      "count": 5,
+      "updatedAt": "2026-11-18T20:40:33+00:00"
     }
   }
 }
