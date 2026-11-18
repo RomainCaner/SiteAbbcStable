@@ -355,6 +355,11 @@ rencontres de la poule, filtrées sur le club. Le site en publie deux — la
 **prochaine à venir** et le **dernier résultat connu** — dans
 `assets/data/fixtures.json`.
 
+Sur l'accueil, le bloc « Les prochaines rencontres » ne montre que les **six
+plus proches** (`HOME_FIXTURES` dans `content/fixtures.js`), suivies d'un lien
+vers les équipes : avec quatorze équipes, la liste complète faisait plus d'un
+écran. Un match déjà passé mais pas encore remplacé dans les données est écarté.
+
 Trois points que l'API impose :
 
 - **Les noms portent le numéro d'équipe** (`LONS BASKET - 1`) là où le

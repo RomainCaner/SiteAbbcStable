@@ -1494,6 +1494,7 @@ body.has-landed-ball .to-top { opacity: 0; visibility: hidden; }
 /* --- Vue d'ensemble sur l'accueil ---------------------------------------- */
 /* 20rem plutôt que 16 : avec cinq équipes, une piste plus étroite donnerait
    quatre colonnes et une tuile seule sur la seconde ligne. */
+.fixture-grid__more { margin-top: var(--space-6); text-align: right; }
 .fixture-grid {
   display: grid;
   gap: var(--space-4);

@@ -1,10 +1,10 @@
 /**
  * content/teams.js — Fiches d'équipe et annuaire.
  *
- * Les neuf pages `equipes/*.html` sont des coquilles : elles ne portent que
+ * Les pages `equipes/*.html` sont des coquilles : elles ne portent que
  * leurs métadonnées SEO et un `<body data-team="sf1">`. Tout le corps de la
- * page est produit ici depuis `teams.json`, ce qui évite d'avoir neuf fois la
- * même structure à maintenir.
+ * page est produit ici depuis `teams.json`, ce qui évite d'avoir quatorze fois
+ * la même structure à maintenir.
  *
  * Cibles dans le HTML :
  *   `#team-page`  (equipes/*.html) → fiche complète de l'équipe
@@ -57,9 +57,8 @@ const panel = (icon, title, body) => `
  * une équipe — `scripts/decouvrir_poules.py` trouve l'identifiant. L'encart
  * s'adresse aux visiteurs : la marche à suivre reste ici, pas sur la page.
  *
- * Les widgets Score'n'co sont conservés en commentaire le temps que les quatre
- * équipes jeunes soient branchées sur la FFBB : leur engagement en championnat
- * n'y apparaît pas encore.
+ * Les widgets Score'n'co, qui tenaient ce rôle avant les données FFBB, sont
+ * conservés en commentaire :
  *
  *   return `<div class="widget-frame">${widgetHTML('ranking', team.widgets?.ranking,
  *             'Classement bientôt disponible.')}</div>`;

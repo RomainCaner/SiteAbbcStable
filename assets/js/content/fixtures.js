@@ -19,6 +19,9 @@ import { escapeHTML } from '../core/dom.js';
 import { fetchData, getTeams, url } from '../core/data.js';
 import { observe } from '../ui/reveal.js';
 
+/** Tuiles de l'accueil : deux rangées de trois, les rencontres les plus proches. */
+const HOME_FIXTURES = 6;
+
 /** Rencontres de toutes les équipes, ou `null` si le fichier est absent. */
 export async function getFixtures() {
   try {
@@ -216,9 +219,12 @@ export async function renderClubFixtures() {
   if (!container) return;
 
   const [teams, fixtures] = await Promise.all([getTeams(), getFixtures()]);
+  // Un match d'hier peut rester « prochain » jusqu'à la mise à jour suivante
+  // des données : on l'écarte plutôt que de l'annoncer.
+  const aujourdhui = new Date().toISOString().slice(0, 10);
   const tuiles = (teams || [])
     .map((team) => ({ team, entry: fixtures?.[team.slug] }))
-    .filter(({ entry }) => entry?.next)
+    .filter(({ entry }) => entry?.next && entry.next.date.slice(0, 10) >= aujourdhui)
     .sort((a, b) => a.entry.next.date.localeCompare(b.entry.next.date));
 
   if (!tuiles.length) {
@@ -227,9 +233,19 @@ export async function renderClubFixtures() {
     return;
   }
 
+  // Quatorze équipes : l'accueil montre les plus proches, pas tout le calendrier.
+  const visibles = tuiles.slice(0, HOME_FIXTURES);
+  const reste = tuiles.length - visibles.length;
   container.innerHTML = `
     <div class="fixture-grid">
-      ${tuiles.map(({ team, entry }, i) => clubTileHTML(team, entry, i % 3)).join('')}
-    </div>`;
+      ${visibles.map(({ team, entry }, i) => clubTileHTML(team, entry, i % 3)).join('')}
+    </div>
+    ${reste > 0 ? `
+      <p class="fixture-grid__more">
+        <a href="${url('equipes.html')}" class="link-arrow">
+          ${reste} autre${reste > 1 ? 's' : ''} rencontre${reste > 1 ? 's' : ''} à venir : voir toutes les équipes
+          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </p>` : ''}`;
   observe(container);
 }
