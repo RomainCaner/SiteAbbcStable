@@ -59,7 +59,7 @@ SiteAbbcStable/
 ├── contact.html          Coordonnées
 ├── partenaires.html      Partenaires du club
 │
-├── equipes/              9 coquilles de page équipe (contenu généré depuis teams.json)
+├── equipes/              14 coquilles de page équipe (contenu généré depuis teams.json)
 ├── partials/             navbar.html · footer.html (fragments injectés)
 ├── outils/ffbb.html      mise à jour FFBB depuis le navigateur (outil interne)
 ├── scripts/              récupération FFBB : classements, rencontres, découverte
@@ -180,7 +180,7 @@ changer de service ou d'adresse ne touche pas au code.
 Ce fichier alimente à lui seul :
 - le mega-menu « Équipes » de l'en-tête (desktop et mobile),
 - la page `equipes.html`,
-- l'intégralité des 9 pages `equipes/*.html`.
+- l'intégralité des 14 pages `equipes/*.html`.
 
 | Champ | Rôle |
 |---|---|
@@ -189,7 +189,7 @@ Ce fichier alimente à lui seul :
 | `group` | `seniors` ou `jeunes` (regroupement dans le menu) |
 | `shortName` / `displayName` | « SF1 » / « Senior Féminine 1 » |
 | `level`, `coach`, `description` | affichés sur la fiche |
-| `accent` | `green`, `forest`, `orange` ou `ochre` |
+| `accent` | `green`, `forest` (seniors), `orange` (U18), `ochre` (U15), `olive` (U13), `clay` (U11) |
 | `ffbb.pouleId` | identifiant de poule FFBB — **c'est lui qui branche le classement et les rencontres** |
 | `widgets` | anciens identifiants Score'n'co, conservés mais plus lus |
 
@@ -342,9 +342,10 @@ donc vérifier le numéro d'équipe que supposer.
 Une équipe engagée en **CTC** (entente entre clubs) n'apparaît pas sous le nom
 du club : la chercher sous le nom de l'entente.
 
-Branchées à ce jour : **les neuf équipes du site** — les cinq seniors (SF1,
-SF2, SF3, SG1, SG2) et, depuis la fin des brassages (novembre 2026), U18F,
-U18G, U15F et U15G. Pour U18G, c'est la poule de Régionale 2 qui est retenue,
+Branchées à ce jour : **les quatorze équipes du site** — les cinq seniors
+(SF1, SF2, SF3, SG1, SG2) et, depuis la fin des brassages (novembre 2026),
+U18F, U18G, U15F, U15G, U13F, U13G1, U13G2, U11F et U11 mixte. Les U7 et U9
+ne jouent pas de championnat FFBB (plateaux) : ils n'ont pas de page. Pour U18G, c'est la poule de Régionale 2 qui est retenue,
 pas celle des brassages régionaux, terminés.
 
 ### Les rencontres

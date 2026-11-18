@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr" data-base="../">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>U11M · U11 Mixte · ABB Cornebarrieu</title>
+  <meta name="description" content="Équipe U11 Mixte (U11M) de l'ABB Cornebarrieu, engagée en Départementale mixte U11 - Phase 2 (Haute-Garonne). Classement, prochaine rencontre et dernier résultat.">
+  <meta name="theme-color" content="#226321">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="U11M · U11 Mixte · ABBC">
+  <meta property="og:description" content="Équipe U11 Mixte de l'ABBC — Départementale mixte U11 - Phase 2. Classement et prochaine rencontre.">
+  <meta property="og:image" content="https://romaincaner.github.io/SiteAbbcStable/assets/images/Baniere.jpg">
+  <meta property="og:url" content="https://romaincaner.github.io/SiteAbbcStable/equipes/u11m.html">
+  <meta property="og:locale" content="fr_FR">
+
+  <link rel="canonical" href="https://romaincaner.github.io/SiteAbbcStable/equipes/u11m.html">
+  <link rel="icon" type="image/jpeg" href="../assets/images/Logo.jpg">
+
+  <!-- Thème appliqué avant le rendu pour éviter un flash clair (cf. core/theme.js). -->
+  <script>
+    (function () {
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('abbc-theme') || 'light';
+      } catch (_) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body data-page="equipes" data-team="u11m">
+
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+  <div data-partial="navbar"></div>
+
+  <main id="main">
+    <!--
+      Cette page est une coquille : son contenu (en-tête, informations,
+      rencontres, classement) est généré par assets/js/content/teams.js à
+      partir de l'entrée « u11m » de assets/data/teams.json. Pour modifier
+      l'entraîneur, le niveau ou l'identifiant de poule FFBB, éditez le JSON,
+      pas ce fichier.
+    -->
+    <div id="team-page">
+      <p style="padding: var(--space-9) var(--gutter); text-align: center">Chargement de l'équipe…</p>
+    </div>
+  </main>
+
+  <div data-partial="footer"></div>
+
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

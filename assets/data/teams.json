@@ -188,5 +188,110 @@
       "classementUrl": "",
       "pouleId": "200000003063431"
     }
+  },
+  {
+    "slug": "u13f",
+    "page": "u13f.html",
+    "group": "jeunes",
+    "shortName": "U13F",
+    "name": "U13 Feminine",
+    "displayName": "U13 Féminine",
+    "level": "Départementale 3",
+    "coach": "",
+    "accent": "olive",
+    "description": "Premières compétitions départementales : apprendre à jouer ensemble.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    },
+    "ffbb": {
+      "classementUrl": "",
+      "pouleId": "200000003057765"
+    }
+  },
+  {
+    "slug": "u13g1",
+    "page": "u13g1.html",
+    "group": "jeunes",
+    "shortName": "U13G1",
+    "name": "U13 Masculine 1",
+    "displayName": "U13 Masculine 1",
+    "level": "Départementale 2",
+    "coach": "",
+    "accent": "olive",
+    "description": "Première équipe U13 garçons : le collectif avant tout.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    },
+    "ffbb": {
+      "classementUrl": "",
+      "pouleId": "200000003063421"
+    }
+  },
+  {
+    "slug": "u13g2",
+    "page": "u13g2.html",
+    "group": "jeunes",
+    "shortName": "U13G2",
+    "name": "U13 Masculine 2",
+    "displayName": "U13 Masculine 2",
+    "level": "Départementale 3",
+    "coach": "",
+    "accent": "olive",
+    "description": "Deuxième équipe U13 garçons : du temps de jeu pour progresser.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    },
+    "ffbb": {
+      "classementUrl": "",
+      "pouleId": "200000003066227"
+    }
+  },
+  {
+    "slug": "u11f",
+    "page": "u11f.html",
+    "group": "jeunes",
+    "shortName": "U11F",
+    "name": "U11 Feminine",
+    "displayName": "U11 Féminine",
+    "level": "Départementale U11",
+    "coach": "",
+    "accent": "clay",
+    "description": "Découverte de la compétition, dans le plaisir du jeu.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    },
+    "ffbb": {
+      "classementUrl": "",
+      "pouleId": "200000003062982"
+    }
+  },
+  {
+    "slug": "u11m",
+    "page": "u11m.html",
+    "group": "jeunes",
+    "shortName": "U11M",
+    "name": "U11 Mixte",
+    "displayName": "U11 Mixte",
+    "level": "Départementale U11",
+    "coach": "",
+    "accent": "clay",
+    "description": "Filles et garçons ensemble pour les premiers matchs officiels.",
+    "widgets": {
+      "nextGames": "",
+      "players": "",
+      "ranking": ""
+    },
+    "ffbb": {
+      "classementUrl": "",
+      "pouleId": "200000003062986"
+    }
   }
 ]
