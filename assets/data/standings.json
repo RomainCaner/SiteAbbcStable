@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-15T20:37:59+00:00",
+  "updatedAt": "2026-11-18T20:34:34+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -31,6 +31,18 @@
         },
         {
           "rank": 3,
+          "team": "ALBI BASKET 81",
+          "points": 16,
+          "played": 9,
+          "won": 7,
+          "lost": 2,
+          "scored": 663,
+          "conceded": 578,
+          "diff": 85,
+          "isClub": false
+        },
+        {
+          "rank": 4,
           "team": "LE TAILLAN BASKET",
           "points": 16,
           "played": 9,
@@ -39,18 +51,6 @@
           "scored": 508,
           "conceded": 503,
           "diff": 5,
-          "isClub": false
-        },
-        {
-          "rank": 4,
-          "team": "ALBI BASKET 81",
-          "points": 14,
-          "played": 8,
-          "won": 6,
-          "lost": 2,
-          "scored": 590,
-          "conceded": 508,
-          "diff": 82,
           "isClub": false
         },
         {
@@ -67,18 +67,30 @@
         },
         {
           "rank": 6,
-          "team": "AYTRE BASKET BALL",
-          "points": 13,
+          "team": "ELAN CHALOSSAIS",
+          "points": 14,
           "played": 9,
-          "won": 4,
-          "lost": 5,
-          "scored": 504,
-          "conceded": 478,
-          "diff": 26,
+          "won": 5,
+          "lost": 4,
+          "scored": 638,
+          "conceded": 630,
+          "diff": 8,
           "isClub": false
         },
         {
           "rank": 7,
+          "team": "CA BEGLES",
+          "points": 13,
+          "played": 9,
+          "won": 4,
+          "lost": 5,
+          "scored": 596,
+          "conceded": 542,
+          "diff": 54,
+          "isClub": false
+        },
+        {
+          "rank": 8,
           "team": "ABB CORNEBARRIEU",
           "points": 13,
           "played": 9,
@@ -90,27 +102,15 @@
           "isClub": true
         },
         {
-          "rank": 8,
-          "team": "ELAN CHALOSSAIS",
-          "points": 12,
-          "played": 8,
-          "won": 4,
-          "lost": 4,
-          "scored": 557,
-          "conceded": 556,
-          "diff": 1,
-          "isClub": false
-        },
-        {
           "rank": 9,
-          "team": "CA BEGLES",
-          "points": 12,
-          "played": 8,
+          "team": "AYTRE BASKET BALL",
+          "points": 13,
+          "played": 9,
           "won": 4,
-          "lost": 4,
-          "scored": 526,
-          "conceded": 469,
-          "diff": 57,
+          "lost": 5,
+          "scored": 504,
+          "conceded": 478,
+          "diff": 26,
           "isClub": false
         },
         {
@@ -128,13 +128,13 @@
         {
           "rank": 11,
           "team": "LONS BASKET",
-          "points": 10,
-          "played": 8,
+          "points": 11,
+          "played": 9,
           "won": 2,
-          "lost": 6,
-          "scored": 475,
-          "conceded": 543,
-          "diff": -68,
+          "lost": 7,
+          "scored": 549,
+          "conceded": 624,
+          "diff": -75,
           "isClub": false
         },
         {
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-11-15T20:37:59+00:00"
+      "updatedAt": "2026-11-18T20:34:34+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-11-15T20:37:59+00:00"
+      "updatedAt": "2026-11-18T20:34:34+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-11-15T20:37:59+00:00"
+      "updatedAt": "2026-11-18T20:34:34+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-11-15T20:37:59+00:00"
+      "updatedAt": "2026-11-18T20:34:34+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -731,7 +731,419 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-11-15T20:37:59+00:00"
+      "updatedAt": "2026-11-18T20:34:34+00:00"
+    },
+    "u18f": {
+      "competition": "Départementale U18",
+      "rows": [
+        {
+          "rank": 1,
+          "team": "MAZERES BASKET CLUB",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 137,
+          "conceded": 81,
+          "diff": 56,
+          "isClub": false
+        },
+        {
+          "rank": 2,
+          "team": "ABB CORNEBARRIEU",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 137,
+          "conceded": 107,
+          "diff": 30,
+          "isClub": true
+        },
+        {
+          "rank": 3,
+          "team": "BASKET CLUB VERFEILLOIS",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 124,
+          "conceded": 115,
+          "diff": 9,
+          "isClub": false
+        },
+        {
+          "rank": 4,
+          "team": "VACQUIERS BOULOC BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 116,
+          "conceded": 118,
+          "diff": -2,
+          "isClub": false
+        },
+        {
+          "rank": 5,
+          "team": "TOULOUSE METROPOLE BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 108,
+          "conceded": 111,
+          "diff": -3,
+          "isClub": false
+        },
+        {
+          "rank": 6,
+          "team": "TLSE CHEMINOTS MARENGO SP",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 97,
+          "conceded": 104,
+          "diff": -7,
+          "isClub": false
+        },
+        {
+          "rank": 7,
+          "team": "UNION SPORTIVE AUSSONNAISE",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 114,
+          "conceded": 143,
+          "diff": -29,
+          "isClub": false
+        },
+        {
+          "rank": 8,
+          "team": "BASKET CLUB QUINT FONSEGRIVES",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 82,
+          "conceded": 136,
+          "diff": -54,
+          "isClub": false
+        }
+      ],
+      "source": "API FFBB, poule 200000003063432",
+      "updatedAt": "2026-11-18T20:34:34+00:00"
+    },
+    "u18g": {
+      "competition": "Régionale 2",
+      "rows": [
+        {
+          "rank": 1,
+          "team": "ABB CORNEBARRIEU",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 201,
+          "conceded": 100,
+          "diff": 101,
+          "isClub": true
+        },
+        {
+          "rank": 2,
+          "team": "BASKET CLUB QUINT FONSEGRIVES",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 189,
+          "conceded": 175,
+          "diff": 14,
+          "isClub": false
+        },
+        {
+          "rank": 3,
+          "team": "IE - TOAC BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 218,
+          "conceded": 172,
+          "diff": 46,
+          "isClub": false
+        },
+        {
+          "rank": 4,
+          "team": "BLAGNAC BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 169,
+          "conceded": 160,
+          "diff": 9,
+          "isClub": false
+        },
+        {
+          "rank": 5,
+          "team": "IE - VALENCE CONDOM GERS BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 166,
+          "conceded": 161,
+          "diff": 5,
+          "isClub": false
+        },
+        {
+          "rank": 6,
+          "team": "BRUGUIERES BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 164,
+          "conceded": 159,
+          "diff": 5,
+          "isClub": false
+        },
+        {
+          "rank": 7,
+          "team": "MONTAUBAN BASKET CLUB",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 122,
+          "conceded": 170,
+          "diff": -48,
+          "isClub": false
+        },
+        {
+          "rank": 8,
+          "team": "MOISSAC CASTELSARRASIN BB",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 114,
+          "conceded": 246,
+          "diff": -132,
+          "isClub": false
+        }
+      ],
+      "source": "API FFBB, poule 200000003063317",
+      "updatedAt": "2026-11-18T20:34:34+00:00"
+    },
+    "u15f": {
+      "competition": "Départementale 3",
+      "rows": [
+        {
+          "rank": 1,
+          "team": "MONTASTRUC BASKET CLUB",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 106,
+          "conceded": 52,
+          "diff": 54,
+          "isClub": false
+        },
+        {
+          "rank": 2,
+          "team": "ABB CORNEBARRIEU",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 96,
+          "conceded": 76,
+          "diff": 20,
+          "isClub": true
+        },
+        {
+          "rank": 3,
+          "team": "FENOUILLET BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 91,
+          "conceded": 82,
+          "diff": 9,
+          "isClub": false
+        },
+        {
+          "rank": 4,
+          "team": "IE - TOAC BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 83,
+          "conceded": 77,
+          "diff": 6,
+          "isClub": false
+        },
+        {
+          "rank": 5,
+          "team": "VACQUIERS BOULOC BASKET",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 86,
+          "conceded": 91,
+          "diff": -5,
+          "isClub": false
+        },
+        {
+          "rank": 6,
+          "team": "BLAGNAC BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 90,
+          "conceded": 99,
+          "diff": -9,
+          "isClub": false
+        },
+        {
+          "rank": 7,
+          "team": "IE - CTC BAB'SS",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 77,
+          "conceded": 100,
+          "diff": -23,
+          "isClub": false
+        },
+        {
+          "rank": 8,
+          "team": "LAUNAGUET BASKET CLUB",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 55,
+          "conceded": 107,
+          "diff": -52,
+          "isClub": false
+        }
+      ],
+      "source": "API FFBB, poule 200000003057766",
+      "updatedAt": "2026-11-18T20:34:34+00:00"
+    },
+    "u15g": {
+      "competition": "Départementale 2",
+      "rows": [
+        {
+          "rank": 1,
+          "team": "SAINT JORY BASKET",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 101,
+          "conceded": 67,
+          "diff": 34,
+          "isClub": false
+        },
+        {
+          "rank": 2,
+          "team": "MONTASTRUC BASKET CLUB",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 98,
+          "conceded": 72,
+          "diff": 26,
+          "isClub": false
+        },
+        {
+          "rank": 3,
+          "team": "ABB CORNEBARRIEU",
+          "points": 4,
+          "played": 2,
+          "won": 2,
+          "lost": 0,
+          "scored": 127,
+          "conceded": 116,
+          "diff": 11,
+          "isClub": true
+        },
+        {
+          "rank": 4,
+          "team": "VILLEMUR BASKET CLUB",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 85,
+          "conceded": 87,
+          "diff": -2,
+          "isClub": false
+        },
+        {
+          "rank": 5,
+          "team": "E.S. TOULOUSE CASSELARDIT",
+          "points": 3,
+          "played": 2,
+          "won": 1,
+          "lost": 1,
+          "scored": 78,
+          "conceded": 86,
+          "diff": -8,
+          "isClub": false
+        },
+        {
+          "rank": 6,
+          "team": "SAINT LYS OLYMPIQUE BASKET",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 99,
+          "conceded": 107,
+          "diff": -8,
+          "isClub": false
+        },
+        {
+          "rank": 7,
+          "team": "LAUNAGUET BASKET CLUB",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 95,
+          "conceded": 116,
+          "diff": -21,
+          "isClub": false
+        },
+        {
+          "rank": 8,
+          "team": "BASKET CLUB LEGUEVINOIS",
+          "points": 2,
+          "played": 2,
+          "won": 0,
+          "lost": 2,
+          "scored": 72,
+          "conceded": 104,
+          "diff": -32,
+          "isClub": false
+        }
+      ],
+      "source": "API FFBB, poule 200000003063431",
+      "updatedAt": "2026-11-18T20:34:34+00:00"
     }
   }
 }
