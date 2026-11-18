@@ -52,7 +52,7 @@
     "level": "Pré-régionale",
     "coach": "Johan Calmon et Baptiste Thomen",
     "accent": "green",
-    "description": "Basket plaisir et compétition départementale dans une ambiance conviviale.",
+    "description": "Basket plaisir et compétition régionale, en Pré-régionale, dans une ambiance conviviale.",
     "widgets": {
       "nextGames": "",
       "players": "",
@@ -157,7 +157,7 @@
     "level": "Départementale 3",
     "coach": "Johan Calmon et Adrien Bigot",
     "accent": "ochre",
-    "description": "Apprentissage du jeu collectif et premiers championnats.",
+    "description": "Le jeu collectif prend forme : plus d'exigence, plus de tactique, et la compétition au rendez-vous.",
     "widgets": {
       "nextGames": "",
       "players": "",
@@ -178,7 +178,7 @@
     "level": "Départementale 2",
     "coach": "Célia Gaussens et Adrien Blas",
     "accent": "ochre",
-    "description": "Apprentissage du jeu collectif et premiers championnats.",
+    "description": "Le jeu collectif prend forme : plus d'exigence, plus de tactique, et la compétition au rendez-vous.",
     "widgets": {
       "nextGames": "",
       "players": "",

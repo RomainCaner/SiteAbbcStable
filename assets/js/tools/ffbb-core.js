@@ -233,7 +233,8 @@ export function proposeMatches(teams, engagements) {
       const code = team.shortName || team.slug.toUpperCase();
       const sexe = /F$|^SF/i.test(code) ? 'F' : 'M';
       const age = (code.match(/U\d{1,2}/i) || [''])[0].toUpperCase();
-      const numero = (code.match(/^S[FG](\d)$/i) || [null, '1'])[1];
+      // Numéro d'équipe en fin de code : SF2, U13G2… (1 par défaut : U15F).
+      const numero = (code.match(/^(?:S[FG]|U\d{1,2}[FGM])(\d)$/i) || [null, '1'])[1];
       const candidats = engagements.filter((e) => {
         const texte = `${e.age} ${e.categorie} ${e.competition}`.toUpperCase();
         const memeSexe = !e.sexe || e.sexe.toUpperCase().startsWith(sexe);

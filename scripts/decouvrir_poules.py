@@ -18,7 +18,8 @@ from __future__ import annotations
 import sys
 
 CLUB_PAR_DEFAUT = "Cornebarrieu"
-# Assez large pour couvrir les 9 équipes du club sans ramener tout le comité.
+# Assez large pour couvrir tous les engagements du club (une vingtaine, coupes
+# comprises) sans ramener tout le comité.
 LIMITE = 100
 
 
