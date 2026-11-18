@@ -28,6 +28,8 @@ const ACCENTS = {
   forest: 'var(--green-800)',  // seniors masculins
   orange: 'var(--orange-500)', // U18
   ochre: '#B8860B',            // U15
+  olive: '#5E7A2A',            // U13
+  clay: '#A0522D',             // U11
 };
 const accentOf = (team) => ACCENTS[team.accent] || 'var(--brand)';
 
