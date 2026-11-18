@@ -342,8 +342,10 @@ donc vérifier le numéro d'équipe que supposer.
 Une équipe engagée en **CTC** (entente entre clubs) n'apparaît pas sous le nom
 du club : la chercher sous le nom de l'entente.
 
-Branchées à ce jour : les **cinq équipes seniors** (SF1, SF2, SF3, SG1, SG2).
-Les quatre équipes jeunes attendent que leur engagement apparaisse côté FFBB.
+Branchées à ce jour : **les neuf équipes du site** — les cinq seniors (SF1,
+SF2, SF3, SG1, SG2) et, depuis la fin des brassages (novembre 2026), U18F,
+U18G, U15F et U15G. Pour U18G, c'est la poule de Régionale 2 qui est retenue,
+pas celle des brassages régionaux, terminés.
 
 ### Les rencontres
 

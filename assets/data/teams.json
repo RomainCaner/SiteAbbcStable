@@ -112,7 +112,7 @@
     "shortName": "U18F",
     "name": "U18 Feminine",
     "displayName": "U18 Féminine",
-    "level": "Départemental",
+    "level": "Départementale U18",
     "coach": "Margaux Gaston-Carrere",
     "accent": "orange",
     "description": "Dernière marche avant les seniors : formation et compétition.",
@@ -122,7 +122,8 @@
       "ranking": ""
     },
     "ffbb": {
-      "classementUrl": ""
+      "classementUrl": "",
+      "pouleId": "200000003063432"
     }
   },
   {
@@ -132,7 +133,7 @@
     "shortName": "U18G",
     "name": "U18 Masculine",
     "displayName": "U18 Masculine",
-    "level": "Départemental",
+    "level": "Régionale 2",
     "coach": "Johan Calmon, Romain Caner et Célia Gaussens",
     "accent": "orange",
     "description": "Dernière marche avant les seniors : formation et compétition.",
@@ -142,7 +143,8 @@
       "ranking": ""
     },
     "ffbb": {
-      "classementUrl": ""
+      "classementUrl": "",
+      "pouleId": "200000003063317"
     }
   },
   {
@@ -152,7 +154,7 @@
     "shortName": "U15F",
     "name": "U15 Feminine",
     "displayName": "U15 Féminine",
-    "level": "Départemental",
+    "level": "Départementale 3",
     "coach": "Johan Calmon et Adrien Bigot",
     "accent": "ochre",
     "description": "Apprentissage du jeu collectif et premiers championnats.",
@@ -162,7 +164,8 @@
       "ranking": ""
     },
     "ffbb": {
-      "classementUrl": ""
+      "classementUrl": "",
+      "pouleId": "200000003057766"
     }
   },
   {
@@ -172,7 +175,7 @@
     "shortName": "U15G",
     "name": "U15 Masculine",
     "displayName": "U15 Masculine",
-    "level": "Départemental",
+    "level": "Départementale 2",
     "coach": "Célia Gaussens et Adrien Blas",
     "accent": "ochre",
     "description": "Apprentissage du jeu collectif et premiers championnats.",
@@ -182,7 +185,8 @@
       "ranking": ""
     },
     "ffbb": {
-      "classementUrl": ""
+      "classementUrl": "",
+      "pouleId": "200000003063431"
     }
   }
 ]
