@@ -49,26 +49,6 @@ h1 { font-size: var(--display-md); line-height: var(--leading-tight); }
 h2 { font-size: var(--display-sm); }
 h3 { font-size: var(--text-xl); }
 
-/* Surtitre : petite étiquette au-dessus d'un titre de section. */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
-  color: var(--accent);
-  margin: 0 0 var(--space-3);
-}
-.eyebrow::before {
-  content: '';
-  width: 2rem;
-  height: 3px;
-  background: var(--accent);
-}
-
 .lede {
   font-size: var(--text-lg);
   color: var(--text-muted);
@@ -182,17 +162,11 @@ h3 { font-size: var(--text-xl); }
 ::selection { background: var(--accent); color: var(--white); }
 
 /* ---------- Apparition au défilement (piloté par ui/reveal.js) ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
-}
-.reveal.is-revealed { opacity: 1; transform: none; }
-
-/* Décalage en cascade pour les éléments d'une même grille. */
-.reveal[data-delay="1"] { transition-delay: 80ms; }
-.reveal[data-delay="2"] { transition-delay: 160ms; }
-.reveal[data-delay="3"] { transition-delay: 240ms; }
+/* Plus d'apparition en fondu au défilement : le ballon est le seul mouvement
+   que la page s'autorise sans qu'on le lui demande. Les fondus partout
+   diluaient son effet. La classe reste posée par le HTML et ui/reveal.js
+   (qui la retire aussi sans effet visuel) : la réactiver se fait ici. */
+.reveal { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

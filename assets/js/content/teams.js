@@ -130,13 +130,8 @@ function teamPageHTML(team, standing, fixtures) {
     <section id="classement" class="section section--dark">
       <div class="container">
         <div class="section__head">
-          <div>
-            <p class="eyebrow">Championnat</p>
-            <h2 class="section__title">Classement <span>${short}</span></h2>
-          </div>
-          <a href="${url('equipes.html')}" class="link-arrow">
-            Toutes les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
+          <h2 class="section__title">Classement ${short}</h2>
+          <a href="${url('equipes.html')}" class="link-arrow">Toutes les équipes</a>
         </div>
         <div class="reveal">${rankingHTML(team, standing)}</div>
       </div>
@@ -151,9 +146,7 @@ function notFoundHTML(slug) {
           <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
           <h1>Équipe introuvable</h1>
           <p>Aucune équipe « ${escapeHTML(slug || '')} » dans <code>assets/data/teams.json</code>.</p>
-          <a href="${url('equipes.html')}" class="link-arrow">
-            Voir toutes les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
+          <a href="${url('equipes.html')}" class="link-arrow">Voir toutes les équipes</a>
         </div>
       </div>
     </section>`;
@@ -193,7 +186,7 @@ function teamCardHTML(team, delay) {
         <p class="card--team__level">${escapeHTML(team.level || 'À définir')}</p>
         <p class="card__text">${escapeHTML(team.description || '')}</p>
         <p class="card__foot">
-          <span class="link-arrow">Voir l'équipe <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+          <span class="link-arrow">Voir l'équipe</span>
         </p>
       </div>
     </a>`;
@@ -224,10 +217,8 @@ async function renderTeamsIndex(container) {
   container.innerHTML = Array.from(groups, ([key, list]) => `
     <section class="list-block">
       <div class="section__head">
-        <div>
-          <p class="eyebrow">${escapeHTML(GROUP_LABELS[key] || key)}</p>
-          <h2 class="section__title">${list.length} équipe${list.length > 1 ? 's' : ''}</h2>
-        </div>
+        <h2 class="section__title">${escapeHTML(GROUP_LABELS[key] || key)}</h2>
+        <p class="section__count">${list.length} équipe${list.length > 1 ? 's' : ''}</p>
       </div>
       <div class="grid grid--3">
         ${list.map((team, i) => teamCardHTML(team, i % 3)).join('')}
