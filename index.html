@@ -29,7 +29,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <link rel="stylesheet" href="assets/css/tokens.css">
@@ -55,11 +55,11 @@
 
       <div class="container hero__inner">
         <div data-parallax="0.06">
-          <p class="eyebrow hero__eyebrow">Saison <span data-config="season">2026-2027</span></p>
+          <p class="hero__season">Saison <span data-config="season">2026-2027</span></p>
           <h1 class="hero__title">
             <span>Association</span>
             <span>Basket‑Ball</span>
-            <span class="is-accent">Cornebarrieu</span>
+            <span>Cornebarrieu</span>
           </h1>
           <p class="hero__lede">
             <b><span data-config="licencies">180</span>+ licenciés</b> et
@@ -97,24 +97,33 @@
       </p>
     </section>
 
-    <!-- Bandeau du prochain rendez-vous, rempli par content/events.js -->
-    <div class="nextup" id="nextup"></div>
+    <!-- ================= Ce week-end ================= -->
+    <!--
+      Tableau des matchs du prochain week-end, rempli par content/fixtures.js
+      depuis assets/data/fixtures.json (API FFBB). Il remplace le bandeau
+      « prochain rendez-vous » et la grille de tuiles par équipe, qui
+      annonçaient deux fois le même match.
+    -->
+    <section class="section section--dark week" aria-labelledby="week-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="week-title">Ce week-end</h2>
+          <a href="equipes.html" class="link-arrow">Toutes les équipes et leurs classements</a>
+        </div>
+        <div id="club-fixtures"></div>
+      </div>
+    </section>
 
     <!-- ================= Le club ================= -->
     <section class="section section--raised" id="club">
       <div class="container">
         <div class="section__head">
-          <div>
-            <p class="eyebrow">Le club</p>
-            <h2 class="section__title">Bienvenue à <span>l'ABBC</span></h2>
-          </div>
-          <a href="contact.html" class="link-arrow">
-            Nous contacter <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
+          <h2 class="section__title">Bienvenue à l'ABBC</h2>
+          <a href="contact.html" class="link-arrow">Nous contacter</a>
         </div>
 
-        <div class="grid grid--2 grid--airy">
-          <div class="stack reveal" style="--flow: var(--space-5)">
+        <div class="club-intro">
+          <div class="stack" style="--flow: var(--space-5)">
             <!-- TODO : remplacer par la vraie histoire du club (année de création, étapes clés). -->
             <p class="lede">
               Depuis plus de quarante ans, l'Association Basket-Ball de Cornebarrieu fait vivre
@@ -130,55 +139,12 @@
             </p>
             <p>
               <a href="equipes.html" class="btn btn--primary btn--sm">
-                Découvrir les équipes <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                Découvrir les équipes
               </a>
             </p>
           </div>
 
-          <div class="stats reveal" data-delay="1">
-            <div class="stat">
-              <p class="stat__num"><span data-counter="180" data-suffix="+">0</span></p>
-              <p class="stat__label">Licenciés</p>
-            </div>
-            <div class="stat">
-              <p class="stat__num"><span data-counter="17">0</span></p>
-              <p class="stat__label">Équipes</p>
-            </div>
-            <div class="stat">
-              <p class="stat__num"><span data-counter="40" data-suffix="+">0</span></p>
-              <p class="stat__label">Ans d'histoire</p>
-            </div>
-            <div class="stat">
-              <p class="stat__num"><span data-counter="5">0</span></p>
-              <p class="stat__label">Équipes seniors</p>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ================= Prochaines rencontres ================= -->
-    <section class="section section--dark">
-      <div class="container">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Calendrier</p>
-            <h2 class="section__title">Les prochaines <span>rencontres</span></h2>
-          </div>
-          <a href="equipes.html" class="link-arrow">
-            Classements par équipe <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
-        </div>
-
-        <!--
-          Rempli par content/fixtures.js depuis assets/data/fixtures.json
-          (API FFBB). Remplace le widget « rencontres de la semaine » de
-          Score'n'co, qui était rempli par content/scorenco.js depuis
-          config.json (scorenco.weekEvents) :
-
-            <div id="club-week-events" class="widget-frame reveal"></div>
-        -->
-        <div id="club-fixtures" class="reveal"></div>
       </div>
     </section>
 
@@ -186,13 +152,8 @@
     <section class="section">
       <div class="container">
         <div class="section__head">
-          <div>
-            <p class="eyebrow">Actualités</p>
-            <h2 class="section__title">La vie <span>du club</span></h2>
-          </div>
-          <a href="actualites.html" class="link-arrow">
-            Toutes les actus <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
+          <h2 class="section__title">La vie du club</h2>
+          <a href="actualites.html" class="link-arrow">Toutes les actualités</a>
         </div>
 
         <!--
@@ -209,13 +170,8 @@
     <section class="section section--raised" id="agenda">
       <div class="container">
         <div class="section__head">
-          <div>
-            <p class="eyebrow">Agenda</p>
-            <h2 class="section__title">Les prochains <span>rendez-vous</span></h2>
-          </div>
-          <a href="agenda.html" class="link-arrow">
-            Tout l'agenda <i class="fas fa-arrow-right" aria-hidden="true"></i>
-          </a>
+          <h2 class="section__title">Les prochains rendez-vous</h2>
+          <a href="agenda.html" class="link-arrow">Tout l'agenda</a>
         </div>
 
         <!-- Rempli par content/events.js (3 prochains événements) -->
@@ -230,7 +186,6 @@
       <div class="container">
         <div class="grid grid--2 grid--airy grid--center">
           <div>
-            <p class="eyebrow">Inscriptions</p>
             <h2 class="display-md mb-4">
               Rejoignez le club<br>pour la saison <span class="nowrap" data-config="season">2026-2027</span>
             </h2>

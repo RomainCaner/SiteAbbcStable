@@ -34,11 +34,19 @@ Les couleurs viennent du blason du club, pas d'une palette générique :
 | Orange | `#E85F11` | ballon du blason |
 | Blanc | `#FFFFFF` | typographie du blason |
 
-Le vert porte les grandes bandes et les en-têtes de page, l'orange sert
-d'accent unique : boutons d'action, surtitres, liens, bandeau du prochain
-rendez-vous. Les deux polices — **Barlow Condensed** en majuscules pour les
-titres, **Inter** pour le texte courant — reprennent les codes des sites de
-clubs sportifs.
+Le vert porte les grandes bandes, les en-têtes de page et les liens ; l'orange
+est réservé aux **boutons d'action** et au ballon — jamais à un mot de titre.
+Une seule famille de polices, **Barlow** : condensée et en majuscules pour les
+titres et les chiffres (lettrage de maillot, tableau de marque), normale pour
+le texte courant.
+
+Partis pris de mise en page, à garder en ajoutant du contenu :
+- pas de petit libellé en majuscules au-dessus des titres, pas de mot coloré
+  dans un titre, pas de flèche ajoutée aux liens ;
+- pas d'apparition en fondu au défilement : le ballon est le seul mouvement
+  que la page s'autorise sans qu'on le lui demande ;
+- les dates s'écrivent en phrase (« samedi 21 novembre à 14h »), pas en
+  chaînes séparées par des points médians.
 
 Tout est piloté par les jetons de `assets/css/tokens.css` : changer la marque
 se fait dans ce seul fichier.
@@ -79,7 +87,7 @@ SiteAbbcStable/
 | Fichier | Rôle |
 |---|---|
 | `tokens.css` | Variables : couleurs, typo, espacements, formes, durées. Le thème sombre se contente de redéfinir ces variables. |
-| `base.css` | Reset, typographie, conteneurs, grilles, accessibilité, animations d'apparition. |
+| `base.css` | Reset, typographie, conteneurs, grilles, accessibilité. |
 | `components.css` | Tous les composants du site : en-tête, hero, cartes, sections, widgets, pied de page. Sommaire numéroté en tête de fichier. |
 
 Les composants n'utilisent que les **rôles sémantiques** (`--bg`, `--text`,
@@ -103,7 +111,7 @@ assets/js/
 ├── ui/                   Comportements d'interface
 │   ├── navigation.js     En-tête collant, menu mobile, mega-menu, pied de page
 │   ├── chrome.js         Barre de progression, bouton retour en haut
-│   ├── reveal.js         Apparitions au scroll, compteurs animés
+│   ├── reveal.js         Apparitions au scroll (neutralisées en CSS), compteurs
 │   ├── hero3d.js         Scène 3D du bandeau d'accueil
 │   ├── balltravel.js     Le ballon se balade dans la page, et se lance
 │   └── parallax.js       Parallaxe au défilement, pilotée par transform
@@ -207,11 +215,11 @@ Champs : `title`, `category`, `color` (`red`, `orange`, `yellow`, `green`,
 (`AAAA-MM-JJ`), `time`, `location`, `description`. `dateToConfirm: true` ajoute
 la mention « Date à confirmer » sur la carte.
 
-Le bandeau orange sous le bandeau d'accueil annonce la **prochaine échéance du
-club** : le premier événement à venir ou la prochaine rencontre d'une équipe
-(`fixtures.json`), la plus proche des deux — à date égale, le match passe
-devant. Les événements passés sont masqués sur l'accueil mais restent visibles
-sur `agenda.html`.
+Les trois prochains événements s'affichent sur l'accueil (« Les prochains
+rendez-vous ») ; les événements passés y sont masqués mais restent visibles sur
+`agenda.html`. Le bandeau orange « prochain rendez-vous » a été retiré de
+l'accueil au profit du tableau « Ce week-end » ; `content/events.js` sait
+toujours le remplir si un `<div id="nextup">` est remis dans une page.
 
 ### `partners.json` — partenaires
 Liste affichée sur `partenaires.html`. Chaque entrée : `name` (obligatoire, sert
@@ -355,10 +363,14 @@ rencontres de la poule, filtrées sur le club. Le site en publie deux — la
 **prochaine à venir** et le **dernier résultat connu** — dans
 `assets/data/fixtures.json`.
 
-Sur l'accueil, le bloc « Les prochaines rencontres » ne montre que les **six
-plus proches** (`HOME_FIXTURES` dans `content/fixtures.js`), suivies d'un lien
-vers les équipes : avec quatorze équipes, la liste complète faisait plus d'un
-écran. Un match déjà passé mais pas encore remplacé dans les données est écarté.
+Sur l'accueil, juste sous le hero, le tableau **« Ce week-end »** liste les
+matchs du prochain week-end de compétition, jour par jour, comme le tableau
+d'affichage d'un gymnase : heure, équipe, adversaire, salle — les matchs à
+domicile signalés en vert, car ce sont ceux où l'on peut venir. Il remplace le
+bandeau « prochain rendez-vous » et la grille de tuiles par équipe, qui
+annonçaient deux fois le même match. Le titre devient « Prochain week-end de
+match » quand ce week-end n'en compte aucun ; un match déjà passé mais pas
+encore remplacé dans les données est écarté.
 
 Trois points que l'API impose :
 
@@ -716,7 +728,7 @@ tient en une vingtaine de lignes à la fin de `tokens.css`.
 - Un seul `<h1>` par page, y compris sur les fiches d'équipe générées
 - Focus visible au clavier, `aria-expanded` sur les menus dépliants
 - Fils d'Ariane sur toutes les pages internes
-- `prefers-reduced-motion` respecté (apparitions, compteurs, scène 3D)
+- `prefers-reduced-motion` respecté (ballon, parallaxe, scène 3D)
 - Icônes décoratives en `aria-hidden`, scène 3D annoncée via `role="img"`
 
 ---
@@ -737,7 +749,7 @@ GitHub Pages, Netlify ou Vercel — sans configuration.
 
 | Ressource | Usage | Repli si injoignable |
 |---|---|---|
-| Google Fonts | Barlow Condensed + Inter | polices système |
+| Google Fonts | Barlow + Barlow Condensed | polices système |
 | Font Awesome (cdnjs) | icônes | icônes absentes, mise en page intacte |
 | Three.js (jsDelivr) | scène 3D | logo statique |
 
