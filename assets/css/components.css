@@ -947,6 +947,22 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
   .standings__label-short { display: inline; }
   .standings__table th, .standings__table td { padding: var(--space-2); }
 }
+@media (max-width: 640px) {
+  /* Le nom d'équipe passe à la ligne plus tôt : points, joués, gagnés et
+     perdus tiennent dans l'écran, le reste se fait défiler. L'ombre prend la
+     couleur du texte, pour se voir aussi dans les bandes sombres. */
+  .standings__team { min-width: 9.5rem; }
+  .standings__rank { width: 2.25rem; }
+  /* Ombres de défilement : elles signalent les colonnes cachées à droite (ou à
+     gauche) et s'effacent d'elles-mêmes aux extrémités (`local` vs `scroll`). */
+  .standings__scroll {
+    background:
+      linear-gradient(to right, var(--bg-raised) 40%, transparent) left / 2rem 100% no-repeat local,
+      linear-gradient(to left, var(--bg-raised) 40%, transparent) right / 2rem 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, color-mix(in srgb, var(--text) 30%, transparent), transparent) left / .9rem 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--text) 30%, transparent), transparent) right / .9rem 100% no-repeat scroll;
+  }
+}
 
 /* ============================================================================
    10. Fil d'Ariane
