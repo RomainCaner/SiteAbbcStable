@@ -89,7 +89,7 @@ export async function renderNews() {
 const backToNews = `
   <p class="article__back">
     <a href="${url('actualites.html')}" class="link-arrow">
-      Retour aux actualités
+      <i class="fas fa-arrow-left" aria-hidden="true"></i> Retour aux actualités
     </a>
   </p>`;
 

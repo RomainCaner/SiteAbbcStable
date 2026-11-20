@@ -56,8 +56,8 @@ const formatDate = (iso) => {
 function sourceHTML(source) {
   if (!source) return '';
   const isURL = /^https?:\/\//i.test(source);
-  if (!isURL) return '. Source : FFBB';
-  return `. Source : <a href="${escapeHTML(source)}" target="_blank" rel="noopener">FFBB</a>`;
+  if (!isURL) return ' · Source FFBB';
+  return ` · <a href="${escapeHTML(source)}" target="_blank" rel="noopener">Source FFBB</a>`;
 }
 
 /** Cellule : les colonnes absentes de la source affichent un tiret. */
@@ -116,7 +116,8 @@ export function standingsHTML(standing) {
         </table>
       </div>
       <p class="standings__footer">
-        ${standing.updatedAt ? `Mis à jour le ${escapeHTML(formatDate(standing.updatedAt))}` : ''}${sourceHTML(standing.source)}
+        ${standing.updatedAt ? `Mis à jour le ${escapeHTML(formatDate(standing.updatedAt))}` : ''}
+        ${sourceHTML(standing.source)}
       </p>
     </div>`;
 }

@@ -71,12 +71,10 @@
   --focus:         var(--orange-400);
 
   /* ---------- Typographie ----------
-     Une seule famille, Barlow : la version condensée, en majuscules, pour les
-     titres et les chiffres (lettrage de maillot, tableau de marque) ; la
-     version normale pour le texte courant. Barlow s'inspire de la
-     signalétique routière : elle va bien à un gymnase. */
+     Display condensée majuscules pour les titres (codes visuels du sport),
+     Inter pour tout le texte courant. */
   --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
-  --font-body:    'Barlow', system-ui, -apple-system, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
 
   /* Échelle fluide : la taille s'adapte à la largeur sans media query. */
   --text-xs:   0.75rem;

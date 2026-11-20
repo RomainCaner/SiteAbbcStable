@@ -17,7 +17,10 @@
 
 import { escapeHTML } from '../core/dom.js';
 import { fetchData, getTeams, url } from '../core/data.js';
+import { observe } from '../ui/reveal.js';
 
+/** Tuiles de l'accueil : deux rangées de trois, les rencontres les plus proches. */
+const HOME_FIXTURES = 6;
 
 /** Rencontres de toutes les équipes, ou `null` si le fichier est absent. */
 export async function getFixtures() {
@@ -155,6 +158,29 @@ export function fixturesPanelHTML(entry) {
 }
 
 /**
+ * Tuile compacte d'une équipe, pour la vue d'ensemble de l'accueil.
+ * @param {object} team  entrée de teams.json
+ * @param {object} entry entrée `teams[slug]` de fixtures.json
+ */
+function clubTileHTML(team, entry, delay) {
+  const next = entry?.next;
+  if (!next) return '';
+
+  const heure = formatTime(next.date);
+  return `
+    <a href="${url(`equipes/${team.page}`)}" class="fixture-tile reveal" data-delay="${delay}">
+      <p class="fixture-tile__team">${escapeHTML(team.shortName)}</p>
+      <p class="fixture-tile__opponent">
+        <span class="fixture-tile__prefix">${next.isHome ? 'reçoit' : 'se déplace à'}</span>
+        ${escapeHTML(next.opponent)}
+      </p>
+      <p class="fixture-tile__when">
+        ${escapeHTML(formatDay(next.date))}${heure ? ` · ${escapeHTML(heure)}` : ''}
+      </p>
+    </a>`;
+}
+
+/**
  * La rencontre la plus proche, toutes équipes confondues, sous une forme
  * comparable aux événements de l'agenda.
  *
@@ -184,95 +210,42 @@ export async function nextClubFixture() {
   };
 }
 
-/** Lundi 0 h de la semaine d'une date, pour regrouper un week-end de matchs. */
-function mondayOf(date) {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
-  return d;
-}
-
-/** « samedi 21 et dimanche 22 novembre », ou « samedi 21 novembre ». */
-function daysLabel(dates) {
-  const jours = [...new Set(dates.map((iso) => iso.slice(0, 10)))].sort();
-  const libelle = (iso, mois) => new Date(`${iso}T12:00:00`).toLocaleDateString('fr-FR',
-    mois ? { weekday: 'long', day: 'numeric', month: 'long' } : { weekday: 'long', day: 'numeric' });
-  if (jours.length === 1) return libelle(jours[0], true);
-  const premiers = jours.slice(0, -1).map((iso) => libelle(iso, false));
-  return `${premiers.join(', ')} et ${libelle(jours[jours.length - 1], true)}`;
-}
-
-/** Une ligne du tableau : heure, équipe, adversaire, salle. */
-function boardRowHTML(team, next) {
-  const heure = formatTime(next.date);
-  return `
-    <li>
-      <a class="board__row" href="${url(`equipes/${team.page}`)}">
-        <span class="board__time">${heure ? escapeHTML(heure) : 'Horaire à venir'}</span>
-        <span class="board__team">${escapeHTML(team.shortName)}</span>
-        <span class="board__match">${next.isHome ? 'reçoit' : 'à'} ${escapeHTML(next.opponent)}</span>
-        <span class="board__place${next.isHome ? ' is-home' : ''}">${next.isHome ? 'À domicile' : escapeHTML(next.venue || 'Extérieur')}</span>
-      </a>
-    </li>`;
-}
-
 /**
- * « Ce week-end » sur l'accueil : les matchs du prochain week-end de
- * compétition, jour par jour, comme un tableau d'affichage de gymnase.
- *
- * On ne montre qu'un week-end — celui du match le plus proche — plutôt que la
- * prochaine rencontre de chacune des quatorze équipes : c'est la question que
- * se pose un parent ou un supporter. Les matchs à domicile sont signalés, car
- * ce sont ceux où l'on peut venir.
+ * Vue d'ensemble sur l'accueil : la prochaine rencontre de chaque équipe,
+ * la plus proche en premier. Ne fait rien hors de la page d'accueil.
  */
 export async function renderClubFixtures() {
   const container = document.getElementById('club-fixtures');
   if (!container) return;
-  const titre = document.getElementById('week-title');
 
   const [teams, fixtures] = await Promise.all([getTeams(), getFixtures()]);
   // Un match d'hier peut rester « prochain » jusqu'à la mise à jour suivante
   // des données : on l'écarte plutôt que de l'annoncer.
   const aujourdhui = new Date().toISOString().slice(0, 10);
-  const matchs = (teams || [])
-    .map((team) => ({ team, next: fixtures?.[team.slug]?.next }))
-    .filter(({ next }) => next?.date && next.date.slice(0, 10) >= aujourdhui)
-    .sort((a, b) => a.next.date.localeCompare(b.next.date));
+  const tuiles = (teams || [])
+    .map((team) => ({ team, entry: fixtures?.[team.slug] }))
+    .filter(({ entry }) => entry?.next && entry.next.date.slice(0, 10) >= aujourdhui)
+    .sort((a, b) => a.entry.next.date.localeCompare(b.entry.next.date));
 
-  if (!matchs.length) {
-    container.innerHTML = fixturePendingHTML('Aucune rencontre programmée pour le moment.');
+  if (!tuiles.length) {
+    container.innerHTML = fixturePendingHTML(
+      'Aucune rencontre programmée pour le moment.');
     return;
   }
 
-  // Le week-end du match le plus proche : du lundi au dimanche de sa semaine.
-  const debut = mondayOf(matchs[0].next.date);
-  const fin = new Date(debut);
-  fin.setDate(fin.getDate() + 7);
-  const semaine = matchs.filter(({ next }) => new Date(next.date) < fin);
-  const cetteSemaine = mondayOf(new Date()).getTime() === debut.getTime();
-
-  if (titre) titre.textContent = cetteSemaine ? 'Ce week-end' : 'Prochain week-end de match';
-
-  const parJour = new Map();
-  semaine.forEach((m) => {
-    const jour = m.next.date.slice(0, 10);
-    if (!parJour.has(jour)) parJour.set(jour, []);
-    parJour.get(jour).push(m);
-  });
-
-  const domicile = semaine.filter(({ next }) => next.isHome).length;
+  // Quatorze équipes : l'accueil montre les plus proches, pas tout le calendrier.
+  const visibles = tuiles.slice(0, HOME_FIXTURES);
+  const reste = tuiles.length - visibles.length;
   container.innerHTML = `
-    <p class="board__summary">
-      ${escapeHTML(daysLabel(semaine.map(({ next }) => next.date)))} :
-      ${semaine.length} match${semaine.length > 1 ? 's' : ''}${domicile
-        ? `, dont ${domicile} à domicile`
-        : ', tous à l\'extérieur'}.
-    </p>
-    <div class="board">
-      ${[...parJour.entries()].map(([jour, liste]) => `
-        <section class="board__day" aria-label="${escapeHTML(formatDay(`${jour}T12:00:00`))}">
-          <h3 class="board__date">${escapeHTML(formatDay(`${jour}T12:00:00`))}</h3>
-          <ol class="board__list">${liste.map(({ team, next }) => boardRowHTML(team, next)).join('')}</ol>
-        </section>`).join('')}
-    </div>`;
+    <div class="fixture-grid">
+      ${visibles.map(({ team, entry }, i) => clubTileHTML(team, entry, i % 3)).join('')}
+    </div>
+    ${reste > 0 ? `
+      <p class="fixture-grid__more">
+        <a href="${url('equipes.html')}" class="link-arrow">
+          ${reste} autre${reste > 1 ? 's' : ''} rencontre${reste > 1 ? 's' : ''} à venir : voir toutes les équipes
+          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </p>` : ''}`;
+  observe(container);
 }
