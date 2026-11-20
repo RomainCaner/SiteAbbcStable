@@ -43,6 +43,12 @@ clubs sportifs.
 Tout est piloté par les jetons de `assets/css/tokens.css` : changer la marque
 se fait dans ce seul fichier.
 
+Partis pris à garder en ajoutant du contenu : pas de petit libellé en
+majuscules au-dessus des titres de section, pas de mot coloré dans ces titres,
+pas de flèche ajoutée aux liens, des dates écrites en phrase (« samedi
+21 novembre à 14h00 ») et pas d'apparition en fondu au défilement — le ballon
+reste le seul mouvement que la page s'autorise sans qu'on le lui demande.
+
 ---
 
 ## Architecture
@@ -79,7 +85,7 @@ SiteAbbcStable/
 | Fichier | Rôle |
 |---|---|
 | `tokens.css` | Variables : couleurs, typo, espacements, formes, durées. Le thème sombre se contente de redéfinir ces variables. |
-| `base.css` | Reset, typographie, conteneurs, grilles, accessibilité, animations d'apparition. |
+| `base.css` | Reset, typographie, conteneurs, grilles, accessibilité. |
 | `components.css` | Tous les composants du site : en-tête, hero, cartes, sections, widgets, pied de page. Sommaire numéroté en tête de fichier. |
 
 Les composants n'utilisent que les **rôles sémantiques** (`--bg`, `--text`,
