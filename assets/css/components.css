@@ -87,7 +87,8 @@
   .btn--wrap { padding-inline: var(--space-4); }
 }
 
-/* Lien fléché, utilisé en fin de section et dans les cartes. */
+/* Lien de fin de section et de carte. La flèche qui le suivait a été retirée :
+   le soulignement suffit à le signaler. */
 .link-arrow {
   display: inline-flex;
   align-items: center;
@@ -99,8 +100,8 @@
   letter-spacing: var(--tracking-wide);
   color: var(--accent);
 }
-.link-arrow i { transition: transform var(--duration-fast) var(--ease); }
-.link-arrow:hover i { transform: translateX(5px); }
+.link-arrow { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.link-arrow:hover { text-decoration-thickness: 2px; }
 
 
 /* ============================================================================
@@ -171,7 +172,8 @@
   border-bottom: 2px solid var(--border);
 }
 .section__title { font-size: var(--display-sm); }
-.section__title span { color: var(--accent); }
+/* Nombre d'équipes à côté du titre de groupe (annuaire). */
+.section__count { color: var(--text-muted); font-weight: 600; }
 
 
 /* ============================================================================
@@ -456,8 +458,7 @@ body[data-hero] .site-header:not(.is-stuck) { --header-fg: var(--white); }
 }
 .hero__lede b { color: var(--white); font-weight: 700; }
 
-.hero__eyebrow { color: var(--orange-400); }
-.hero__eyebrow::before { background: var(--orange-400); }
+.hero__season { margin: 0 0 var(--space-3); color: var(--orange-400); font-weight: 600; }
 
 .hero__scroll {
   position: absolute;

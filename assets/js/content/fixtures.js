@@ -175,7 +175,7 @@ function clubTileHTML(team, entry, delay) {
         ${escapeHTML(next.opponent)}
       </p>
       <p class="fixture-tile__when">
-        ${escapeHTML(formatDay(next.date))}${heure ? ` · ${escapeHTML(heure)}` : ''}
+        ${escapeHTML(formatDay(next.date))}${heure ? ` à ${escapeHTML(heure)}` : ''}
       </p>
     </a>`;
 }
@@ -244,7 +244,6 @@ export async function renderClubFixtures() {
       <p class="fixture-grid__more">
         <a href="${url('equipes.html')}" class="link-arrow">
           ${reste} autre${reste > 1 ? 's' : ''} rencontre${reste > 1 ? 's' : ''} à venir : voir toutes les équipes
-          <i class="fas fa-arrow-right" aria-hidden="true"></i>
         </a>
       </p>` : ''}`;
   observe(container);
