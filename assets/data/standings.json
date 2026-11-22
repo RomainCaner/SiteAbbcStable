@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-22T01:42:20+00:00",
+  "updatedAt": "2026-11-22T21:21:46+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -297,6 +297,30 @@
         },
         {
           "rank": 2,
+          "team": "ASTRO BASKET CLUB",
+          "points": 14,
+          "played": 8,
+          "won": 6,
+          "lost": 2,
+          "scored": 545,
+          "conceded": 384,
+          "diff": 161,
+          "isClub": false
+        },
+        {
+          "rank": 3,
+          "team": "BASKET CLUB LEGUEVINOIS",
+          "points": 14,
+          "played": 8,
+          "won": 6,
+          "lost": 2,
+          "scored": 525,
+          "conceded": 412,
+          "diff": 113,
+          "isClub": false
+        },
+        {
+          "rank": 4,
           "team": "BASKET CLUB DE ROQUETTES",
           "points": 14,
           "played": 8,
@@ -308,128 +332,104 @@
           "isClub": false
         },
         {
-          "rank": 3,
-          "team": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
-          "points": 13,
-          "played": 7,
-          "won": 6,
-          "lost": 1,
-          "scored": 405,
-          "conceded": 327,
-          "diff": 78,
-          "isClub": false
-        },
-        {
-          "rank": 4,
-          "team": "BASKET CLUB LEGUEVINOIS",
-          "points": 12,
-          "played": 7,
-          "won": 5,
-          "lost": 2,
-          "scored": 433,
-          "conceded": 373,
-          "diff": 60,
-          "isClub": false
-        },
-        {
           "rank": 5,
-          "team": "ASTRO BASKET CLUB",
-          "points": 12,
-          "played": 7,
-          "won": 5,
+          "team": "BASKET CLUB FOUSSERETOIS MONDAVEZAN",
+          "points": 14,
+          "played": 8,
+          "won": 6,
           "lost": 2,
-          "scored": 477,
-          "conceded": 346,
-          "diff": 131,
+          "scored": 444,
+          "conceded": 419,
+          "diff": 25,
           "isClub": false
         },
         {
           "rank": 6,
           "team": "EN-GRATENTOUR-BRUGUIERES",
-          "points": 10,
-          "played": 7,
-          "won": 3,
+          "points": 12,
+          "played": 8,
+          "won": 4,
           "lost": 4,
-          "scored": 382,
-          "conceded": 382,
-          "diff": 0,
+          "scored": 435,
+          "conceded": 427,
+          "diff": 8,
           "isClub": false
         },
         {
           "rank": 7,
-          "team": "FROUZINS ATHLETIC CLUB",
-          "points": 10,
-          "played": 7,
-          "won": 3,
+          "team": "UNION SPORTIVE PIBRACAISE",
+          "points": 12,
+          "played": 8,
+          "won": 4,
           "lost": 4,
-          "scored": 391,
-          "conceded": 456,
-          "diff": -65,
+          "scored": 398,
+          "conceded": 449,
+          "diff": -51,
           "isClub": false
         },
         {
           "rank": 8,
-          "team": "UNION SPORTIVE PIBRACAISE",
-          "points": 10,
-          "played": 7,
+          "team": "B. LABEGE AUZEVILLE CLUB",
+          "points": 11,
+          "played": 8,
           "won": 3,
-          "lost": 4,
-          "scored": 332,
-          "conceded": 399,
-          "diff": -67,
+          "lost": 5,
+          "scored": 424,
+          "conceded": 481,
+          "diff": -57,
           "isClub": false
         },
         {
           "rank": 9,
-          "team": "B. LABEGE AUZEVILLE CLUB",
-          "points": 9,
-          "played": 7,
-          "won": 2,
+          "team": "FROUZINS ATHLETIC CLUB",
+          "points": 11,
+          "played": 8,
+          "won": 3,
           "lost": 5,
-          "scored": 346,
-          "conceded": 438,
-          "diff": -92,
+          "scored": 429,
+          "conceded": 524,
+          "diff": -95,
           "isClub": false
         },
         {
           "rank": 10,
           "team": "BASKET CLUB QUINT FONSEGRIVES",
-          "points": 8,
-          "played": 7,
+          "points": 9,
+          "played": 8,
           "won": 1,
-          "lost": 6,
-          "scored": 289,
-          "conceded": 394,
-          "diff": -105,
+          "lost": 7,
+          "scored": 334,
+          "conceded": 447,
+          "diff": -113,
           "isClub": false
         },
         {
           "rank": 11,
           "team": "ABB CORNEBARRIEU",
-          "points": 8,
-          "played": 7,
+          "points": 9,
+          "played": 8,
           "won": 1,
-          "lost": 6,
-          "scored": 336,
-          "conceded": 463,
-          "diff": -127,
+          "lost": 7,
+          "scored": 379,
+          "conceded": 541,
+          "diff": -162,
           "isClub": true
         },
         {
           "rank": 12,
           "team": "IE - NOE CARBONNE BASKET",
-          "points": 7,
-          "played": 7,
+          "points": 8,
+          "played": 8,
           "won": 0,
-          "lost": 7,
-          "scored": 264,
-          "conceded": 489,
-          "diff": -225,
+          "lost": 8,
+          "scored": 314,
+          "conceded": 555,
+          "diff": -241,
           "isClub": false
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -588,37 +588,37 @@
         {
           "rank": 1,
           "team": "UNION SPORTIVE AUSSONNAISE",
-          "points": 12,
-          "played": 6,
-          "won": 6,
+          "points": 14,
+          "played": 7,
+          "won": 7,
           "lost": 0,
-          "scored": 445,
-          "conceded": 298,
-          "diff": 147,
+          "scored": 521,
+          "conceded": 360,
+          "diff": 161,
           "isClub": false
         },
         {
           "rank": 2,
-          "team": "BLAGNAC BASKET CLUB",
-          "points": 11,
-          "played": 6,
-          "won": 5,
+          "team": "BLAGNAC OCCITANIE BASKET CLUB",
+          "points": 13,
+          "played": 7,
+          "won": 6,
           "lost": 1,
-          "scored": 503,
-          "conceded": 409,
-          "diff": 94,
+          "scored": 522,
+          "conceded": 414,
+          "diff": 108,
           "isClub": false
         },
         {
           "rank": 3,
-          "team": "BLAGNAC OCCITANIE BASKET CLUB",
-          "points": 11,
-          "played": 6,
-          "won": 5,
+          "team": "BLAGNAC BASKET CLUB",
+          "points": 13,
+          "played": 7,
+          "won": 6,
           "lost": 1,
-          "scored": 452,
-          "conceded": 363,
-          "diff": 89,
+          "scored": 574,
+          "conceded": 475,
+          "diff": 99,
           "isClub": false
         },
         {
@@ -636,13 +636,13 @@
         {
           "rank": 5,
           "team": "BASKET CLUB QUINT FONSEGRIVES",
-          "points": 10,
-          "played": 6,
+          "points": 11,
+          "played": 7,
           "won": 4,
-          "lost": 2,
-          "scored": 421,
-          "conceded": 376,
-          "diff": 45,
+          "lost": 3,
+          "scored": 487,
+          "conceded": 447,
+          "diff": 40,
           "isClub": false
         },
         {
@@ -671,6 +671,30 @@
         },
         {
           "rank": 8,
+          "team": "ASTRO BASKET CLUB",
+          "points": 9,
+          "played": 7,
+          "won": 2,
+          "lost": 5,
+          "scored": 499,
+          "conceded": 500,
+          "diff": -1,
+          "isClub": false
+        },
+        {
+          "rank": 9,
+          "team": "ABB CORNEBARRIEU",
+          "points": 9,
+          "played": 7,
+          "won": 2,
+          "lost": 5,
+          "scored": 494,
+          "conceded": 503,
+          "diff": -9,
+          "isClub": true
+        },
+        {
+          "rank": 10,
           "team": "OUEST TOULOUSAIN BASKET",
           "points": 9,
           "played": 7,
@@ -680,30 +704,6 @@
           "conceded": 550,
           "diff": -111,
           "isClub": false
-        },
-        {
-          "rank": 9,
-          "team": "ASTRO BASKET CLUB",
-          "points": 8,
-          "played": 6,
-          "won": 2,
-          "lost": 4,
-          "scored": 437,
-          "conceded": 424,
-          "diff": 13,
-          "isClub": false
-        },
-        {
-          "rank": 10,
-          "team": "ABB CORNEBARRIEU",
-          "points": 8,
-          "played": 6,
-          "won": 2,
-          "lost": 4,
-          "scored": 443,
-          "conceded": 433,
-          "diff": 10,
-          "isClub": true
         },
         {
           "rank": 11,
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u18f": {
       "competition": "Départementale U18",
@@ -834,7 +834,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063432",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u18g": {
       "competition": "Régionale 2",
@@ -937,7 +937,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063317",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u15f": {
       "competition": "Départementale 3",
@@ -1040,7 +1040,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057766",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u15g": {
       "competition": "Départementale 2",
@@ -1143,7 +1143,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063431",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u13f": {
       "competition": "Départementale 3",
@@ -1246,7 +1246,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057765",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u13g1": {
       "competition": "Départementale 2",
@@ -1349,7 +1349,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063421",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u13g2": {
       "competition": "Départementale 3",
@@ -1440,7 +1440,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003066227",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u11f": {
       "competition": "Départementale U11",
@@ -1507,7 +1507,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062982",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     },
     "u11m": {
       "competition": "Départementale U11",
@@ -1538,7 +1538,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062986",
-      "updatedAt": "2026-11-22T01:42:20+00:00"
+      "updatedAt": "2026-11-22T21:21:46+00:00"
     }
   }
 }
