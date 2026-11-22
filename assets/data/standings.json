@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-19T02:50:56+00:00",
+  "updatedAt": "2026-11-22T01:42:20+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -286,25 +286,25 @@
         {
           "rank": 1,
           "team": "IE - BASKET CLUB VERFEILLOIS",
-          "points": 14,
-          "played": 7,
-          "won": 7,
+          "points": 16,
+          "played": 8,
+          "won": 8,
           "lost": 0,
-          "scored": 616,
-          "conceded": 284,
-          "diff": 332,
+          "scored": 691,
+          "conceded": 345,
+          "diff": 346,
           "isClub": false
         },
         {
           "rank": 2,
           "team": "BASKET CLUB DE ROQUETTES",
-          "points": 13,
-          "played": 7,
+          "points": 14,
+          "played": 8,
           "won": 6,
-          "lost": 1,
-          "scored": 446,
-          "conceded": 366,
-          "diff": 80,
+          "lost": 2,
+          "scored": 507,
+          "conceded": 441,
+          "diff": 66,
           "isClub": false
         },
         {
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -659,6 +659,18 @@
         },
         {
           "rank": 7,
+          "team": "ASSOCIATION TOULOUSERIE",
+          "points": 10,
+          "played": 7,
+          "won": 3,
+          "lost": 4,
+          "scored": 434,
+          "conceded": 510,
+          "diff": -76,
+          "isClub": false
+        },
+        {
+          "rank": 8,
           "team": "OUEST TOULOUSAIN BASKET",
           "points": 9,
           "played": 7,
@@ -670,7 +682,7 @@
           "isClub": false
         },
         {
-          "rank": 8,
+          "rank": 9,
           "team": "ASTRO BASKET CLUB",
           "points": 8,
           "played": 6,
@@ -682,7 +694,7 @@
           "isClub": false
         },
         {
-          "rank": 9,
+          "rank": 10,
           "team": "ABB CORNEBARRIEU",
           "points": 8,
           "played": 6,
@@ -694,27 +706,15 @@
           "isClub": true
         },
         {
-          "rank": 10,
-          "team": "ASSOCIATION TOULOUSERIE",
-          "points": 8,
-          "played": 6,
-          "won": 2,
-          "lost": 4,
-          "scored": 344,
-          "conceded": 434,
-          "diff": -90,
-          "isClub": false
-        },
-        {
           "rank": 11,
           "team": "U.S. COLOMIERS BASKET",
-          "points": 7,
-          "played": 7,
+          "points": 8,
+          "played": 8,
           "won": 0,
-          "lost": 7,
-          "scored": 387,
-          "conceded": 581,
-          "diff": -194,
+          "lost": 8,
+          "scored": 463,
+          "conceded": 671,
+          "diff": -208,
           "isClub": false
         },
         {
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u18f": {
       "competition": "Départementale U18",
@@ -834,7 +834,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063432",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u18g": {
       "competition": "Régionale 2",
@@ -937,13 +937,25 @@
         }
       ],
       "source": "API FFBB, poule 200000003063317",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u15f": {
       "competition": "Départementale 3",
       "rows": [
         {
           "rank": 1,
+          "team": "ABB CORNEBARRIEU",
+          "points": 6,
+          "played": 3,
+          "won": 3,
+          "lost": 0,
+          "scored": 161,
+          "conceded": 101,
+          "diff": 60,
+          "isClub": true
+        },
+        {
+          "rank": 2,
           "team": "MONTASTRUC BASKET CLUB",
           "points": 4,
           "played": 2,
@@ -955,19 +967,19 @@
           "isClub": false
         },
         {
-          "rank": 2,
-          "team": "ABB CORNEBARRIEU",
+          "rank": 3,
+          "team": "VACQUIERS BOULOC BASKET",
           "points": 4,
-          "played": 2,
-          "won": 2,
-          "lost": 0,
-          "scored": 96,
-          "conceded": 76,
-          "diff": 20,
-          "isClub": true
+          "played": 3,
+          "won": 1,
+          "lost": 2,
+          "scored": 111,
+          "conceded": 156,
+          "diff": -45,
+          "isClub": false
         },
         {
-          "rank": 3,
+          "rank": 4,
           "team": "FENOUILLET BASKET CLUB",
           "points": 3,
           "played": 2,
@@ -979,7 +991,7 @@
           "isClub": false
         },
         {
-          "rank": 4,
+          "rank": 5,
           "team": "IE - TOAC BASKET",
           "points": 3,
           "played": 2,
@@ -988,18 +1000,6 @@
           "scored": 83,
           "conceded": 77,
           "diff": 6,
-          "isClub": false
-        },
-        {
-          "rank": 5,
-          "team": "VACQUIERS BOULOC BASKET",
-          "points": 3,
-          "played": 2,
-          "won": 1,
-          "lost": 1,
-          "scored": 86,
-          "conceded": 91,
-          "diff": -5,
           "isClub": false
         },
         {
@@ -1040,7 +1040,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057766",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u15g": {
       "competition": "Départementale 2",
@@ -1143,7 +1143,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063431",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u13f": {
       "competition": "Départementale 3",
@@ -1246,7 +1246,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057765",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u13g1": {
       "competition": "Départementale 2",
@@ -1349,7 +1349,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063421",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u13g2": {
       "competition": "Départementale 3",
@@ -1440,7 +1440,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003066227",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u11f": {
       "competition": "Départementale U11",
@@ -1507,7 +1507,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062982",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     },
     "u11m": {
       "competition": "Départementale U11",
@@ -1538,7 +1538,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062986",
-      "updatedAt": "2026-11-19T02:50:56+00:00"
+      "updatedAt": "2026-11-22T01:42:20+00:00"
     }
   }
 }
