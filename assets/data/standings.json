@@ -1,6 +1,6 @@
 {
   "_comment": "Classements produits automatiquement par scripts/fetch_standings.py depuis l'API FFBB. NE PAS EDITER A LA MAIN : le fichier est reecrit a chaque execution du workflow .github/workflows/classements.yml.",
-  "updatedAt": "2026-11-22T21:21:46+00:00",
+  "updatedAt": "2026-11-26T03:48:24+00:00",
   "teams": {
     "sf1": {
       "competition": "Nationale 3",
@@ -151,7 +151,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054399",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "sf2": {
       "competition": "Régionale 2",
@@ -278,7 +278,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054806",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "sf3": {
       "competition": "Pré-régionale",
@@ -429,7 +429,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054392",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "sg1": {
       "competition": "Régionale 2",
@@ -580,7 +580,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054822",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "sg2": {
       "competition": "Départementale 2",
@@ -624,13 +624,13 @@
         {
           "rank": 4,
           "team": "E.S. TOULOUSE CASSELARDIT",
-          "points": 11,
-          "played": 7,
-          "won": 4,
+          "points": 13,
+          "played": 8,
+          "won": 5,
           "lost": 3,
-          "scored": 470,
-          "conceded": 421,
-          "diff": 49,
+          "scored": 534,
+          "conceded": 479,
+          "diff": 55,
           "isClub": false
         },
         {
@@ -648,13 +648,13 @@
         {
           "rank": 6,
           "team": "IE - TOULOUSE LARDENNE BASKET",
-          "points": 10,
-          "played": 7,
+          "points": 11,
+          "played": 8,
           "won": 3,
-          "lost": 4,
-          "scored": 514,
-          "conceded": 566,
-          "diff": -52,
+          "lost": 5,
+          "scored": 572,
+          "conceded": 630,
+          "diff": -58,
           "isClub": false
         },
         {
@@ -731,7 +731,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003054393",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u18f": {
       "competition": "Départementale U18",
@@ -834,34 +834,34 @@
         }
       ],
       "source": "API FFBB, poule 200000003063432",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u18g": {
       "competition": "Régionale 2",
       "rows": [
         {
           "rank": 1,
-          "team": "ABB CORNEBARRIEU",
-          "points": 4,
-          "played": 2,
-          "won": 2,
+          "team": "BASKET CLUB QUINT FONSEGRIVES",
+          "points": 6,
+          "played": 3,
+          "won": 3,
           "lost": 0,
-          "scored": 201,
-          "conceded": 100,
-          "diff": 101,
-          "isClub": true
+          "scored": 272,
+          "conceded": 244,
+          "diff": 28,
+          "isClub": false
         },
         {
           "rank": 2,
-          "team": "BASKET CLUB QUINT FONSEGRIVES",
-          "points": 4,
-          "played": 2,
+          "team": "ABB CORNEBARRIEU",
+          "points": 5,
+          "played": 3,
           "won": 2,
-          "lost": 0,
-          "scored": 189,
-          "conceded": 175,
-          "diff": 14,
-          "isClub": false
+          "lost": 1,
+          "scored": 270,
+          "conceded": 183,
+          "diff": 87,
+          "isClub": true
         },
         {
           "rank": 3,
@@ -937,7 +937,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063317",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u15f": {
       "competition": "Départementale 3",
@@ -1040,7 +1040,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057766",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u15g": {
       "competition": "Départementale 2",
@@ -1143,7 +1143,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063431",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u13f": {
       "competition": "Départementale 3",
@@ -1246,7 +1246,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003057765",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u13g1": {
       "competition": "Départementale 2",
@@ -1349,7 +1349,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003063421",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u13g2": {
       "competition": "Départementale 3",
@@ -1440,7 +1440,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003066227",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u11f": {
       "competition": "Départementale U11",
@@ -1507,7 +1507,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062982",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     },
     "u11m": {
       "competition": "Départementale U11",
@@ -1538,7 +1538,7 @@
         }
       ],
       "source": "API FFBB, poule 200000003062986",
-      "updatedAt": "2026-11-22T21:21:46+00:00"
+      "updatedAt": "2026-11-26T03:48:24+00:00"
     }
   }
 }
